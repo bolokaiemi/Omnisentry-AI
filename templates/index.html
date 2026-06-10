@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}
+Omminsentiry AI Security Check
+{% endblock %}
+
+{% block content %}
+
+<section class="search-section">
+
+<div class="search-box">
+
+    <input
+        type="text"
+        id="domain"
+        placeholder="Enter a domain (example: google.com)"
+        autocomplete="off"
+    >
+
+    <button onclick="checkWebsite()">
+        Check Website
+    </button>
+
+</div>
+
+
+</section>
+
+<section id="result-section">
+
+
+<div id="result" class="card">
+
+    <h2>🛡️ Ready to Scan</h2>
+
+    <p>
+        Enter a website domain above and click
+        <strong>Check Website</strong>.
+    </p>
+
+</div>
+
+
+</section>
+
+<section class="features">
+
+
+<div class="feature-card">
+    <h3>🔒 SSL Verification</h3>
+    <p>Checks HTTPS availability and SSL certificate status.</p>
+</div>
+
+<div class="feature-card">
+    <h3>🌐 Domain Analysis</h3>
+    <p>Reviews domain registration information and domain age.</p>
+</div>
+
+<div class="feature-card">
+    <h3>⚡ Reputation Check</h3>
+    <p>Calculates trust indicators and security signals.</p>
+</div>
+
+<div class="feature-card">
+    <h3>📊 Trust Score</h3>
+    <p>Generates an Omminsentiry AI trust score from 0–100.</p>
+</div>
+
+
+</section>
+
+<section class="about-section">
+
+
+<div class="card">
+
+    <h2>About Omminsentiry AI</h2>
+
+    <p>
+        Omminsentiry AI helps users evaluate website trustworthiness
+        before sharing personal information, making payments,
+        or downloading files.
+    </p>
+
+    <p>
+        The platform analyzes domain registration,
+        HTTPS security, reputation signals,
+        location information, and trust indicators.
+    </p>
+
+</div>
+
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="/static/app.js"></script>
+
+{% endblock %}
