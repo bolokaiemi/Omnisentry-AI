@@ -7,8 +7,8 @@ from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 
-import os
 from datetime import datetime
+import os
 
 # ==========================================
 # LOAD ENV
@@ -16,13 +16,17 @@ from datetime import datetime
 
 load_dotenv()
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_API_KEY = os.getenv(
+    "OPENAI_API_KEY"
+)
 
 # ==========================================
-# IMPORT ANALYZER
+# IMPORTS
 # ==========================================
 
-from src.website_analyzer import analyze_website
+from src.website_analyzer import (
+    analyze_website
+)
 
 # ==========================================
 # LIFESPAN
@@ -33,7 +37,6 @@ async def lifespan(app: FastAPI):
 
     print("=" * 50)
     print("Omminsentiry AI Started")
-    print("Loading Security Modules...")
     print("=" * 50)
 
     yield
@@ -42,13 +45,14 @@ async def lifespan(app: FastAPI):
     print("Omminsentiry AI Stopped")
     print("=" * 50)
 
+
 # ==========================================
 # APP
 # ==========================================
 
 app = FastAPI(
-    title="Omminsentiry AI Security Check",
-    description="AI-Powered Website Trust Verification Platform",
+    title="Omminsentiry AI",
+    description="AI Website Trust Verification",
     version="0.1.0",
     lifespan=lifespan
 )
@@ -66,12 +70,14 @@ app.add_middleware(
 )
 
 # ==========================================
-# STATIC FILES
+# STATIC
 # ==========================================
 
 app.mount(
     "/static",
-    StaticFiles(directory="static"),
+    StaticFiles(
+        directory="static"
+    ),
     name="static"
 )
 
@@ -79,15 +85,41 @@ app.mount(
 # TEMPLATES
 # ==========================================
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(
+    directory="templates"
+)
 
 # ==========================================
-# HOME PAGE (ONLY ONCE)
+# HOME
 # ==========================================
 
 @app.get("/")
-async def home(request: Request):
-    return templates.TemplateResponse(request, "index.html")
+async def home(
+    request: Request
+    ):
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html",
+        context={
+            "request": request
+        }
+    )
+
+# ==========================================
+# MAP PAGE
+# ==========================================
+
+@app.get("/map")
+async def map_page(
+    request: Request
+):
+
+    return templates.TemplateResponse(
+        "map.html",
+        {
+            "request": request
+        }
+    )
 
 # ==========================================
 # HEALTH
@@ -97,121 +129,94 @@ async def home(request: Request):
 async def health():
 
     return {
-        "status": "online",
-        "service": "Omminsentiry AI",
-        "timestamp": datetime.utcnow().isoformat()
+
+        "status":
+            "online",
+
+        "service":
+            "Omminsentiry AI",
+
+        "timestamp":
+            datetime.utcnow().isoformat()
     }
 
 # ==========================================
-# INFO
-# ==========================================
-
-@app.get("/info")
-async def info():
-
-    return {
-        "name": "Omminsentiry AI",
-        "version": "0.1.0",
-        "features": [
-            "SSL Check",
-            "Domain Analysis",
-            "Reputation Check",
-            "Trust Scoring"
-        ]
-    }
-
-# ==========================================
-# CHECK WEBSITE
+# CHECK DOMAIN
 # ==========================================
 
 @app.get("/check/{domain}")
-async def check_domain(domain: str):
+async def check_domain(
+    domain: str
+):
 
     try:
 
-        report = analyze_website(domain)
+        report = analyze_website(
+            domain
+        )
 
         return {
-            "success": True,
-            "timestamp": datetime.utcnow().isoformat(),
-            "data": report
+
+            "success":
+                True,
+
+            "timestamp":
+                datetime.utcnow().isoformat(),
+
+            "data":
+                report
         }
 
     except Exception as e:
 
         return {
-            "success": False,
-            "error": str(e)
+
+            "success":
+                False,
+
+            "error":
+                str(e)
         }
 
 # ==========================================
-# SCORE
+# SCORE ONLY
 # ==========================================
 
 @app.get("/score/{domain}")
-async def trust_score(domain: str):
+async def score(
+    domain: str
+):
 
     try:
 
-        report = analyze_website(domain)
+        report = analyze_website(
+            domain
+        )
 
         return {
-            "success": True,
-            "domain": domain,
-            "trust_score": report.get("trust_score", 0)
+
+            "success":
+                True,
+
+            "domain":
+                domain,
+
+            "trust_score":
+                report.get(
+                    "trust_score",
+                    0
+                )
         }
 
     except Exception as e:
 
         return {
-            "success": False,
-            "error": str(e)
-        }
 
-# ==========================================
-# HTTPS
-# ==========================================
+            "success":
+                False,
 
-@app.get("/https/{domain}")
-async def https_status(domain: str):
-
-    try:
-
-        report = analyze_website(domain)
-
-        return {
-            "success": True,
-            "https": report.get("ssl", False)
-        }
-
-    except Exception as e:
-
-        return {
-            "success": False,
-            "error": str(e)
-        }
-
-# ==========================================
-# REPUTATION
-# ==========================================
-
-@app.get("/reputation/{domain}")
-async def reputation(domain: str):
-
-    try:
-
-        report = analyze_website(domain)
-
-        return {
-            "success": True,
-            "reputation": report.get("reputation", "UNKNOWN")
-        }
-
-    except Exception as e:
-
-        return {
-            "success": False,
-            "error": str(e)
+            "error":
+                str(e)
         }
 
 # ==========================================
@@ -219,22 +224,48 @@ async def reputation(domain: str):
 # ==========================================
 
 @app.get("/report/{domain}")
-async def full_report(domain: str):
+async def report(
+    domain: str
+):
 
     try:
 
-        report = analyze_website(domain)
+        data = analyze_website(
+            domain
+        )
 
         return {
-            "success": True,
-            "generated": datetime.utcnow().isoformat(),
-            "report": report
+
+            "success":
+                True,
+
+            "report":
+                data
         }
 
     except Exception as e:
 
         return {
-            "success": False,
-            "error": str(e)
+
+            "success":
+                False,
+
+            "error":
+                str(e)
         }
+
+# ==========================================
+# RUN
+# ==========================================
+
+if __name__ == "__main__":
+
+    import uvicorn
+
+    uvicorn.run(
+        "app:app",
+        host="127.0.0.1",
+        port=8000,
+        reload=True
+    )
 
