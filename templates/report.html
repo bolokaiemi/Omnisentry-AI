@@ -1,0 +1,162 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}
+Omminsentiry AI Security Report
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <header>
+
+        <h1>
+            📊 Omminsentiry AI Security Report
+        </h1>
+
+        <p class="subtitle">
+            Website Trust Verification Report
+        </p>
+
+    </header>
+
+    <div class="card">
+
+        <h2>
+            🌐 {{ report.domain }}
+        </h2>
+
+        <div class="row">
+            <strong>Trust Score:</strong>
+            {{ report.trust_score }}/100
+        </div>
+
+        <div class="row">
+            <strong>Risk Level:</strong>
+            {{ report.risk_level }}
+        </div>
+
+        <div class="row">
+            <strong>Registered:</strong>
+            {% if report.registered %}
+                ✅ Yes
+            {% else %}
+                ❌ No
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <strong>SSL Enabled:</strong>
+            {% if report.ssl %}
+                ✅ Enabled
+            {% else %}
+                ❌ Missing
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <strong>Domain Age:</strong>
+            {{ report.age_days }} days
+        </div>
+
+        <div class="row">
+            <strong>Reputation:</strong>
+            {{ report.reputation }}
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>
+            🌍 Location Intelligence
+        </h2>
+
+        <div class="row">
+            <strong>IP Address:</strong>
+            {{ report.ip_address }}
+        </div>
+
+        <div class="row">
+            <strong>Country:</strong>
+            {{ report.country }}
+        </div>
+
+        <div class="row">
+            <strong>City:</strong>
+            {{ report.city }}
+        </div>
+
+        <div class="row">
+            <strong>Latitude:</strong>
+            {{ report.latitude }}
+        </div>
+
+        <div class="row">
+            <strong>Longitude:</strong>
+            {{ report.longitude }}
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>
+            🤖 AI Assessment
+        </h2>
+
+        <p>
+
+            {% if report.trust_score >= 80 %}
+
+                This website appears trustworthy based on
+                the available security indicators.
+
+            {% elif report.trust_score >= 50 %}
+
+                This website shows mixed trust indicators.
+                Exercise caution before sharing sensitive information.
+
+            {% else %}
+
+                This website presents elevated risk indicators.
+                Avoid sharing financial or personal information.
+
+            {% endif %}
+
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>
+            ⚠️ Disclaimer
+        </h2>
+
+        <p>
+
+            Omminsentiry AI provides a risk assessment
+            based on available security data. Results are
+            informational only and do not guarantee the
+            safety or legitimacy of any website.
+
+        </p>
+
+    </div>
+
+    <div style="margin-top:20px;">
+
+        <a href="/">
+            <button>
+                🔙 New Scan
+            </button>
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
+```
