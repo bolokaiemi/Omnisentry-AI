@@ -60,38 +60,7 @@ The system functions like a browser-based security assistant, inspecting domains
 * Modular architecture for future expansion
 * Optional location/IP-based analysis
 
----
 
-## 🏗️ Project Structure
-
-```text
-omminsentiry-ai/
-│
-├── app.py
-├── train.py
-├── requirements.txt
-│
-├── models/
-│   └── trust_model.pkl
-│
-├── src/
-│   ├── website_analyzer.py
-│   ├── domain_checker.py
-│   ├── ssl_checker.py
-│   ├── reputation_checker.py
-│   ├── scoring.py
-│   └── location_checker.py
-│
-├── templates/
-│   ├── base.html
-│   └── index.html
-│
-└── static/
-    ├── app.js
-    └── style.css
-```
-
----
 
 ## 🚀 How It Works
 
