@@ -17,13 +17,8 @@
     
     <!-- Main Style Sheet -->
     <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
-
-
-<link
-    rel="icon"
-    type="image/png"
-    href="{{ url_for('static', path='image/logo.png') }}"
->
+    <link rel="stylesheet" href="{{ url_for('static', path='css/omnipop.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', path='image/logo.png') }}">
     {% block head %}
     {% endblock %}
 </head>
@@ -34,6 +29,12 @@
                 <h1>🛡️ OMMINSENTIRY AI</h1>
             </a>
             <p class="subtitle">Cybersecurity Trust Verification & Threat Audit Platform</p>
+            <nav class="main-nav">
+                <a href="/" class="nav-link">🔍 Scanner</a>
+                <a href="/dashboard" class="nav-link">📊 Dashboard</a>
+                <a href="/omnipop" class="nav-link">🍿 OmniPop</a>
+                <a href="/map" class="nav-link">🗺️ Threat Map</a>
+            </nav>
         </header>
 
         <main>
@@ -48,7 +49,17 @@
         </footer>
     </div>
 
+    <!-- Roving AI Mascot Scripts -->
+    <script src="/static/js/notification.js"></script>
+    <script src="/static/js/popup_engine.js"></script>
+    <script src="/static/js/threat_monitor.js"></script>
+    <script src="/static/js/omnipop.js"></script>
+
     {% block scripts %}
+    {% endblock %}
+
+    {% block javascript %}
+    <script src="/static/js/app.js"></script>
     {% endblock %}
 </body>
 </html>

@@ -1,3 +1,5 @@
+# Copyright (c) 2026, Ebi Emmerich-Adehor. All rights reserved.
+
 from src.domain_checker import check_domain
 from src.ssl_checker import check_ssl
 from src.reputation_checker import reputation_check

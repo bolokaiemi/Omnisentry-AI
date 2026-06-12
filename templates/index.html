@@ -5,11 +5,6 @@ Omminsentiry AI - Security Check & Trust Verification
 {% endblock %}
 
 {% block content %}
-    <link
-    rel="icon"
-    type="image/png"
-    href="{{ url_for('static', path='image/shield.png') }}"
->
 <section class="search-section" style="text-align: center; margin-bottom: 50px;">
     <p class="subtitle" style="font-size: 1.25rem; max-width: 600px; margin: 0 auto 30px auto; color: var(--text-secondary);">
         Verify the safety and trustworthiness of any website instantly using AI-powered domain audits, SSL checks, reputation engines, and location intelligence.
@@ -71,5 +66,5 @@ Omminsentiry AI - Security Check & Trust Verification
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', path='app.js') }}"></script>
+<script src="{{ url_for('static', path='js/app.js') }}"></script>
 {% endblock %}
