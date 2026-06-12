@@ -1,79 +1,54 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="Omminsentiry AI Security Platform"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Omminsentiry AI - Advanced Website Trust Verification and Cyber Threat Security Platform">
     <title>
         {% block title %}
         Omminsentiry AI
         {% endblock %}
     </title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
 
-    <link
-        rel="stylesheet"
-        href="/static/style.css"
-    >
 
+<link
+    rel="icon"
+    type="image/png"
+    href="{{ url_for('static', path='image/logo.png') }}"
+>
     {% block head %}
     {% endblock %}
-
 </head>
-
 <body>
-
     <div class="container">
-
         <header>
-
-            <h1>
-                🛡️ Omminsentiry AI
-            </h1>
-
-            <p class="subtitle">
-                AI-Powered Website Trust Verification
-            </p>
-
+            <a href="/" style="text-decoration: none; display: inline-block;">
+                <h1>🛡️ OMMINSENTIRY AI</h1>
+            </a>
+            <p class="subtitle">Cybersecurity Trust Verification & Threat Audit Platform</p>
         </header>
 
         <main>
-
             {% block content %}
             {% endblock %}
-
         </main>
 
         <footer>
-
             <hr>
-
-            <p>
-                Omminsentiry AI Security Platform v0.1
-            </p>
-
-            <p>
-                Website Trust • SSL Analysis • Reputation Checks
-            </p>
-
+            <p><strong>Omminsentiry AI Security Platform</strong> &bull; Version 2.0.0 &bull; &copy; 2026</p>
+            <p style="color: var(--text-muted); font-size: 0.8rem;">SSL Analysis &bull; WHOIS Audit &bull; Typosquatting Scanning &bull; Geolocation Geochecks</p>
         </footer>
-
     </div>
 
     {% block scripts %}
     {% endblock %}
-
 </body>
-
-
+</html>

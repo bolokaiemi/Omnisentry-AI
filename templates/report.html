@@ -1,162 +1,276 @@
-```html
 {% extends "base.html" %}
 
 {% block title %}
-Omminsentiry AI Security Report
+Omminsentiry AI Security Report - {{ report.domain }}
+{% endblock %}
+
+{% block head %}
+<!-- Leaflet.js CSS and JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<style>
+    .report-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 24px;
+    }
+    .header-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    .badge-large {
+        padding: 8px 18px;
+        font-size: 1rem;
+        border-radius: 30px;
+    }
+    .print-hide {
+        display: flex;
+    }
+    
+    @media (max-width: 900px) {
+        .report-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    /* Print Layout adjustments */
+    @media print {
+        body {
+            background: white !important;
+            color: black !important;
+        }
+        .card {
+            border: 1px solid #ccc !important;
+            box-shadow: none !important;
+            background: white !important;
+            color: black !important;
+            page-break-inside: avoid;
+        }
+        .print-hide {
+            display: none !important;
+        }
+        header h1 {
+            background: none !important;
+            -webkit-text-fill-color: black !important;
+            color: black !important;
+        }
+        .factor-item {
+            border: 1px solid #ef4444 !important;
+            background: #fef2f2 !important;
+            color: #b91c1c !important;
+        }
+        .factor-item-safe {
+            border: 1px solid #10b981 !important;
+            background: #ecfdf5 !important;
+            color: #047857 !important;
+        }
+        .data-row {
+            border-bottom: 1px solid #ddd !important;
+        }
+        .data-row strong {
+            color: #444 !important;
+        }
+        .data-row span {
+            color: black !important;
+        }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-
-<div class="container">
-
-    <header>
-
-        <h1>
-            📊 Omminsentiry AI Security Report
-        </h1>
-
-        <p class="subtitle">
-            Website Trust Verification Report
-        </p>
-
-    </header>
-
-    <div class="card">
-
-        <h2>
-            🌐 {{ report.domain }}
-        </h2>
-
-        <div class="row">
-            <strong>Trust Score:</strong>
-            {{ report.trust_score }}/100
-        </div>
-
-        <div class="row">
-            <strong>Risk Level:</strong>
-            {{ report.risk_level }}
-        </div>
-
-        <div class="row">
-            <strong>Registered:</strong>
-            {% if report.registered %}
-                ✅ Yes
-            {% else %}
-                ❌ No
-            {% endif %}
-        </div>
-
-        <div class="row">
-            <strong>SSL Enabled:</strong>
-            {% if report.ssl %}
-                ✅ Enabled
-            {% else %}
-                ❌ Missing
-            {% endif %}
-        </div>
-
-        <div class="row">
-            <strong>Domain Age:</strong>
-            {{ report.age_days }} days
-        </div>
-
-        <div class="row">
-            <strong>Reputation:</strong>
-            {{ report.reputation }}
-        </div>
-
+<div class="header-actions print-hide">
+    <div>
+        <h2>📊 Comprehensive Security Audit</h2>
+        <p class="subtitle">Detailed indicators and verified threat data</p>
     </div>
-
-    <div class="card">
-
-        <h2>
-            🌍 Location Intelligence
-        </h2>
-
-        <div class="row">
-            <strong>IP Address:</strong>
-            {{ report.ip_address }}
-        </div>
-
-        <div class="row">
-            <strong>Country:</strong>
-            {{ report.country }}
-        </div>
-
-        <div class="row">
-            <strong>City:</strong>
-            {{ report.city }}
-        </div>
-
-        <div class="row">
-            <strong>Latitude:</strong>
-            {{ report.latitude }}
-        </div>
-
-        <div class="row">
-            <strong>Longitude:</strong>
-            {{ report.longitude }}
-        </div>
-
+    <div style="display: flex; gap: 10px;">
+        <button onclick="window.print()" class="btn btn-secondary">🖨️ Print / Save PDF</button>
+        <button onclick="downloadJson()" class="btn btn-success">📥 Export JSON</button>
+        <a href="/" class="btn btn-primary" style="background:#2563eb; box-shadow:none;">🔄 New Scan</a>
     </div>
-
-    <div class="card">
-
-        <h2>
-            🤖 AI Assessment
-        </h2>
-
-        <p>
-
-            {% if report.trust_score >= 80 %}
-
-                This website appears trustworthy based on
-                the available security indicators.
-
-            {% elif report.trust_score >= 50 %}
-
-                This website shows mixed trust indicators.
-                Exercise caution before sharing sensitive information.
-
-            {% else %}
-
-                This website presents elevated risk indicators.
-                Avoid sharing financial or personal information.
-
-            {% endif %}
-
-        </p>
-
-    </div>
-
-    <div class="card">
-
-        <h2>
-            ⚠️ Disclaimer
-        </h2>
-
-        <p>
-
-            Omminsentiry AI provides a risk assessment
-            based on available security data. Results are
-            informational only and do not guarantee the
-            safety or legitimacy of any website.
-
-        </p>
-
-    </div>
-
-    <div style="margin-top:20px;">
-
-        <a href="/">
-            <button>
-                🔙 New Scan
-            </button>
-        </a>
-
-    </div>
-
 </div>
 
+<div class="report-grid">
+    <!-- Main Details Column -->
+    <div>
+        <div class="card">
+            <div class="score-display">
+                {% if report.trust_score >= 85 %}
+                    <div class="score-circle score-good">{{ report.trust_score }}<span>/100</span></div>
+                {% elif report.trust_score >= 70 %}
+                    <div class="score-circle score-medium">{{ report.trust_score }}<span>/100</span></div>
+                {% else %}
+                    <div class="score-circle score-bad">{{ report.trust_score }}<span>/100</span></div>
+                {% endif %}
+                
+                <div class="score-text-details">
+                    <h1 style="font-size: 2.2rem; margin: 0; background: none; -webkit-text-fill-color: inherit; color: var(--text-primary);">
+                        {{ report.domain }}
+                    </h1>
+                    <div style="margin-top: 10px;">
+                        {% if report.risk_level == 'SAFE' %}
+                            <span class="badge badge-safe badge-large">SAFE</span>
+                        {% elif report.risk_level == 'LOW RISK' %}
+                            <span class="badge badge-low badge-large">LOW RISK</span>
+                        {% elif report.risk_level == 'MEDIUM RISK' %}
+                            <span class="badge badge-medium badge-large">MEDIUM RISK</span>
+                        {% elif report.risk_level == 'HIGH RISK' %}
+                            <span class="badge badge-high badge-large">HIGH RISK</span>
+                        {% else %}
+                            <span class="badge badge-critical badge-large">CRITICAL RISK</span>
+                        {% endif %}
+                        
+                        {% if report.ssl %}
+                            <span class="badge badge-safe badge-large">SSL SECURE</span>
+                        {% else %}
+                            <span class="badge badge-high badge-large">NO SSL</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="margin: 25px 0 15px 0; color: #3b82f6; font-family: 'Outfit';">Security Signals Breakdown</h3>
+            
+            <div class="grid-cols" style="margin-bottom: 0;">
+                <div>
+                    <h4 style="margin-bottom: 10px; color: var(--text-secondary);">WHOIS & Registration</h4>
+                    <div class="data-row"><strong>Registered:</strong> <span>{% if report.registered %}✅ Yes{% else %}❌ No{% endif %}</span></div>
+                    <div class="data-row"><strong>Domain Age:</strong> <span>{{ report.age_days }} days</span></div>
+                    <div class="data-row"><strong>Registrar:</strong> <span>{{ report.registrar or 'Unknown' }}</span></div>
+                    <div class="data-row"><strong>Created On:</strong> <span>{{ report.creation_date or 'Unknown' }}</span></div>
+                    <div class="data-row"><strong>Expires On:</strong> <span>{{ report.expiration_date or 'Unknown' }}</span></div>
+                    <div class="data-row"><strong>Last Updated:</strong> <span>{{ report.updated_date or 'Unknown' }}</span></div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 10px; color: var(--text-secondary);">SSL & Connections</h4>
+                    <div class="data-row"><strong>HTTPS / SSL:</strong> <span>{% if report.ssl %}✅ Active{% else %}❌ Missing{% endif %}</span></div>
+                    <div class="data-row"><strong>IP Address:</strong> <span>{{ report.ip_address or 'Unknown' }}</span></div>
+                    <div class="data-row"><strong>ISP:</strong> <span>{{ report.isp or 'Unknown' }}</span></div>
+                    <div class="data-row"><strong>ASN:</strong> <span>{{ report.asn or 'Unknown' }}</span></div>
+                    <div class="data-row"><strong>Registrar Status:</strong> <span style="font-size:0.85rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ report.status or 'Unknown' }}</span></div>
+                </div>
+            </div>
+            
+            {% if report.name_servers %}
+            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border-color);">
+                <h4 style="margin-bottom: 8px; color: var(--text-secondary);">Name Servers</h4>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    {% for ns in report.name_servers %}
+                        <span style="background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; border: 1px solid var(--border-color);">{{ ns }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="card">
+            <h3 style="margin-bottom: 15px; color: #3b82f6; font-family: 'Outfit';">Security Risk Factors</h3>
+            <div class="factors-list">
+                {% if report.risk_factors %}
+                    {% for factor in report.risk_factors %}
+                        <div class="factor-item">
+                            ⚠️ {{ factor }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="factor-item-safe">
+                        ✅ No risk factors or threat signatures were flagged during the audit.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sidebar Details Column -->
+    <div>
+        <div class="card">
+            <h3 style="margin-bottom: 15px; color: #3b82f6; font-family: 'Outfit';">Server Geolocation</h3>
+            <div class="data-row"><strong>Country:</strong> <span>{{ report.country }}</span></div>
+            <div class="data-row"><strong>City:</strong> <span>{{ report.city }}</span></div>
+            <div class="data-row"><strong>Latitude:</strong> <span>{{ report.latitude or 'N/A' }}</span></div>
+            <div class="data-row"><strong>Longitude:</strong> <span>{{ report.longitude or 'N/A' }}</span></div>
+            
+            {% if report.latitude and report.longitude %}
+                <div id="report-map" class="report-map"></div>
+            {% else %}
+                <div style="height: 150px; background: rgba(255,255,255,0.02); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-top: 15px; border: 1px dashed var(--border-color); color: var(--text-muted);">
+                    🗺️ Geolocation unavailable
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="card">
+            <h3 style="margin-bottom: 10px; color: #3b82f6; font-family: 'Outfit';">🤖 AI Assessment Verdict</h3>
+            {% if report.ai_prediction == 1 %}
+                <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 12px; padding: 20px; text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 10px;">🟢</div>
+                    <h4 style="color: var(--color-safe); font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">TRUSTED</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                        The Random Forest classifier models this domain as safe. The domain age, SSL security, and lack of brand hijacking patterns align with trusted websites.
+                    </p>
+                </div>
+            {% elif report.ai_prediction == 0 %}
+                <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 20px; text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 10px;">🔴</div>
+                    <h4 style="color: var(--color-high); font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">UNTRUSTED</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                        The Random Forest classifier flags this domain as high risk/malicious. Short domain age, missing SSL, or brand matching indicators are typical of threat vectors.
+                    </p>
+                </div>
+            {% else %}
+                <div style="background: rgba(255,255,255,0.05); border: 1px dashed var(--border-color); border-radius: 12px; padding: 20px; text-align: center; color: var(--text-muted);">
+                    <p style="font-size: 0.9rem;">AI prediction model is not initialized.</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="card" style="font-size: 0.85rem; color: var(--text-muted);">
+            <h4 style="margin-bottom: 6px; color: var(--text-secondary);">Disclaimer</h4>
+            This audit report is generated algorithmically by checking open domain registries, certificate authorities, and IP location databases. Results are informational and do not represent absolute guarantees of website legitimacy.
+        </div>
+    </div>
+</div>
 {% endblock %}
-```
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const lat = parseFloat("{{ report.latitude or 0 }}");
+        const lon = parseFloat("{{ report.longitude or 0 }}");
+        
+        if (lat !== 0 || lon !== 0) {
+            const map = L.map('report-map', {
+                zoomControl: false,
+                attributionControl: false
+            }).setView([lat, lon], 5);
+            
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                maxZoom: 20
+            }).addTo(map);
+            
+            const markerColor = "{{ report.risk_level }}" === 'SAFE' ? '#10B981' : 
+                                "{{ report.risk_level }}" === 'LOW RISK' ? '#84CC16' : 
+                                "{{ report.risk_level }}" === 'MEDIUM RISK' ? '#F59E0B' : '#EF4444';
+                                
+            L.marker([lat, lon]).addTo(map)
+                .bindPopup("<b>{{ report.domain }}</b><br>{{ report.city }}, {{ report.country }}");
+        }
+    });
+
+    function downloadJson() {
+        const reportData = {{ report|tojson|safe }};
+        const jsonStr = JSON.stringify(reportData, null, 2);
+        const blob = new Blob([jsonStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "Omminsentiry_Report_{{ report.domain }}.json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+</script>
+{% endblock %}

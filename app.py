@@ -220,7 +220,7 @@ async def score(
         }
 
 # ==========================================
-# FULL REPORT
+# FULL REPORT (JSON)
 # ==========================================
 
 @app.get("/report/{domain}")
@@ -253,6 +253,76 @@ async def report(
             "error":
                 str(e)
         }
+
+
+# ==========================================
+# VIEW HTML REPORT
+# ==========================================
+
+@app.get("/report/view/{domain}")
+async def view_report(
+    request: Request,
+    domain: str
+):
+
+    try:
+
+        data = analyze_website(
+            domain
+        )
+
+        return templates.TemplateResponse(
+            request=request,
+            name="report.html",
+            context={
+                "request": request,
+                "report": data
+            }
+        )
+
+    except Exception as e:
+
+        return templates.TemplateResponse(
+            request=request,
+            name="index.html",
+            context={
+                "request": request,
+                "error": str(e)
+            }
+        )
+
+
+# ==========================================
+# RAW DATA COLLECTION
+# ==========================================
+
+from src.data_collected import collect_data
+
+@app.get("/data/{domain}")
+async def data_route(
+        domain: str
+    ):
+
+    try:
+
+        data = collect_data(
+            domain
+        )
+
+        return {
+            "success": True,
+            "data": data
+        }
+
+    except Exception as e:
+
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
+
 
 # ==========================================
 # RUN

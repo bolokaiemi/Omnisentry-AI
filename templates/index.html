@@ -1,102 +1,75 @@
 {% extends "base.html" %}
 
 {% block title %}
-Omminsentiry AI Security Check
+Omminsentiry AI - Security Check & Trust Verification
 {% endblock %}
 
 {% block content %}
+    <link
+    rel="icon"
+    type="image/png"
+    href="{{ url_for('static', path='image/shield.png') }}"
+>
+<section class="search-section" style="text-align: center; margin-bottom: 50px;">
+    <p class="subtitle" style="font-size: 1.25rem; max-width: 600px; margin: 0 auto 30px auto; color: var(--text-secondary);">
+        Verify the safety and trustworthiness of any website instantly using AI-powered domain audits, SSL checks, reputation engines, and location intelligence.
+    </p>
 
-<section class="search-section">
-
-<div class="search-box">
-
-    <input
-        type="text"
-        id="domain"
-        placeholder="Enter a domain (example: google.com)"
-        autocomplete="off"
-    >
-
-    <button onclick="checkWebsite()">
-        Check Website
-    </button>
-
-</div>
-
-
+    <div class="search-box">
+        <input
+            type="text"
+            id="domain"
+            placeholder="Enter a website domain (e.g. paypal.com, google.com)"
+            autocomplete="off"
+            autofocus
+        >
+        <button onclick="checkWebsite()">
+            Verify Website
+        </button>
+    </div>
 </section>
 
 <section id="result-section">
-
-
-<div id="result" class="card">
-
-    <h2>🛡️ Ready to Scan</h2>
-
-    <p>
-        Enter a website domain above and click
-        <strong>Check Website</strong>.
-    </p>
-
-</div>
-
-
+    <div id="result">
+        <!-- Live scans load here -->
+    </div>
 </section>
 
 <section class="features">
+    <div class="feature-card">
+        <h3>🔒 SSL Audit</h3>
+        <p>Verifies HTTPS configuration, certificate validity, expiration timestamps, and encryption algorithms.</p>
+    </div>
 
+    <div class="feature-card">
+        <h3>🌐 Domain & WHOIS</h3>
+        <p>Parses domain age, registrar details, nameservers, creation/expiration dates, and registry status keys.</p>
+    </div>
 
-<div class="feature-card">
-    <h3>🔒 SSL Verification</h3>
-    <p>Checks HTTPS availability and SSL certificate status.</p>
-</div>
+    <div class="feature-card">
+        <h3>⚡ Reputation Engine</h3>
+        <p>Scans for phishing terms, high-risk TLDs, typosquatting, brand impersonation, and pattern anomalies.</p>
+    </div>
 
-<div class="feature-card">
-    <h3>🌐 Domain Analysis</h3>
-    <p>Reviews domain registration information and domain age.</p>
-</div>
-
-<div class="feature-card">
-    <h3>⚡ Reputation Check</h3>
-    <p>Calculates trust indicators and security signals.</p>
-</div>
-
-<div class="feature-card">
-    <h3>📊 Trust Score</h3>
-    <p>Generates an Omminsentiry AI trust score from 0–100.</p>
-</div>
-
-
+    <div class="feature-card">
+        <h3>📊 Machine Learning</h3>
+        <p>Calculates final trust scores and applies a Random Forest classifier to assess threat vectors.</p>
+    </div>
 </section>
 
-<section class="about-section">
-
-
-<div class="card">
-
-    <h2>About Omminsentiry AI</h2>
-
-    <p>
-        Omminsentiry AI helps users evaluate website trustworthiness
-        before sharing personal information, making payments,
-        or downloading files.
-    </p>
-
-    <p>
-        The platform analyzes domain registration,
-        HTTPS security, reputation signals,
-        location information, and trust indicators.
-    </p>
-
-</div>
-
-
+<section class="about-section" style="margin-top: 50px;">
+    <div class="card" style="background: rgba(15,23,42,0.4); border-color: rgba(255,255,255,0.05);">
+        <h2 style="font-family: 'Outfit'; margin-bottom: 12px;">About Omminsentiry AI Security Audit</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 15px;">
+            The Omminsentiry AI platform delivers real-time cybersecurity risk intelligence by analyzing multiple public and technical data points of any web host. By parsing domain registration metrics, SSL trust chains, geo-routing metadata, and pattern matching threat models, we flag suspicious domains before they can steal credentials or execute malicious software.
+        </p>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+            * This tool is designed to support security teams and users in verifying domain hygiene. Geolocation data is resolved via standard public routing records.
+        </p>
+    </div>
 </section>
-
 {% endblock %}
 
 {% block scripts %}
-
-<script src="/static/app.js"></script>
-
+<script src="{{ url_for('static', path='app.js') }}"></script>
 {% endblock %}
