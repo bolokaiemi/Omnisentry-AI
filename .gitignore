@@ -5,3 +5,5 @@ __pycache__/
 .venv/
 desktop.ini
 models/*.pkl
+*.db
+*.log

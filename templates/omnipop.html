@@ -1,0 +1,462 @@
+{% extends "base.html" %}
+
+{% block title %}
+OmniPop Roving AI Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <section class="hero-section">
+
+        <h1>🛡️ OmniPop Roving AI</h1>
+
+        <p class="subtitle">
+            Real-Time Fraud Prevention & User Protection System
+        </p>
+
+    </section>
+
+    <section class="overview-section">
+
+        <div class="card">
+
+            <h2>About OmniPop</h2>
+
+            <p>
+                OmniPop is an intelligent security assistant that monitors
+                website behavior and warns users when suspicious activity,
+                phishing attempts, financial scams, or credential theft
+                patterns are detected.
+            </p>
+
+            <p>
+                The system focuses on protecting users before sensitive
+                information is submitted.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="scan-section">
+
+        <div class="card">
+
+            <h2>🔍 Threat Simulation</h2>
+
+            <p>
+                Enter a website domain to evaluate potential risks.
+            </p>
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="domain"
+                    placeholder="example.com"
+                >
+
+                <button onclick="scanThreat()">
+                    Scan Domain
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section>
+
+        <div id="result" class="card">
+
+            <h2>Ready</h2>
+
+            <p>
+                Enter a domain and start a scan.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="training-section">
+        <div class="card">
+            <h2>🧠 Model Training Center</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                Retrain the OmniPop and Phishing classifiers using labeled training data.
+            </p>
+            <div class="button-group" style="margin-bottom: 25px; display: flex; gap: 10px;">
+                <button onclick="loadTrainingData()" class="btn btn-secondary">📋 Load Training Data</button>
+                <button onclick="trainModel()" class="btn btn-success" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;">⚡ Train OmniPop Models</button>
+            </div>
+            
+            <div id="training-status" style="margin-top: 15px;"></div>
+            
+            <div id="training-data-table-container" style="display: none; margin-top: 20px; max-height: 250px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; background: rgba(0,0,0,0.2);">
+                <table class="status-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-primary);">
+                            <th style="padding: 10px 8px;">Card Request</th>
+                            <th style="padding: 10px 8px;">Urgent Lang</th>
+                            <th style="padding: 10px 8px;">Phishing</th>
+                            <th style="padding: 10px 8px;">Label</th>
+                        </tr>
+                    </thead>
+                    <tbody id="training-data-table-body" style="color: var(--text-secondary);">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-grid">
+
+        <div class="feature-card">
+
+            <h3>💳 Payment Detection</h3>
+
+            <p>
+                Detects requests for credit cards, bank transfers,
+                crypto payments, and financial information.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <h3>🎣 Phishing Detection</h3>
+
+            <p>
+                Identifies suspicious login pages and credential
+                harvesting attempts.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <h3>⚠️ Urgency Analysis</h3>
+
+            <p>
+                Detects pressure tactics commonly used by scammers.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <h3>📊 Risk Scoring</h3>
+
+            <p>
+                Calculates overall user risk based on detected threats.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="alerts-section">
+
+        <div class="card">
+
+            <h2>Example Warning</h2>
+
+            <div class="warning-box">
+
+                <h3>
+                    ⚠ OmniPop Alert
+                </h3>
+
+                <p>
+                    This website is requesting sensitive financial
+                    information.
+                </p>
+
+                <p>
+                    Verify the organization before proceeding.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="statistics-section">
+
+        <div class="card">
+
+            <h2>Threat Statistics</h2>
+
+            <div class="stats-grid">
+
+                <div class="stat-item">
+
+                    <h3 id="threat-count">
+                        0
+                    </h3>
+
+                    <p>
+                        Threats Detected
+                    </p>
+
+                </div>
+
+                <div class="stat-item">
+
+                    <h3 id="warning-count">
+                        0
+                    </h3>
+
+                    <p>
+                        Warnings Issued
+                    </p>
+
+                </div>
+
+                <div class="stat-item">
+
+                    <h3 id="blocked-count">
+                        0
+                    </h3>
+
+                    <p>
+                        High-Risk Events
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+async function scanThreat() {
+
+    const domain =
+        document.getElementById("domain").value.trim();
+
+    if (!domain) {
+
+        alert("Please enter a domain.");
+
+        return;
+    }
+
+    const result =
+        document.getElementById("result");
+
+    result.innerHTML =
+        "<h2>🔍 Scanning...</h2>";
+
+    try {
+
+        const response =
+            await fetch(`/check/${domain}`);
+
+        const data =
+            await response.json();
+
+        if (!data.success) {
+
+            result.innerHTML =
+                `<div class="warning-box">
+                    ❌ ${data.error}
+                </div>`;
+
+            return;
+        }
+
+        const report = data.data;
+
+        // Log threat telemetry to the dashboard database
+        if (typeof popupEngine !== "undefined" && popupEngine !== null) {
+            popupEngine.trackThreat(report.domain, report.risk_level, report.risk_factors.join(', ') || 'Domain Threat Simulation');
+        }
+
+        // Visual score class
+        let scoreClass = "score-good";
+        let badgeClass = "badge-safe";
+        if (report.trust_score < 85) {
+            badgeClass = "badge-low";
+        }
+        if (report.trust_score < 70) {
+            scoreClass = "score-medium";
+            badgeClass = "badge-medium";
+        }
+        if (report.trust_score < 40) {
+            scoreClass = "score-bad";
+            badgeClass = "badge-high";
+        }
+        if (report.trust_score < 15) {
+            scoreClass = "score-bad";
+            badgeClass = "badge-critical";
+        }
+
+        // Compile risk factors HTML
+        let factorsHtml = "";
+        if (report.risk_factors && report.risk_factors.length > 0) {
+            factorsHtml = `
+                <div style="margin-top: 20px;">
+                    <h4 style="color: #fca5a5; font-size: 1rem; margin-bottom: 8px;">Detected Risk Factors:</h4>
+                    <div class="factors-list">
+                        ${report.risk_factors.map(factor => `
+                            <div class="factor-item">
+                                ⚠️ ${factor}
+                            </div>
+                        `).join("")}
+                    </div>
+                </div>
+            `;
+        } else {
+            factorsHtml = `
+                <div style="margin-top: 20px;">
+                    <div class="factor-item-safe">
+                        ✅ No critical security threats or risk factors were detected.
+                    </div>
+                </div>
+            `;
+        }
+
+        // AI assessment status
+        let aiHtml = "";
+        if (report.ai_prediction !== null) {
+            const aiVerdict = report.ai_prediction === 1 
+                ? "<span style='color: #10b981; font-weight: bold;'>TRUSTED</span>" 
+                : "<span style='color: #ef4444; font-weight: bold;'>UNTRUSTED / RISKY</span>";
+            aiHtml = `<div class="data-row"><strong>AI Model Verdict:</strong> <span>${aiVerdict}</span></div>`;
+        }
+
+        result.innerHTML = `
+            <div class="card" style="margin-top:20px; background:var(--bg-card); border-color:var(--border-color);">
+                <div class="score-display">
+                    <div class="score-circle ${scoreClass}">
+                        ${report.trust_score}
+                        <span>/ 100</span>
+                    </div>
+                    <div class="score-text-details">
+                        <h2 style="font-family:'Outfit'; font-size:1.8rem; font-weight:600; margin-bottom:6px;">🌐 ${report.domain}</h2>
+                        <div>
+                            <span class="badge ${badgeClass}">${report.risk_level}</span>
+                            <span class="badge ${report.ssl ? 'badge-safe' : 'badge-high'}">${report.ssl ? 'SSL SECURE' : 'NO SSL'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-cols">
+                    <div>
+                        <h3 style="margin-bottom: 12px; font-size: 1.1rem; color: #3b82f6; font-family: 'Outfit';">Domain Information</h3>
+                        <div class="data-row"><strong>Registration:</strong> <span>${report.registered ? '✅ Registered' : '❌ Unregistered'}</span></div>
+                        <div class="data-row"><strong>Domain Age:</strong> <span>${report.age_days} days</span></div>
+                        <div class="data-row"><strong>Registrar:</strong> <span>${report.registrar || 'Unknown'}</span></div>
+                        <div class="data-row"><strong>Created On:</strong> <span>${report.creation_date || 'Unknown'}</span></div>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom: 12px; font-size: 1.1rem; color: #3b82f6; font-family: 'Outfit';">Server Location</h3>
+                        <div class="data-row"><strong>IP Address:</strong> <span>${report.ip_address || 'Unknown'}</span></div>
+                        <div class="data-row"><strong>Location:</strong> <span>${report.city || 'Unknown'}, ${report.country || 'Unknown'}</span></div>
+                        <div class="data-row"><strong>ISP:</strong> <span>${report.isp || 'Unknown'}</span></div>
+                        ${aiHtml}
+                    </div>
+                </div>
+
+                ${factorsHtml}
+
+                <div class="action-buttons" style="margin-top: 20px; display: flex; gap: 12px;">
+                    <a href="/report/view/${report.domain}" class="btn" target="_blank" style="background:#2563eb; color:white;">📊 View Detailed HTML Report</a>
+                    <button onclick="downloadReportJson('${report.domain}')" class="btn btn-secondary">📥 Export JSON</button>
+                </div>
+            </div>
+        `;
+
+    }
+
+    catch(error) {
+
+        result.innerHTML =
+            `<div class="warning-box">
+                ❌ ${error}
+            </div>`;
+    }
+}
+
+async function downloadReportJson(domain) {
+    try {
+        const response = await fetch(`/report/${domain}`);
+        const data = await response.json();
+        if (data.success) {
+            const jsonStr = JSON.stringify(data.report, null, 2);
+            const blob = new Blob([jsonStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `Omminsentiry_AI_Report_${domain}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } else {
+            alert("Failed to export report: " + data.error);
+        }
+    } catch(err) {
+        alert("Export failed: " + err.message);
+    }
+}
+
+async function loadTrainingData() {
+    const container = document.getElementById("training-data-table-container");
+    const body = document.getElementById("training-data-table-body");
+    
+    try {
+        const response = await fetch("/omnipop/training-data");
+        const data = await response.json();
+        
+        body.innerHTML = "";
+        data.forEach(row => {
+            body.innerHTML += `
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 10px 8px;">${row.credit_card_request ? "🔴 Yes" : "🟢 No"}</td>
+                    <td style="padding: 10px 8px;">${row.urgency_language ? "🔴 Yes" : "🟢 No"}</td>
+                    <td style="padding: 10px 8px;">${row.phishing ? "🔴 Yes" : "🟢 No"}</td>
+                    <td style="padding: 10px 8px;"><strong>${row.label ? "⚠️ Suspicious" : "🟢 Safe"}</strong></td>
+                </tr>
+            `;
+        });
+        
+        container.style.display = "block";
+    } catch(error) {
+        alert("Failed to load training data: " + error);
+    }
+}
+
+async function trainModel() {
+    const statusDiv = document.getElementById("training-status");
+    statusDiv.innerHTML = "<p style='color: var(--color-medium);'>⏳ Retraining machine learning models...</p>";
+    
+    try {
+        const response = await fetch("/omnipop/train", { method: "POST" });
+        const result = await response.json();
+        
+        if (result.success) {
+            statusDiv.innerHTML = `<p style='color: var(--color-safe);'>✅ <strong>Success:</strong> ${result.message}</p>`;
+        } else {
+            statusDiv.innerHTML = `<p style='color: var(--color-high);'>❌ <strong>Error:</strong> ${result.error}</p>`;
+        }
+    } catch(error) {
+        statusDiv.innerHTML = `<p style='color: var(--color-high);'>❌ <strong>Failed to connect:</strong> ${error}</p>`;
+    }
+}
+</script>
+{% endblock %}

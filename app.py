@@ -1,6 +1,9 @@
-# Copyright (c) 2026, Ebi Emmerich-Adehor. All rights reserved.
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 from fastapi import FastAPI, Request
+
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -108,23 +111,21 @@ app.add_middleware(
 )
 
 # ==========================================
-# STATIC
+# STATIC & TEMPLATES
 # ==========================================
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app.mount(
     "/static",
     StaticFiles(
-        directory="static"
+        directory=os.path.join(BASE_DIR, "static")
     ),
     name="static"
 )
 
-# ==========================================
-# TEMPLATES
-# ==========================================
-
 templates = Jinja2Templates(
-    directory="templates"
+    directory=os.path.join(BASE_DIR, "templates")
 )
 
 # ==========================================

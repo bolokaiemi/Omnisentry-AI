@@ -1,0 +1,45 @@
+{
+    "rules": [
+
+        {
+            "name": "Credit Card Collection",
+            "risk_score": 40
+        },
+
+        {
+            "name": "Bank Information Request",
+            "risk_score": 50
+        },
+
+        {
+            "name": "Password Collection",
+            "risk_score": 35
+        },
+
+        {
+            "name": "Urgency Language",
+            "risk_score": 20
+        },
+
+        {
+            "name": "Known Scam Domain",
+            "risk_score": 100
+        },
+
+        {
+            "name": "Known Phishing Domain",
+            "risk_score": 100
+        },
+
+        {
+            "name": "No SSL",
+            "risk_score": 25
+        },
+
+        {
+            "name": "Domain Age Under 30 Days",
+            "risk_score": 30
+        }
+
+    ]
+}

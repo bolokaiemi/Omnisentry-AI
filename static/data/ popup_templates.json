@@ -1,0 +1,43 @@
+{
+    "safe": {
+
+        "title": "Website Appears Safe",
+
+        "message": "No significant threats have been detected. Continue with normal caution."
+    },
+
+    "warning": {
+
+        "title": "Potential Risk Detected",
+
+        "message": "This website has characteristics that may indicate fraud or phishing. Verify before entering information."
+    },
+
+    "high_risk": {
+
+        "title": "High Risk Website",
+
+        "message": "Do not enter passwords, banking information, or credit card details on this website."
+    },
+
+    "critical": {
+
+        "title": "Critical Security Warning",
+
+        "message": "This website appears highly suspicious. Leave immediately and do not submit any personal information."
+    },
+
+    "payment_warning": {
+
+        "title": "Payment Request Detected",
+
+        "message": "This site is requesting financial information. Verify the business before making any payment."
+    },
+
+    "phishing_warning": {
+
+        "title": "Phishing Attempt Detected",
+
+        "message": "This page appears to be attempting to collect credentials. Do not enter passwords."
+    }
+}

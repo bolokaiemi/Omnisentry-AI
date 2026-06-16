@@ -109,24 +109,35 @@ Omminsentiry AI Security Report - {{ report.domain }}
                     <h1 style="font-size: 2.2rem; margin: 0; background: none; -webkit-text-fill-color: inherit; color: var(--text-primary);">
                         {{ report.domain }}
                     </h1>
-                    <div style="margin-top: 10px;">
-                        {% if report.risk_level == 'SAFE' %}
-                            <span class="badge badge-safe badge-large">SAFE</span>
-                        {% elif report.risk_level == 'LOW RISK' %}
-                            <span class="badge badge-low badge-large">LOW RISK</span>
-                        {% elif report.risk_level == 'MEDIUM RISK' %}
-                            <span class="badge badge-medium badge-large">MEDIUM RISK</span>
-                        {% elif report.risk_level == 'HIGH RISK' %}
-                            <span class="badge badge-high badge-large">HIGH RISK</span>
-                        {% else %}
-                            <span class="badge badge-critical badge-large">CRITICAL RISK</span>
-                        {% endif %}
+                    <div style="margin-top: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; width: 100%;">
+                        <div>
+                            {% if report.risk_level == 'SAFE' %}
+                                <span class="badge badge-safe badge-large">SAFE</span>
+                            {% elif report.risk_level == 'LOW RISK' %}
+                                <span class="badge badge-low badge-large">LOW RISK</span>
+                            {% elif report.risk_level == 'MEDIUM RISK' %}
+                                <span class="badge badge-medium badge-large">MEDIUM RISK</span>
+                            {% elif report.risk_level == 'HIGH RISK' %}
+                                <span class="badge badge-high badge-large">HIGH RISK</span>
+                            {% else %}
+                                <span class="badge badge-critical badge-large">CRITICAL RISK</span>
+                            {% endif %}
+                            
+                            {% if report.ssl %}
+                                <span class="badge badge-safe badge-large">SSL SECURE</span>
+                            {% else %}
+                                <span class="badge badge-high badge-large">NO SSL</span>
+                            {% endif %}
+                        </div>
                         
-                        {% if report.ssl %}
-                            <span class="badge badge-safe badge-large">SSL SECURE</span>
-                        {% else %}
-                            <span class="badge badge-high badge-large">NO SSL</span>
-                        {% endif %}
+                        <!-- Share Report Deck -->
+                        <div class="report-share-deck print-hide" style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 10px;">
+                            <span style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Share Audit:</span>
+                            <a href="#" id="report-share-wa" class="r-share-btn" style="text-decoration: none; font-size: 1.1rem; line-height: 1;" title="Share to WhatsApp" target="_blank">💬</a>
+                            <a href="#" id="report-share-tw" class="r-share-btn" style="text-decoration: none; font-size: 1.1rem; line-height: 1;" title="Share to X (Twitter)" target="_blank">🐦</a>
+                            <a href="#" id="report-share-fb" class="r-share-btn" style="text-decoration: none; font-size: 1.1rem; line-height: 1;" title="Share to Facebook" target="_blank">📘</a>
+                            <a href="#" id="report-share-li" class="r-share-btn" style="text-decoration: none; font-size: 1.1rem; line-height: 1;" title="Share to LinkedIn" target="_blank">💼</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -237,6 +248,28 @@ Omminsentiry AI Security Report - {{ report.domain }}
 {% block scripts %}
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        // Set up report share buttons
+        const reportUrl = window.location.href;
+        const domainStr = "{{ report.domain }}";
+        const scoreVal = "{{ report.trust_score }}";
+        const riskLevel = "{{ report.risk_level }}";
+        
+        let customText = `Website Security Report for ${domainStr} on Omminsentiry AI:\n`;
+        if (riskLevel === 'SAFE') {
+            customText += `🟢 SAFE (Score: ${scoreVal}/100). Verified secure certificate and registrations.`;
+        } else {
+            customText += `⚠️ WARNING: ${riskLevel} (Score: ${scoreVal}/100). Potential cyber threats detected!`;
+        }
+        customText += `\nCheck full details here: `;
+        
+        const shareTextEnc = encodeURIComponent(customText);
+        const reportUrlEnc = encodeURIComponent(reportUrl);
+        
+        document.getElementById("report-share-wa").href = `https://api.whatsapp.com/send?text=${shareTextEnc}${reportUrlEnc}`;
+        document.getElementById("report-share-tw").href = `https://twitter.com/intent/tweet?text=${shareTextEnc}${reportUrlEnc}`;
+        document.getElementById("report-share-fb").href = `https://www.facebook.com/sharer/sharer.php?u=${reportUrlEnc}`;
+        document.getElementById("report-share-li").href = `https://www.linkedin.com/sharing/share-offsite/?url=${reportUrlEnc}`;
+
         const lat = parseFloat("{{ report.latitude or 0 }}");
         const lon = parseFloat("{{ report.longitude or 0 }}");
         

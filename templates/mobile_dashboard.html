@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}
+OmniRover Mobile Dashboard
+{% endblock %}
+
+{% block content %}
+
+<section class="os-dashboard">
+
+    <div class="os-card">
+        <h1>📱 OmniRover Mobile Dashboard</h1>
+        <p>
+            Real-time protection status for connected devices.
+        </p>
+    </div>
+
+    <div class="os-grid">
+
+        <div class="os-card">
+            <h2>🟢 Device Status</h2>
+            <p>Connected</p>
+        </div>
+
+        <div class="os-card">
+            <h2>🛡 Protection</h2>
+            <p>Active</p>
+        </div>
+
+        <div class="os-card">
+            <h2>⚠ Threats Today</h2>
+            <p id="threat-count">0</p>
+        </div>
+
+        <div class="os-card">
+            <h2>🔄 Sync Status</h2>
+            <p>Online</p>
+        </div>
+
+    </div>
+
+    <div class="os-card">
+
+        <h2>Recent Alerts</h2>
+
+        <ul id="alerts-list">
+            <li>No threats detected</li>
+        </ul>
+
+    </div>
+
+    <div class="os-card">
+
+        <h2>Parent Controls</h2>
+
+        <p>
+            Purchase Protection: Enabled
+        </p>
+
+        <p>
+            Adult Content Filter: Enabled
+        </p>
+
+        <p>
+            Gambling Block: Enabled
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="/static/js/mobile_sync.js"></script>
+<script src="/static/js/notification.js"></script>
+{% endblock %}

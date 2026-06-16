@@ -31,22 +31,22 @@ Omminsentiry AI - Security Check & Trust Verification
 </section>
 
 <section class="features">
-    <div class="feature-card">
+    <div class="feature-card" id="ssl-audit">
         <h3>🔒 SSL Audit</h3>
         <p>Verifies HTTPS configuration, certificate validity, expiration timestamps, and encryption algorithms.</p>
     </div>
 
-    <div class="feature-card">
+    <div class="feature-card" id="domain-whois">
         <h3>🌐 Domain & WHOIS</h3>
         <p>Parses domain age, registrar details, nameservers, creation/expiration dates, and registry status keys.</p>
     </div>
 
-    <div class="feature-card">
+    <div class="feature-card" id="reputation-engine">
         <h3>⚡ Reputation Engine</h3>
         <p>Scans for phishing terms, high-risk TLDs, typosquatting, brand impersonation, and pattern anomalies.</p>
     </div>
 
-    <div class="feature-card">
+    <div class="feature-card" id="machine-learning">
         <h3>📊 Machine Learning</h3>
         <p>Calculates final trust scores and applies a Random Forest classifier to assess threat vectors.</p>
     </div>
@@ -63,8 +63,281 @@ Omminsentiry AI - Security Check & Trust Verification
         </p>
     </div>
 </section>
+
+<!-- Beta Milestone & Feedback Hub -->
+<section id="beta-hub" style="margin-top: 50px; scroll-margin-top: 80px;">
+    <h2 style="font-family: 'Outfit', sans-serif; font-size: 2rem; margin-bottom: 25px; text-align: center; background: linear-gradient(135deg, #f8fafc 30%, #3b82f6 70%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        🎯 Pre-Registration Beta Milestone & Feedback Hub
+    </h2>
+    
+    <div class="beta-grid">
+        <!-- Left Column: Milestone Progress & Sharing -->
+        <div class="beta-column">
+            <div class="card milestone-card">
+                <h3 style="font-family: 'Outfit'; color: var(--accent); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                    📈 5,000 Tester Milestone
+                </h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px;">
+                    Help us validate Omminsentiry AI! Once we reach 5,000 active beta testers sharing positive reviews, we will officially register the platform and roll out production threat defenses.
+                </p>
+                
+                <div class="progress-info">
+                    <span style="font-weight: 700; font-size: 1.1rem; color: var(--text-primary);" id="progress-text">0 / 5,000 Testers</span>
+                    <span style="color: var(--color-safe); font-weight: 700;" id="progress-percent">0%</span>
+                </div>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+                
+                <div class="milestone-stats">
+                    <div class="m-stat">
+                        <span class="m-val" id="stat-scans">0</span>
+                        <span class="m-lbl">Total Scans Run</span>
+                    </div>
+                    <div class="m-stat">
+                        <span class="m-val" id="stat-rating">0.0</span>
+                        <span class="m-lbl">Avg Rating ⭐</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card share-card">
+                <h3 style="font-family: 'Outfit'; color: #3b82f6; margin-bottom: 12px;">📢 Share with Friends & Socials</h3>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 18px;">
+                    Copy our beta link or share directly to your circles to help us hit our pre-registration milestone faster!
+                </p>
+                
+                <!-- Share Actions Grid -->
+                <div class="share-grid">
+                    <a href="#" id="share-whatsapp" class="share-btn whatsapp" target="_blank">
+                        <span>💬</span> WhatsApp
+                    </a>
+                    <a href="#" id="share-twitter" class="share-btn twitter" target="_blank">
+                        <span>🐦</span> X (Twitter)
+                    </a>
+                    <a href="#" id="share-facebook" class="share-btn facebook" target="_blank">
+                        <span>📘</span> Facebook
+                    </a>
+                    <a href="#" id="share-linkedin" class="share-btn linkedin" target="_blank">
+                        <span>💼</span> LinkedIn
+                    </a>
+                </div>
+                
+                <!-- Referral Copier -->
+                <div class="copy-invite-box">
+                    <input type="text" id="invite-link-val" value="" readonly>
+                    <button onclick="copyInviteLink()" id="btn-copy-invite">📋 Copy Link</button>
+                </div>
+                
+                <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px;">
+                    <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 5px; font-weight: 700;">🎥 Sharing on YouTube, TikTok & Instagram?</span>
+                    <span style="font-size: 0.75rem; color: var(--text-secondary);">Include: <strong style="color:var(--accent);">#OmminsentiryAI</strong> and the beta link in your video descriptions or bio links!</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column: Add Review & Recent Feed -->
+        <div class="beta-column">
+            <!-- Review Form -->
+            <div class="card review-form-card">
+                <h3 style="font-family: 'Outfit'; color: var(--text-primary); margin-bottom: 15px;">⭐ Write a Beta Review</h3>
+                <form id="feedback-form" onsubmit="submitReview(event)">
+                    <div style="margin-bottom: 15px;">
+                        <label for="review-name" style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;">Your Name</label>
+                        <input type="text" id="review-name" required placeholder="e.g. Alex M." style="width: 100%; padding: 10px 14px; background: rgba(8,13,26,0.6); border: 1px solid var(--border-color); border-radius: 8px; color: white;">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;">Your Rating</label>
+                        <div class="rating-stars" id="rating-stars-input">
+                            <span class="star-btn" data-value="1">★</span>
+                            <span class="star-btn" data-value="2">★</span>
+                            <span class="star-btn" data-value="3">★</span>
+                            <span class="star-btn" data-value="4">★</span>
+                            <span class="star-btn active" data-value="5">★</span>
+                        </div>
+                        <input type="hidden" id="review-rating" value="5">
+                    </div>
+                    
+                    <div style="margin-bottom: 18px;">
+                        <label for="review-comment" style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;">Your Comment / Review</label>
+                        <textarea id="review-comment" required placeholder="Let us know how Omminsentiry AI performed, bugs found, or feedback..." rows="3" style="width: 100%; padding: 10px 14px; background: rgba(8,13,26,0.6); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-family: inherit; resize: none;"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">🚀 Submit Review & Support Pre-Registration</button>
+                </form>
+            </div>
+            
+            <!-- Reviews List Container -->
+            <div class="card feedback-list-card">
+                <h3 style="font-family: 'Outfit'; color: var(--text-primary); margin-bottom: 15px;">💬 What Beta Testers Say</h3>
+                <div class="feedback-feed" id="feedback-feed">
+                    <!-- Reviews load dynamically -->
+                    <div style="text-align: center; color: var(--text-muted); padding: 20px 0;">Loading reviews...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
 
 {% block scripts %}
 <script src="{{ url_for('static', path='js/app.js') }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Star Selection Interactive logic
+        const stars = document.querySelectorAll("#rating-stars-input .star-btn");
+        const ratingInput = document.getElementById("review-rating");
+        
+        stars.forEach(star => {
+            star.addEventListener("click", function() {
+                const val = parseInt(this.getAttribute("data-value"));
+                ratingInput.value = val;
+                
+                stars.forEach(s => {
+                    const sVal = parseInt(s.getAttribute("data-value"));
+                    if (sVal <= val) {
+                        s.classList.add("active");
+                    } else {
+                        s.classList.remove("active");
+                    }
+                });
+            });
+        });
+
+        // Set up share buttons links based on current url
+        const currentUrl = window.location.origin;
+        document.getElementById("invite-link-val").value = currentUrl;
+        
+        const shareText = encodeURIComponent("Verify your security! Check out Omminsentiry AI - an amazing AI-powered website trust verification and threat auditing platform. Join their beta to help reach 5,000 testers: ");
+        const urlEncoded = encodeURIComponent(currentUrl);
+        
+        document.getElementById("share-whatsapp").href = `https://api.whatsapp.com/send?text=${shareText}${urlEncoded}`;
+        document.getElementById("share-twitter").href = `https://twitter.com/intent/tweet?text=${shareText}${urlEncoded}`;
+        document.getElementById("share-facebook").href = `https://www.facebook.com/sharer/sharer.php?u=${urlEncoded}`;
+        document.getElementById("share-linkedin").href = `https://www.linkedin.com/sharing/share-offsite/?url=${urlEncoded}`;
+        
+        // Load feedback & milestones
+        loadMilestoneData();
+        loadFeedbackFeed();
+    });
+
+    async function loadMilestoneData() {
+        try {
+            const res = await fetch("/api/milestone");
+            const data = await res.json();
+            
+            const count = data.testers_count;
+            const target = data.target_milestone;
+            const percent = Math.min(((count / target) * 100), 100).toFixed(1);
+            
+            document.getElementById("progress-text").textContent = `${count.toLocaleString()} / ${target.toLocaleString()} Beta Testers`;
+            document.getElementById("progress-percent").textContent = `${percent}%`;
+            document.getElementById("progress-bar-fill").style.width = `${percent}%`;
+            
+            document.getElementById("stat-scans").textContent = data.scans_count.toLocaleString();
+            document.getElementById("stat-rating").textContent = data.average_rating.toFixed(1);
+        } catch(err) {
+            console.error("Error loading milestone metrics: ", err);
+        }
+    }
+
+    async function loadFeedbackFeed() {
+        const feed = document.getElementById("feedback-feed");
+        try {
+            const res = await fetch("/api/feedback");
+            const data = await res.json();
+            
+            if (data.length === 0) {
+                feed.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 20px 0;">No reviews yet. Be the first to write one!</div>`;
+                return;
+            }
+            
+            feed.innerHTML = data.map(item => {
+                const date = new Date(item.timestamp);
+                const dateStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                const starsHtml = "★".repeat(item.rating) + "☆".repeat(5 - item.rating);
+                
+                return `
+                    <div class="feedback-card">
+                        <div class="feedback-header">
+                            <strong class="feedback-user">${item.name}</strong>
+                            <span class="feedback-stars">${starsHtml}</span>
+                        </div>
+                        <p class="feedback-comment">${item.comment}</p>
+                        <span class="feedback-time">${dateStr}</span>
+                    </div>
+                `;
+            }).join("");
+        } catch(err) {
+            feed.innerHTML = `<div style="text-align: center; color: #ef4444; padding: 20px 0;">❌ Failed to load feedback.</div>`;
+        }
+    }
+
+    async function submitReview(e) {
+        e.preventDefault();
+        const nameInput = document.getElementById("review-name");
+        const ratingInput = document.getElementById("review-rating");
+        const commentInput = document.getElementById("review-comment");
+        
+        const payload = {
+            name: nameInput.value,
+            rating: parseInt(ratingInput.value),
+            comment: commentInput.value
+        };
+        
+        try {
+            const res = await fetch("/api/feedback", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            
+            if (res.ok) {
+                // Clear input
+                nameInput.value = "";
+                commentInput.value = "";
+                // Reset stars
+                const stars = document.querySelectorAll("#rating-stars-input .star-btn");
+                stars.forEach(s => {
+                    const sVal = parseInt(s.getAttribute("data-value"));
+                    if (sVal <= 5) s.classList.add("active");
+                    else s.classList.remove("active");
+                });
+                ratingInput.value = "5";
+                
+                // Reload data
+                await loadMilestoneData();
+                await loadFeedbackFeed();
+                
+                // Scroll to feed
+                document.getElementById("feedback-feed").scrollIntoView({ behavior: 'smooth' });
+            } else {
+                const errData = await res.json();
+                alert("Submission failed: " + (errData.detail || "Unknown error"));
+            }
+        } catch(err) {
+            alert("Network error occurred: " + err.message);
+        }
+    }
+
+    function copyInviteLink() {
+        const input = document.getElementById("invite-link-val");
+        input.select();
+        input.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(input.value).then(() => {
+            const btn = document.getElementById("btn-copy-invite");
+            btn.textContent = "✅ Copied!";
+            btn.style.background = "#10b981";
+            setTimeout(() => {
+                btn.textContent = "📋 Copy Link";
+                btn.style.background = "";
+            }, 2000);
+        }).catch(err => {
+            alert("Failed to copy link: " + err);
+        });
+    }
+</script>
 {% endblock %}
+

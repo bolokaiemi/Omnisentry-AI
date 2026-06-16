@@ -1,0 +1,33 @@
+
+{
+    "application": {
+        "name": "OmniRover",
+        "package": "com.omminsentiry.omnirover",
+        "description": "AI-powered roaming fraud and phishing protection",
+        "developer": "Omminsentiry AI",
+        "platforms": [
+            "android",
+            "ios"
+        ]
+    },
+    "features": {
+        "website_scanning": true,
+        "phishing_detection": true,
+        "fraud_detection": true,
+        "payment_protection": true,
+        "parental_controls": true,
+        "live_popup_alerts": true,
+        "device_sync": true,
+        "family_monitoring": true
+    },
+    "security": {
+        "token_auth": true,
+        "end_to_end_encryption": true,
+        "certificate_pinning": true
+    },
+    "reporting": {
+        "send_to_backend": true,
+        "store_local_logs": true,
+        "cybersecurity_dispatch": true
+    }
+}

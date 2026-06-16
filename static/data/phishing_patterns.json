@@ -1,0 +1,16 @@
+{
+    "patterns": [
+        "verify account",
+        "confirm account",
+        "login now",
+        "password required",
+        "security alert",
+        "account suspended",
+        "verify identity",
+        "bank verification",
+        "reset password",
+        "enter credentials",
+        "authentication required",
+        "urgent login"
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "permissions": [
+        {
+            "name": "internet",
+            "required": true,
+            "purpose": "Connect to Omminsentiry servers"
+        },
+        {
+            "name": "notifications",
+            "required": true,
+            "purpose": "Send real-time security alerts"
+        },
+        {
+            "name": "location",
+            "required": false,
+            "purpose": "IP and geo threat intelligence"
+        },
+        {
+            "name": "background_processing",
+            "required": true,
+            "purpose": "Continuous threat monitoring"
+        },
+        {
+            "name": "clipboard_access",
+            "required": false,
+            "purpose": "Detect clipboard hijacking"
+        },
+        {
+            "name": "browser_activity",
+            "required": true,
+            "purpose": "Analyze suspicious website behavior"
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+
+{
+    "app_name": "OmniRover",
+    "company": "Omminsentiry AI",
+    "version": "1.0.0",
+    "build": 1,
+    "environment": "production",
+    "api_base_url": "https://api.omminsentiry.ai",
+    "dashboard_url": "https://dashboard.omminsentiry.ai",
+    "sync_interval_seconds": 30,
+    "threat_scan_interval_seconds": 5,
+    "popup_enabled": true,
+    "real_time_monitoring": true,
+    "background_scan": true,
+    "auto_report_threats": true,
+    "max_reports_per_hour": 100,
+    "notification_enabled": true,
+    "parental_control_enabled": true,
+    "payment_guard_enabled": true,
+    "voice_alert_enabled": false,
+    "location_tracking_enabled": false,
+    "encryption": "AES-256"
+}

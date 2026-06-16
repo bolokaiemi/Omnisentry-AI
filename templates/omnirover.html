@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}
+OmniRover Roving AI
+{% endblock %}
+
+{% block content %}
+
+<section class="os-dashboard">
+
+    <div class="os-card">
+        <h1>🚀 OmniRover Roving AI</h1>
+
+        <p>
+            Autonomous AI security rover connected to Omminsentiry AI.
+        </p>
+    </div>
+
+    <div class="os-grid">
+
+        <div class="os-card">
+            <h2>System Status</h2>
+            <p id="rover-status">ACTIVE</p>
+        </div>
+
+        <div class="os-card">
+            <h2>Threat Level</h2>
+            <p id="threat-level">LOW</p>
+        </div>
+
+        <div class="os-card">
+            <h2>Domains Scanned</h2>
+            <p id="domains-scanned">0</p>
+        </div>
+
+        <div class="os-card">
+            <h2>Reports Sent</h2>
+            <p id="reports-sent">0</p>
+        </div>
+
+    </div>
+
+    <div class="os-card">
+
+        <h2>Threat Intelligence Feed</h2>
+
+        <div id="threat-feed">
+
+            <p>
+                Monitoring phishing, scam, and fraud patterns...
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="os-card">
+
+        <h2>Capabilities</h2>
+
+        <ul>
+            <li>✅ Real-time Website Scanning</li>
+            <li>✅ Payment Fraud Detection</li>
+            <li>✅ Phishing Detection</li>
+            <li>✅ Behavioral Monitoring</li>
+            <li>✅ Child Purchase Protection</li>
+            <li>✅ Threat Reporting</li>
+        </ul>
+
+    </div>
+
+    <div class="os-card">
+
+        <button onclick="startRover()">
+            Start Scan
+        </button>
+
+        <button onclick="simulateThreat()">
+            Simulate Threat
+        </button>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script src="/static/js/notification.js"></script>
+<script src="/static/js/popup_engine.js"></script>
+<script src="/static/js/threat_monitor.js"></script>
+<script src="/static/js/omnirover.js"></script>
+
+{% endblock %}
