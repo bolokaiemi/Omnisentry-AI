@@ -160,3 +160,16 @@ async def api_get_milestone():
     return get_milestone_metrics()
 
 
+class AdminVerifyPayload(BaseModel):
+    password: str
+
+@router.post("/admin/verify")
+async def api_verify_admin(payload: AdminVerifyPayload):
+    import os
+    correct_password = os.getenv("ADMIN_PASSWORD", "admin123")
+    if payload.password == correct_password:
+        return {"status": "success", "message": "Admin verified successfully."}
+    raise HTTPException(status_code=401, detail="Incorrect admin password.")
+
+
+

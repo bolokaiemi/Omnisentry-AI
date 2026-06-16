@@ -33,24 +33,96 @@ Omminsentiry AI - Security Check & Trust Verification
 </section>
 
 <section class="features">
-    <div class="feature-card" id="ssl-audit">
-        <h3 data-i18n="ssl_audit_title">🔒 SSL Audit</h3>
+    <!-- SSL Audit (Admin Locked) -->
+    <div class="feature-card" id="ssl-audit" onclick="toggleSslDetails()">
+        <div class="feature-card-header">
+            <h3 data-i18n="ssl_audit_title">🔒 SSL Audit</h3>
+            <span class="btn-toggle-details" id="ssl-toggle-indicator">▼</span>
+        </div>
         <p data-i18n="ssl_audit_desc">Verifies HTTPS configuration, certificate validity, expiration timestamps, and encryption algorithms.</p>
+        
+        <div class="feature-details" id="ssl-details-drawer">
+            <h4 data-i18n="cap_details_title">Detailed Features:</h4>
+            <ul>
+                <li data-i18n="ssl_det_1">Certificate Chain Validation (Root/Intermediate check)</li>
+                <li data-i18n="ssl_det_2">Vulnerability Scanning (Heartbleed, POODLE, DROWN audit)</li>
+                <li data-i18n="ssl_det_3">Cipher Suite Strength Evaluator</li>
+            </ul>
+            <h4 data-i18n="cap_benefits_title">Benefits:</h4>
+            <ul>
+                <li data-i18n="ssl_ben_1">Prevents Man-in-the-Middle intercept attacks</li>
+                <li data-i18n="ssl_ben_2">Ensures compliance with data transit encryption regulations</li>
+            </ul>
+        </div>
     </div>
 
-    <div class="feature-card" id="domain-whois">
-        <h3 data-i18n="whois_title">🌐 Domain & WHOIS</h3>
+    <!-- Domain & WHOIS (Open) -->
+    <div class="feature-card" id="domain-whois" onclick="toggleDetails('whois-details-drawer', 'whois-toggle-indicator')">
+        <div class="feature-card-header">
+            <h3 data-i18n="whois_title">🌐 Domain & WHOIS</h3>
+            <span class="btn-toggle-details" id="whois-toggle-indicator">▼</span>
+        </div>
         <p data-i18n="whois_desc">Parses domain age, registrar details, nameservers, creation/expiration dates, and registry status keys.</p>
+        
+        <div class="feature-details" id="whois-details-drawer">
+            <h4 data-i18n="cap_details_title">Detailed Features:</h4>
+            <ul>
+                <li data-i18n="whois_det_1">Registrar reputation matching</li>
+                <li data-i18n="whois_det_2">DNS Routing & Nameserver health checker</li>
+                <li data-i18n="whois_det_3">Dynamic updates/ownership transitions tracking</li>
+            </ul>
+            <h4 data-i18n="cap_benefits_title">Benefits:</h4>
+            <ul>
+                <li data-i18n="whois_ben_1">Identifies high-risk, recently created throwaway domains</li>
+                <li data-i18n="whois_ben_2">Flags typosquatted brand imitation attempts</li>
+            </ul>
+        </div>
     </div>
 
-    <div class="feature-card" id="reputation-engine">
-        <h3 data-i18n="reputation_title">⚡ Reputation Engine</h3>
+    <!-- Reputation Engine (Open) -->
+    <div class="feature-card" id="reputation-engine" onclick="toggleDetails('reputation-details-drawer', 'reputation-toggle-indicator')">
+        <div class="feature-card-header">
+            <h3 data-i18n="reputation_title">⚡ Reputation Engine</h3>
+            <span class="btn-toggle-details" id="reputation-toggle-indicator">▼</span>
+        </div>
         <p data-i18n="reputation_desc">Scans for phishing terms, high-risk TLDs, typosquatting, brand impersonation, and pattern anomalies.</p>
+        
+        <div class="feature-details" id="reputation-details-drawer">
+            <h4 data-i18n="cap_details_title">Detailed Features:</h4>
+            <ul>
+                <li data-i18n="rep_det_1">Lexical pattern matching with known phishing terms</li>
+                <li data-i18n="rep_det_2">Live integrations with open source threat intelligence feeds</li>
+                <li data-i18n="rep_det_3">TLD reputation assessment models</li>
+            </ul>
+            <h4 data-i18n="cap_benefits_title">Benefits:</h4>
+            <ul>
+                <li data-i18n="rep_ben_1">Blocks domain-spoofed login pages instantly</li>
+                <li data-i18n="rep_ben_2">Filters known malicious spam and credential harvesting zones</li>
+            </ul>
+        </div>
     </div>
 
-    <div class="feature-card" id="machine-learning">
-        <h3 data-i18n="ml_title">📊 Machine Learning</h3>
+    <!-- Machine Learning (Open) -->
+    <div class="feature-card" id="machine-learning" onclick="toggleDetails('ml-details-drawer', 'ml-toggle-indicator')">
+        <div class="feature-card-header">
+            <h3 data-i18n="ml_title">📊 Machine Learning</h3>
+            <span class="btn-toggle-details" id="ml-toggle-indicator">▼</span>
+        </div>
         <p data-i18n="ml_desc">Calculates final trust scores and applies a Random Forest classifier to assess threat vectors.</p>
+        
+        <div class="feature-details" id="ml-details-drawer">
+            <h4 data-i18n="cap_details_title">Detailed Features:</h4>
+            <ul>
+                <li data-i18n="ml_det_1">Multivariate Random Forest Classification model</li>
+                <li data-i18n="ml_det_2">Heuristic threat scores weighting engine</li>
+                <li data-i18n="ml_det_3">OmniPop and OmniRover loopback data collection</li>
+            </ul>
+            <h4 data-i18n="cap_benefits_title">Benefits:</h4>
+            <ul>
+                <li data-i18n="ml_ben_1">Minimizes false classification error rates</li>
+                <li data-i18n="ml_ben_2">Provides automated threat identification without manual lookups</li>
+            </ul>
+        </div>
     </div>
 </section>
 
@@ -343,6 +415,107 @@ Omminsentiry AI - Security Check & Trust Verification
             alert("Failed to copy link: " + err);
         });
     }
+</script>
+
+<!-- Admin Unlock Modal Overlay -->
+<div class="modal-overlay" id="admin-modal" onclick="closeAdminModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3 data-i18n="admin_modal_title">🔐 Administrative Access Required</h3>
+        <p data-i18n="admin_modal_desc">Please enter the administrator password to view the SSL Audit detailed audit features and benefits.</p>
+        <input type="password" id="admin-password" class="admin-pw-input" placeholder="Enter Admin Password" data-i18n-placeholder="admin_pw_placeholder">
+        <div class="unlock-error-msg" id="admin-error-msg" data-i18n="admin_modal_error">Incorrect password. Access denied.</div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeAdminModal()" data-i18n="admin_modal_cancel">Cancel</button>
+            <button class="btn btn-primary" onclick="verifyAdminPassword()" data-i18n="admin_modal_unlock">Unlock</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Toggle details for standard cards
+    function toggleDetails(drawerId, indicatorId) {
+        // Prevent click trigger when clicking inside the expanded details area
+        const event = window.event;
+        if (event && event.target.closest('.feature-details')) {
+            return;
+        }
+
+        const drawer = document.getElementById(drawerId);
+        const indicator = document.getElementById(indicatorId);
+        
+        if (drawer.classList.contains("expanded")) {
+            drawer.classList.remove("expanded");
+            indicator.textContent = "▼";
+        } else {
+            drawer.classList.add("expanded");
+            indicator.textContent = "▲";
+        }
+    }
+
+    // SSL Audit click handler
+    function toggleSslDetails() {
+        const event = window.event;
+        if (event && event.target.closest('.feature-details')) {
+            return;
+        }
+
+        // Check if already unlocked in session
+        if (sessionStorage.getItem("admin_unlocked") === "true") {
+            toggleDetails("ssl-details-drawer", "ssl-toggle-indicator");
+            return;
+        }
+
+        // Show unlock password modal
+        document.getElementById("admin-modal").classList.add("active");
+        document.getElementById("admin-password").focus();
+    }
+
+    function closeAdminModal() {
+        document.getElementById("admin-modal").classList.remove("active");
+        document.getElementById("admin-password").value = "";
+        document.getElementById("admin-error-msg").style.display = "none";
+    }
+
+    async function verifyAdminPassword() {
+        const passwordInput = document.getElementById("admin-password");
+        const errorMsg = document.getElementById("admin-error-msg");
+        const password = passwordInput.value;
+
+        try {
+            const res = await fetch("/api/admin/verify", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ password: password })
+            });
+
+            if (res.ok) {
+                // Success
+                sessionStorage.setItem("admin_unlocked", "true");
+                closeAdminModal();
+                toggleDetails("ssl-details-drawer", "ssl-toggle-indicator");
+            } else {
+                errorMsg.style.display = "block";
+                passwordInput.value = "";
+                passwordInput.focus();
+            }
+        } catch (err) {
+            console.error("Verification error:", err);
+            errorMsg.textContent = "Server verification error.";
+            errorMsg.style.display = "block";
+        }
+    }
+
+    // Support pressing Enter in password input
+    document.addEventListener("DOMContentLoaded", () => {
+        const pwInput = document.getElementById("admin-password");
+        if (pwInput) {
+            pwInput.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") {
+                    verifyAdminPassword();
+                }
+            });
+        }
+    });
 </script>
 {% endblock %}
 

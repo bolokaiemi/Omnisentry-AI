@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+Omminsentiry AI - About Us
+{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <header class="page-header">
+        <h2 data-i18n="about_page_title">ℹ️ About Omminsentiry AI</h2>
+        <p class="subtitle" data-i18n="about_page_subtitle">Advanced cybersecurity intelligence and real-time trust auditing</p>
+    </header>
+
+    <div class="card">
+        <h3 style="font-family: 'Outfit'; color: var(--accent); margin-bottom: 15px;" data-i18n="about_mission_title">🎯 Our Mission</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 15px;" data-i18n="about_mission_p1">
+            In an era where cyber threats, phishing scams, and domain spoofing are rising at exponential rates, Omminsentiry AI was built to bring transparency and advanced defensive intelligence to everyday internet browsing.
+        </p>
+        <p style="color: var(--text-secondary);" data-i18n="about_mission_p2">
+            Our mission is to establish a global database of website safety, providing immediate trust auditing metrics using technical security checks and machine learning. We aim to shield users before credentials, personal data, or payment transactions are hijacked.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3 style="font-family: 'Outfit'; color: var(--primary); margin-bottom: 15px;" data-i18n="about_tech_title">⚙️ Core Technology</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 15px;" data-i18n="about_tech_p1">
+            The platform leverages several technically distinct security validation mechanisms to compile a domain risk assessment:
+        </p>
+        <ul style="list-style-type: none; padding-left: 0; margin-bottom: 15px;">
+            <li style="margin-bottom: 10px; color: var(--text-secondary); padding-left: 20px; position: relative;">
+                <span style="color: var(--accent); position: absolute; left: 0;">✔</span>
+                <strong style="color: var(--text-primary);" data-i18n="about_tech_li1_title">SSL Trust Verification:</strong> <span data-i18n="about_tech_li1_desc">Audits certificate authenticity, encryption protocols, and checks for revocation.</span>
+            </li>
+            <li style="margin-bottom: 10px; color: var(--text-secondary); padding-left: 20px; position: relative;">
+                <span style="color: var(--accent); position: absolute; left: 0;">✔</span>
+                <strong style="color: var(--text-primary);" data-i18n="about_tech_li2_title">WHOIS & Registrant Audit:</strong> <span data-i18n="about_tech_li2_desc">Analyzes domain age, expiration dates, and registrars to identify high-risk throwaway domains.</span>
+            </li>
+            <li style="margin-bottom: 10px; color: var(--text-secondary); padding-left: 20px; position: relative;">
+                <span style="color: var(--accent); position: absolute; left: 0;">✔</span>
+                <strong style="color: var(--text-primary);" data-i18n="about_tech_li3_title">Reputation Analytics:</strong> <span data-i18n="about_tech_li3_desc">Uses lexical patterns to flag typosquatting, brand spoofing, and malicious intent.</span>
+            </li>
+            <li style="margin-bottom: 10px; color: var(--text-secondary); padding-left: 20px; position: relative;">
+                <span style="color: var(--accent); position: absolute; left: 0;">✔</span>
+                <strong style="color: var(--text-primary);" data-i18n="about_tech_li4_title">Machine Learning Classification:</strong> <span data-i18n="about_tech_li4_desc">Utilizes a Random Forest classifier model to output precise trust indicators based on multi-dimensional vectors.</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3 style="font-family: 'Outfit'; color: var(--color-safe); margin-bottom: 15px;" data-i18n="about_road_title">📈 Beta Roadmap</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 15px;" data-i18n="about_road_p1">
+            We are currently in a public Beta testing cycle. As part of our pre-registration roadmap, we are validating our backend risk models and collecting tester reviews.
+        </p>
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 15px; border-radius: 8px;" data-i18n="about_road_p2">
+            Once we record 5,000 active beta reviews and scans, the Omminsentiry AI platform will be fully registered as a security firm, enabling the release of browser extensions, router blocks, and live firewall threat feeds.
+        </div>
+    </div>
+</div>
+{% endblock %}

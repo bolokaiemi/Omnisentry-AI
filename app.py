@@ -394,6 +394,40 @@ async def dashboard(request: Request):
     )
 
 
+@app.get("/about")
+async def about_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="about.html",
+        context={
+            "request": request
+        }
+    )
+
+
+@app.get("/contact")
+async def contact_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="contact.html",
+        context={
+            "request": request
+        }
+    )
+
+
+@app.get("/services")
+async def services_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="services.html",
+        context={
+            "request": request
+        }
+    )
+
+
+
 #Trust Prediction Route
 
 @app.get("/ai/trust/{domain}")

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}
+Omminsentiry AI - Contact
+{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <header class="page-header">
+        <h2 data-i18n="contact_page_title">📞 Contact Omminsentiry AI</h2>
+        <p class="subtitle" data-i18n="contact_page_subtitle">Submit threat feeds, report security issues, or reach out for inquiries</p>
+    </header>
+
+    <div class="grid-cols" style="grid-template-columns: 1fr 1.2fr;">
+        <!-- Left: Contact Details & Referral -->
+        <div>
+            <div class="card">
+                <h3 style="font-family: 'Outfit'; color: var(--accent); margin-bottom: 12px;" data-i18n="contact_hq_title">🛡️ Security Office</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px;" data-i18n="contact_hq_desc">
+                    For direct inquiries regarding domain blacklists, false positives, ML models collaboration, or incident response services.
+                </p>
+                <div class="data-row"><strong data-i18n="contact_email_lbl">Email:</strong> <span style="font-size:0.9rem;">security@omminsentiry.ai</span></div>
+                <div class="data-row"><strong data-i18n="contact_phone_lbl">Inquiries:</strong> <span style="font-size:0.9rem;">+1 (555) 234-8890</span></div>
+            </div>
+
+            <div class="card">
+                <h3 style="font-family: 'Outfit'; color: var(--color-safe); margin-bottom: 12px;" data-i18n="contact_referral_title">👥 Affiliate Program</h3>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 15px;" data-i18n="contact_referral_desc">
+                    Earn beta badges and unlock advanced telemetry endpoints by referring other cybersecurity researchers. Copy the pre-registration invite link to share.
+                </p>
+                <a href="/#beta-hub" class="btn btn-secondary" style="width: 100%; justify-content: center;" data-i18n="contact_referral_btn">🔗 Invite Hub</a>
+            </div>
+        </div>
+
+        <!-- Right: Glassmorphism Contact Form -->
+        <div class="card">
+            <h3 style="font-family: 'Outfit'; color: var(--text-primary); margin-bottom: 15px;" data-i18n="contact_form_title">💬 Send a Message</h3>
+            <form id="contact-form" onsubmit="handleContactSubmit(event)">
+                <div style="margin-bottom: 15px;">
+                    <label for="contact-name" style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;" data-i18n="contact_form_name_lbl">Name / Organization</label>
+                    <input type="text" id="contact-name" required placeholder="e.g. Acme Corp" style="width: 100%; padding: 10px 14px; background: rgba(8,13,26,0.6); border: 1px solid var(--border-color); border-radius: 8px; color: white;">
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label for="contact-email" style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;" data-i18n="contact_form_email_lbl">Email Address</label>
+                    <input type="email" id="contact-email" required placeholder="e.g. security@acme.com" style="width: 100%; padding: 10px 14px; background: rgba(8,13,26,0.6); border: 1px solid var(--border-color); border-radius: 8px; color: white;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label for="contact-type" style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;" data-i18n="contact_form_type_lbl">Message Type</label>
+                    <select id="contact-type" style="width: 100%; padding: 10px 14px; background: rgba(8,13,26,0.6); border: 1px solid var(--border-color); border-radius: 8px; color: white; outline: none; cursor: pointer;">
+                        <option value="general" data-i18n="contact_type_general">General Inquiry</option>
+                        <option value="false_positive" data-i18n="contact_type_fp">False Positive Report</option>
+                        <option value="threat" data-i18n="contact_type_threat">Report Threat / Phishing Site</option>
+                        <option value="partnership" data-i18n="contact_type_partner">Beta Partner Request</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom: 18px;">
+                    <label for="contact-message" style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;" data-i18n="contact_form_msg_lbl">Message Details</label>
+                    <textarea id="contact-message" required placeholder="Explain your inquiry, include domain details..." rows="4" style="width: 100%; padding: 10px 14px; background: rgba(8,13,26,0.6); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-family: inherit; resize: none;"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="contact_form_submit_btn">🚀 Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function handleContactSubmit(e) {
+        e.preventDefault();
+        alert("Thank you! Your security ticket has been received and queued.");
+        document.getElementById("contact-name").value = "";
+        document.getElementById("contact-email").value = "";
+        document.getElementById("contact-message").value = "";
+    }
+</script>
+{% endblock %}

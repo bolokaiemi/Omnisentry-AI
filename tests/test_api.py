@@ -65,3 +65,38 @@ def test_score():
 
     assert response.status_code == 200
 
+
+def test_admin_verify_success():
+    response = client.post(
+        "/api/admin/verify",
+        json={"password": "admin123"}
+    )
+    assert response.status_code == 200
+    assert response.json()["status"] == "success"
+
+
+def test_admin_verify_incorrect():
+    response = client.post(
+        "/api/admin/verify",
+        json={"password": "wrongpassword"}
+    )
+    assert response.status_code == 401
+    assert "Incorrect admin password" in response.json()["detail"]
+
+
+def test_about_page():
+    response = client.get("/about")
+    assert response.status_code == 200
+
+
+def test_contact_page():
+    response = client.get("/contact")
+    assert response.status_code == 200
+
+
+def test_services_page():
+    response = client.get("/services")
+    assert response.status_code == 200
+
+
+

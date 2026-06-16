@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+Omminsentiry AI - Services
+{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <header class="page-header">
+        <h2 data-i18n="services_page_title">🛠️ Services & Auditing Tiers</h2>
+        <p class="subtitle" data-i18n="services_page_subtitle">Explore our technical security checks, AI models, and endpoint monitoring services</p>
+    </header>
+
+    <!-- Services Grid -->
+    <div class="grid-cols">
+        <!-- Service 1: Real-time Scanning -->
+        <div class="card">
+            <h3 style="font-family: 'Outfit'; color: var(--accent); margin-bottom: 15px;">🔍 Real-time Scanner</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px;" data-i18n="services_scan_desc">
+                Execute instant audits on domain name health, WHOIS registration markers, and active security certificate status records.
+            </p>
+            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 10px;">Capabilities Included:</div>
+            <ul style="list-style-type: none; padding-left: 0; margin-bottom: 15px; font-size: 0.85rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 6px; padding-left: 12px; position: relative;"><span style="color: var(--accent); position: absolute; left: 0;">✔</span> SSL Protocol Checks</li>
+                <li style="margin-bottom: 6px; padding-left: 12px; position: relative;"><span style="color: var(--accent); position: absolute; left: 0;">✔</span> Geo-IP Pathing Checks</li>
+                <li style="margin-bottom: 6px; padding-left: 12px; position: relative;"><span style="color: var(--accent); position: absolute; left: 0;">✔</span> Typosquatting Audits</li>
+            </ul>
+            <a href="/" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="services_scan_btn">Launch Scanner</a>
+        </div>
+
+        <!-- Service 2: OmniPop Telemetry -->
+        <div class="card">
+            <h3 style="font-family: 'Outfit'; color: var(--primary); margin-bottom: 15px;">🍿 OmniPop Auditing</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px;" data-i18n="services_omnipop_desc">
+                Deploy lightweight Javascript rules to test page behaviors, monitor payment inputs security, and alert users of phishing signs.
+            </p>
+            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 10px;">Capabilities Included:</div>
+            <ul style="list-style-type: none; padding-left: 0; margin-bottom: 15px; font-size: 0.85rem; color: var(--text-secondary);">
+                <li style="margin-bottom: 6px; padding-left: 12px; position: relative;"><span style="color: var(--primary); position: absolute; left: 0;">✔</span> Behavior Auditing</li>
+                <li style="margin-bottom: 6px; padding-left: 12px; position: relative;"><span style="color: var(--primary); position: absolute; left: 0;">✔</span> Phishing Model Verifications</li>
+                <li style="margin-bottom: 6px; padding-left: 12px; position: relative;"><span style="color: var(--primary); position: absolute; left: 0;">✔</span> Payment Shield Simulator</li>
+            </ul>
+            <a href="/omnipop" class="btn btn-secondary" style="width: 100%; justify-content: center;" data-i18n="services_omnipop_btn">Open OmniPop</a>
+        </div>
+    </div>
+
+    <!-- Service 3: OmniRover Node -->
+    <div class="card">
+        <h3 style="font-family: 'Outfit'; color: var(--color-safe); margin-bottom: 15px;">🛡️ OmniRover Endpoint Scanner</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px;" data-i18n="services_rover_desc">
+            A background node that synchronizes with mobile devices. It intercepts traffic on DNS resolvers, monitors parental access permissions, and reports critical risk logs back to the dashboard via encrypted channels.
+        </p>
+        <div class="grid-cols" style="gap: 15px; margin-bottom: 20px;">
+            <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); padding: 15px; border-radius: 8px;">
+                <h4 style="font-family: 'Outfit'; font-size: 0.9rem; color: var(--text-primary); margin-bottom: 5px;">🔒 Encrypted Channels</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Uses advanced AES-256 block decryptions to securely transport device alerts.</p>
+            </div>
+            <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); padding: 15px; border-radius: 8px;">
+                <h4 style="font-family: 'Outfit'; font-size: 0.9rem; color: var(--text-primary); margin-bottom: 5px;">👨‍👩‍👧 Parental Locks</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Customizable filters to block domains with high threat ratings instantly.</p>
+            </div>
+        </div>
+        <a href="/dashboard" class="btn btn-secondary" style="width: 100%; justify-content: center;" data-i18n="services_rover_btn">Go to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
