@@ -225,7 +225,7 @@ Final security decisions remain the responsibility of the user.
 
 ## 📄 License
 
-This project is currently under development.
+This project is now completed and no longer under development.
 
-Copyright © Omminsentiry AI.
+Copyright © 2026, Ebi Emmeric-Adehor.
 All rights reserved.
