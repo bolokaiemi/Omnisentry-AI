@@ -178,7 +178,12 @@ const TRANSLATIONS = {
         "admin_login_forgot_alert": "For security reasons, password recovery must be handled by the system administrator. Hint: check the server configuration files or contact security@omminsentiry.ai.",
         "footer_links_title": "Quick Links",
         "footer_system_title": "System Info",
-        "footer_all_rights": "All rights reserved."
+        "footer_all_rights": "All rights reserved.",
+        "footer_launcher": "🍿 AB Omnin Century Launcher",
+        "footer_courses": "📚 Free Courses (W3Schools)",
+        "footer_masterschool": "🎓 Master School (Web Dev Career)",
+        "footer_linkedin": "💼 LinkedIn Profile",
+        "footer_audit_services": "Audit Services:"
     },
     es: {
         "nav_scanner": "🔍 Escáner",
@@ -354,7 +359,12 @@ const TRANSLATIONS = {
         "admin_login_forgot_alert": "Por razones de seguridad, la recuperación de la contraseña debe ser manejada por el administrador del sistema. Pista: verifique los archivos de configuración del servidor o contacte a security@omminsentiry.ai.",
         "footer_links_title": "Enlaces Rápidos",
         "footer_system_title": "Información del Sistema",
-        "footer_all_rights": "Todos los derechos reservados."
+        "footer_all_rights": "Todos los derechos reservados.",
+        "footer_launcher": "🍿 Lanzador AB Omnin Century",
+        "footer_courses": "📚 Cursos Gratuitos (W3Schools)",
+        "footer_masterschool": "🎓 Master School (Desarrollo Web)",
+        "footer_linkedin": "💼 Perfil de LinkedIn",
+        "footer_audit_services": "Servicios de Auditoría:"
     },
     fr: {
         "nav_scanner": "🔍 Scanner",
@@ -530,7 +540,12 @@ const TRANSLATIONS = {
         "admin_login_forgot_alert": "Pour des raisons de sécurité, la récupération du mot de passe doit être gérée par l'administrateur système. Astuce : vérifiez les fichiers de configuration du serveur ou contactez security@omminsentiry.ai.",
         "footer_links_title": "Liens Rapides",
         "footer_system_title": "Info Système",
-        "footer_all_rights": "Tous droits réservés."
+        "footer_all_rights": "Tous droits réservés.",
+        "footer_launcher": "🍿 Lanceur AB Omnin Century",
+        "footer_courses": "📚 Cours Gratuits (W3Schools)",
+        "footer_masterschool": "🎓 Master School (Développement Web)",
+        "footer_linkedin": "💼 Profil LinkedIn",
+        "footer_audit_services": "Services d'Audit :"
     },
     de: {
         "nav_scanner": "🔍 Scanner",
@@ -706,7 +721,12 @@ const TRANSLATIONS = {
         "admin_login_forgot_alert": "Aus Sicherheitsgründen muss die Passwortwiederherstellung vom Systemadministrator durchgeführt werden. Hinweis: Überprüfen Sie die Serverkonfigurationsdateien oder wenden Sie sich an security@omminsentiry.ai.",
         "footer_links_title": "Schnelle Links",
         "footer_system_title": "System-Info",
-        "footer_all_rights": "Alle Rechte vorbehalten."
+        "footer_all_rights": "Alle Rechte vorbehalten.",
+        "footer_launcher": "🍿 AB Omnin Century Launcher",
+        "footer_courses": "📚 Kostenlose Kurse (W3Schools)",
+        "footer_masterschool": "🎓 Master School (Webentwicklung)",
+        "footer_linkedin": "💼 LinkedIn-Profil",
+        "footer_audit_services": "Audit-Dienste:"
     },
     pt: {
         "nav_scanner": "🔍 Scanner",
@@ -882,7 +902,12 @@ const TRANSLATIONS = {
         "admin_login_forgot_alert": "Por razões de segurança, a recuperação da senha deve ser tratada pelo administrador do sistema. Dica: verifique os arquivos de configuração do servidor ou entre em contato com security@omminsentiry.ai.",
         "footer_links_title": "Links Rápidos",
         "footer_system_title": "Informações do Sistema",
-        "footer_all_rights": "Todos os direitos reservados."
+        "footer_all_rights": "Todos os direitos reservados.",
+        "footer_launcher": "🍿 Lançador AB Omnin Century",
+        "footer_courses": "📚 Cursos Gratuitos (W3Schools)",
+        "footer_masterschool": "🎓 Master School (Desenvolvimento Web)",
+        "footer_linkedin": "💼 Perfil do LinkedIn",
+        "footer_audit_services": "Serviços de Auditoria:"
     },
     zh: {
         "nav_scanner": "🔍 扫描器",
@@ -1058,7 +1083,12 @@ const TRANSLATIONS = {
         "admin_login_forgot_alert": "出于安全原因，密码重置必须由系统管理员处理。提示：请检查服务器配置文件或联系 security@omminsentiry.ai。",
         "footer_links_title": "快捷链接",
         "footer_system_title": "系统信息",
-        "footer_all_rights": "版权所有。"
+        "footer_all_rights": "版权所有。",
+        "footer_launcher": "🍿 AB Omnin Century 启动器",
+        "footer_courses": "📚 免费课程 (W3Schools)",
+        "footer_masterschool": "🎓 Master School (网页开发职业学校)",
+        "footer_linkedin": "💼 LinkedIn 领英主页",
+        "footer_audit_services": "安全审计服务："
     },
     ja: {
         "nav_scanner": "🔍 スキャナー",
@@ -1234,7 +1264,12 @@ const TRANSLATIONS = {
         "admin_login_forgot_alert": "セキュリティ上の理由から、パスワードの回復はシステム管理者が行う必要があります。ヒント：サーバーの構成ファイルを確認するか、security@omminsentiry.ai までお問い合わせください。",
         "footer_links_title": "クイックリンク",
         "footer_system_title": "システム情報",
-        "footer_all_rights": "All rights reserved."
+        "footer_all_rights": "All rights reserved.",
+        "footer_launcher": "🍿 AB Omnin Century ランチャー",
+        "footer_courses": "📚 無料コース (W3Schools)",
+        "footer_masterschool": "🎓 Master School (Web開発キャリア)",
+        "footer_linkedin": "💼 LinkedIn プロフィール",
+        "footer_audit_services": "監査サービス:"
     },
     yo: {
         "nav_scanner": "🔍 Ayẹwò",
@@ -1410,7 +1445,12 @@ const TRANSLATIONS = {
         "admin_login_forgot_alert": "Fun awọn idi aabo, imularada ọrọ igbaniwọle gbọdọ jẹ itọju nipasẹ alakoso eto. Imọran: ṣayẹwo awọn faili iṣeto olupin tabi kan si security@omminsentiry.ai.",
         "footer_links_title": "Awọn Ọna Asopọ Yara",
         "footer_system_title": "Alaye Eto",
-        "footer_all_rights": "Gbogbo ẹtọ wa ni ipamọ."
+        "footer_all_rights": "Gbogbo ẹtọ wa ni ipamọ.",
+        "footer_launcher": "🍿 AB Omnin Century Launcher",
+        "footer_courses": "📚 Awọn Ẹkọ Ọfẹ (W3Schools)",
+        "footer_masterschool": "🎓 Master School (Web Dev Career)",
+        "footer_linkedin": "💼 LinkedIn Profile",
+        "footer_audit_services": "Awọn Ayẹwò Iṣẹ:"
     }
 };
 

@@ -71,27 +71,45 @@
             {% endblock %}
         </main>
 
-        <footer class="main-footer">
-            <hr style="border: none; border-top: 1px solid var(--border-color); margin-bottom: 30px;">
-            <div class="footer-grid">
-                <div class="footer-col branding-col">
-                    <h4 class="footer-heading" data-i18n="footer_platform">Omminsentiry AI Security Platform</h4>
-                    <p class="footer-desc" data-i18n="footer_sub">SSL Analysis • WHOIS Audit • Typosquatting Scanning • Geolocation Geochecks</p>
+        <!-- Single Active Div Box just above the copyright footer -->
+        <div class="card footer-active-box">
+            <div class="footer-box-layout">
+                <!-- Column 1: Omminsentiry AI Platform & Audit Services -->
+                <div class="footer-box-col">
+                    <h4 class="footer-box-title" data-i18n="footer_platform">Omminsentiry AI Platform</h4>
+                    <p class="footer-box-subtitle" data-i18n="footer_audit_services">Audit Services:</p>
+                    <p class="footer-box-text" data-i18n="footer_sub">SSL Analysis • WHOIS Audit • Typosquatting Scanning • Geolocation Geochecks</p>
+                    
+                    <div class="footer-launchers" style="margin-top: 15px;">
+                        <a href="/omnipop" class="footer-launcher-link" data-i18n="footer_launcher">🍿 AB Omnin Century Launcher</a>
+                        <a href="https://www.w3schools.com" target="_blank" class="footer-launcher-link" data-i18n="footer_courses">📚 Free Courses (W3Schools)</a>
+                        <a href="https://www.masterschool.com" target="_blank" class="footer-launcher-link" data-i18n="footer_masterschool">🎓 Master School (Web Dev Career)</a>
+                    </div>
                 </div>
-                <div class="footer-col links-col">
-                    <h4 class="footer-heading" data-i18n="footer_links_title">Quick Links</h4>
-                    <ul class="footer-links-list">
+
+                <!-- Column 2: Quick Links & LinkedIn -->
+                <div class="footer-box-col">
+                    <h4 class="footer-box-title" data-i18n="footer_links_title">Quick Links</h4>
+                    <ul class="footer-box-links">
                         <li><a href="/about" data-i18n="nav_about">ℹ️ About</a></li>
                         <li><a href="/services" data-i18n="nav_services">🛠️ Services</a></li>
                         <li><a href="/contact" data-i18n="nav_contact">📞 Contact</a></li>
+                        <li><a href="https://www.linkedin.com" target="_blank" class="footer-linkedin-link" data-i18n="footer_linkedin">💼 LinkedIn Profile</a></li>
                     </ul>
                 </div>
-                <div class="footer-col system-col">
-                    <h4 class="footer-heading" data-i18n="footer_system_title">System Info</h4>
-                    <p class="system-text">Version 2.0.0 &bull; &copy; 2026</p>
-                    <p class="system-text" data-i18n="footer_all_rights">All rights reserved.</p>
+
+                <!-- Column 3: System Info -->
+                <div class="footer-box-col">
+                    <h4 class="footer-box-title" data-i18n="footer_system_title">System Info</h4>
+                    <p class="footer-box-text">Version 2.0.0 &bull; &copy; 2026</p>
+                    <p class="footer-box-text" data-i18n="footer_all_rights">All rights reserved.</p>
                 </div>
             </div>
+        </div>
+
+        <!-- Copyright Footer -->
+        <footer style="text-align: center; padding: 20px 0; font-size: 0.85rem; color: var(--text-muted);">
+            <p>&copy; 2026 Omminsentiry AI. All rights reserved.</p>
         </footer>
 
         <script>
