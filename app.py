@@ -472,9 +472,6 @@ async def ai_trust(domain: str):
         "trust_score": report["trust_score"],
         "prediction": int(prediction[0])
     }
-        "prediction":
-            int(prediction[0])
-    }
 
 #Phishing Detection
 @app.get("/ai/phishing")
