@@ -179,7 +179,7 @@ const TRANSLATIONS = {
         "footer_links_title": "Quick Links",
         "footer_system_title": "System Info",
         "footer_all_rights": "All rights reserved.",
-        "footer_launcher": "🍿 AB Omnin Century Launcher",
+        "footer_launcher": "🍿 EbiOmminisentiryLauncher",
         "footer_courses": "📚 Free Courses (W3Schools)",
         "footer_masterschool": "🎓 Master School (Web Dev Career)",
         "footer_linkedin": "💼 LinkedIn Profile",
