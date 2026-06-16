@@ -6,7 +6,7 @@ Omminsentiry AI - Security Check & Trust Verification
 
 {% block content %}
 <section class="search-section" style="text-align: center; margin-bottom: 50px;">
-    <p class="subtitle" style="font-size: 1.25rem; max-width: 600px; margin: 0 auto 30px auto; color: var(--text-secondary);">
+    <p class="subtitle" style="font-size: 1.25rem; max-width: 600px; margin: 0 auto 30px auto; color: var(--text-secondary);" data-i18n="scanner_subtitle">
         Verify the safety and trustworthiness of any website instantly using AI-powered domain audits, SSL checks, reputation engines, and location intelligence.
     </p>
 
@@ -15,10 +15,12 @@ Omminsentiry AI - Security Check & Trust Verification
             type="text"
             id="domain"
             placeholder="Enter a website domain (e.g. paypal.com, google.com)"
+            data-i18n-placeholder="search_placeholder"
             autocomplete="off"
             autofocus
         >
-        <button onclick="checkWebsite()">
+        <button type="button" id="voice-search-btn" class="mic-btn" title="Voice Search">🎤</button>
+        <button onclick="checkWebsite()" data-i18n="verify_btn">
             Verify Website
         </button>
     </div>
@@ -32,33 +34,33 @@ Omminsentiry AI - Security Check & Trust Verification
 
 <section class="features">
     <div class="feature-card" id="ssl-audit">
-        <h3>🔒 SSL Audit</h3>
-        <p>Verifies HTTPS configuration, certificate validity, expiration timestamps, and encryption algorithms.</p>
+        <h3 data-i18n="ssl_audit_title">🔒 SSL Audit</h3>
+        <p data-i18n="ssl_audit_desc">Verifies HTTPS configuration, certificate validity, expiration timestamps, and encryption algorithms.</p>
     </div>
 
     <div class="feature-card" id="domain-whois">
-        <h3>🌐 Domain & WHOIS</h3>
-        <p>Parses domain age, registrar details, nameservers, creation/expiration dates, and registry status keys.</p>
+        <h3 data-i18n="whois_title">🌐 Domain & WHOIS</h3>
+        <p data-i18n="whois_desc">Parses domain age, registrar details, nameservers, creation/expiration dates, and registry status keys.</p>
     </div>
 
     <div class="feature-card" id="reputation-engine">
-        <h3>⚡ Reputation Engine</h3>
-        <p>Scans for phishing terms, high-risk TLDs, typosquatting, brand impersonation, and pattern anomalies.</p>
+        <h3 data-i18n="reputation_title">⚡ Reputation Engine</h3>
+        <p data-i18n="reputation_desc">Scans for phishing terms, high-risk TLDs, typosquatting, brand impersonation, and pattern anomalies.</p>
     </div>
 
     <div class="feature-card" id="machine-learning">
-        <h3>📊 Machine Learning</h3>
-        <p>Calculates final trust scores and applies a Random Forest classifier to assess threat vectors.</p>
+        <h3 data-i18n="ml_title">📊 Machine Learning</h3>
+        <p data-i18n="ml_desc">Calculates final trust scores and applies a Random Forest classifier to assess threat vectors.</p>
     </div>
 </section>
 
 <section class="about-section" style="margin-top: 50px;">
     <div class="card" style="background: rgba(15,23,42,0.4); border-color: rgba(255,255,255,0.05);">
-        <h2 style="font-family: 'Outfit'; margin-bottom: 12px;">About Omminsentiry AI Security Audit</h2>
-        <p style="color: var(--text-secondary); margin-bottom: 15px;">
+        <h2 style="font-family: 'Outfit'; margin-bottom: 12px;" data-i18n="about_title">About Omminsentiry AI Security Audit</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 15px;" data-i18n="about_desc_1">
             The Omminsentiry AI platform delivers real-time cybersecurity risk intelligence by analyzing multiple public and technical data points of any web host. By parsing domain registration metrics, SSL trust chains, geo-routing metadata, and pattern matching threat models, we flag suspicious domains before they can steal credentials or execute malicious software.
         </p>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">
+        <p style="color: var(--text-muted); font-size: 0.9rem;" data-i18n="about_desc_2">
             * This tool is designed to support security teams and users in verifying domain hygiene. Geolocation data is resolved via standard public routing records.
         </p>
     </div>
@@ -66,7 +68,7 @@ Omminsentiry AI - Security Check & Trust Verification
 
 <!-- Beta Milestone & Feedback Hub -->
 <section id="beta-hub" style="margin-top: 50px; scroll-margin-top: 80px;">
-    <h2 style="font-family: 'Outfit', sans-serif; font-size: 2rem; margin-bottom: 25px; text-align: center; background: linear-gradient(135deg, #f8fafc 30%, #3b82f6 70%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+    <h2 style="font-family: 'Outfit', sans-serif; font-size: 2rem; margin-bottom: 25px; text-align: center; background: linear-gradient(135deg, #f8fafc 30%, #3b82f6 70%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" data-i18n="beta_hub_title">
         🎯 Pre-Registration Beta Milestone & Feedback Hub
     </h2>
     
@@ -74,15 +76,15 @@ Omminsentiry AI - Security Check & Trust Verification
         <!-- Left Column: Milestone Progress & Sharing -->
         <div class="beta-column">
             <div class="card milestone-card">
-                <h3 style="font-family: 'Outfit'; color: var(--accent); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                <h3 style="font-family: 'Outfit'; color: var(--accent); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;" data-i18n="milestone_title">
                     📈 5,000 Tester Milestone
                 </h3>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px;">
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px;" data-i18n="milestone_desc">
                     Help us validate Omminsentiry AI! Once we reach 5,000 active beta testers sharing positive reviews, we will officially register the platform and roll out production threat defenses.
                 </p>
                 
                 <div class="progress-info">
-                    <span style="font-weight: 700; font-size: 1.1rem; color: var(--text-primary);" id="progress-text">0 / 5,000 Testers</span>
+                    <span style="font-weight: 700; font-size: 1.1rem; color: var(--text-primary);"><span id="progress-text">0 / 5,000</span> <span data-i18n="milestone_progress_lbl">Beta Testers</span></span>
                     <span style="color: var(--color-safe); font-weight: 700;" id="progress-percent">0%</span>
                 </div>
                 
@@ -93,18 +95,18 @@ Omminsentiry AI - Security Check & Trust Verification
                 <div class="milestone-stats">
                     <div class="m-stat">
                         <span class="m-val" id="stat-scans">0</span>
-                        <span class="m-lbl">Total Scans Run</span>
+                        <span class="m-lbl" data-i18n="stat_scans_lbl">Total Scans Run</span>
                     </div>
                     <div class="m-stat">
                         <span class="m-val" id="stat-rating">0.0</span>
-                        <span class="m-lbl">Avg Rating ⭐</span>
+                        <span class="m-lbl" data-i18n="stat_rating_lbl">Avg Rating ⭐</span>
                     </div>
                 </div>
             </div>
             
             <div class="card share-card">
-                <h3 style="font-family: 'Outfit'; color: #3b82f6; margin-bottom: 12px;">📢 Share with Friends & Socials</h3>
-                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 18px;">
+                <h3 style="font-family: 'Outfit'; color: #3b82f6; margin-bottom: 12px;" data-i18n="share_title">📢 Share with Friends & Socials</h3>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 18px;" data-i18n="share_desc">
                     Copy our beta link or share directly to your circles to help us hit our pre-registration milestone faster!
                 </p>
                 
@@ -127,12 +129,12 @@ Omminsentiry AI - Security Check & Trust Verification
                 <!-- Referral Copier -->
                 <div class="copy-invite-box">
                     <input type="text" id="invite-link-val" value="" readonly>
-                    <button onclick="copyInviteLink()" id="btn-copy-invite">📋 Copy Link</button>
+                    <button onclick="copyInviteLink()" id="btn-copy-invite" data-i18n="copy_invite_btn">📋 Copy Link</button>
                 </div>
                 
                 <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px;">
-                    <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 5px; font-weight: 700;">🎥 Sharing on YouTube, TikTok & Instagram?</span>
-                    <span style="font-size: 0.75rem; color: var(--text-secondary);">Include: <strong style="color:var(--accent);">#OmminsentiryAI</strong> and the beta link in your video descriptions or bio links!</span>
+                    <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 5px; font-weight: 700;" data-i18n="video_share_title">🎥 Sharing on YouTube, TikTok & Instagram?</span>
+                    <span style="font-size: 0.75rem; color: var(--text-secondary);" data-i18n="video_share_desc">Include: <strong style="color:var(--accent);">#OmminsentiryAI</strong> and the beta link in your video descriptions or bio links!</span>
                 </div>
             </div>
         </div>
@@ -141,15 +143,15 @@ Omminsentiry AI - Security Check & Trust Verification
         <div class="beta-column">
             <!-- Review Form -->
             <div class="card review-form-card">
-                <h3 style="font-family: 'Outfit'; color: var(--text-primary); margin-bottom: 15px;">⭐ Write a Beta Review</h3>
+                <h3 style="font-family: 'Outfit'; color: var(--text-primary); margin-bottom: 15px;" data-i18n="write_review_title">⭐ Write a Beta Review</h3>
                 <form id="feedback-form" onsubmit="submitReview(event)">
                     <div style="margin-bottom: 15px;">
-                        <label for="review-name" style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;">Your Name</label>
-                        <input type="text" id="review-name" required placeholder="e.g. Alex M." style="width: 100%; padding: 10px 14px; background: rgba(8,13,26,0.6); border: 1px solid var(--border-color); border-radius: 8px; color: white;">
+                        <label for="review-name" style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;" data-i18n="review_name_lbl">Your Name</label>
+                        <input type="text" id="review-name" required placeholder="e.g. Alex M." data-i18n-placeholder="review_name_placeholder" style="width: 100%; padding: 10px 14px; background: rgba(8,13,26,0.6); border: 1px solid var(--border-color); border-radius: 8px; color: white;">
                     </div>
                     
                     <div style="margin-bottom: 15px;">
-                        <label style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;">Your Rating</label>
+                        <label style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;" data-i18n="review_rating_lbl">Your Rating</label>
                         <div class="rating-stars" id="rating-stars-input">
                             <span class="star-btn" data-value="1">★</span>
                             <span class="star-btn" data-value="2">★</span>
@@ -161,20 +163,23 @@ Omminsentiry AI - Security Check & Trust Verification
                     </div>
                     
                     <div style="margin-bottom: 18px;">
-                        <label for="review-comment" style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;">Your Comment / Review</label>
-                        <textarea id="review-comment" required placeholder="Let us know how Omminsentiry AI performed, bugs found, or feedback..." rows="3" style="width: 100%; padding: 10px 14px; background: rgba(8,13,26,0.6); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-family: inherit; resize: none;"></textarea>
+                        <label for="review-comment" style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;" data-i18n="review_comment_lbl">Your Comment / Review</label>
+                        <div class="comment-input-container" style="position: relative;">
+                            <textarea id="review-comment" required placeholder="Let us know how Omminsentiry AI performed, bugs found, or feedback..." data-i18n-placeholder="review_comment_placeholder" rows="3" style="width: 100%; padding: 10px 14px; padding-bottom: 38px; background: rgba(8,13,26,0.6); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-family: inherit; resize: none;"></textarea>
+                            <button type="button" id="voice-comment-btn" class="mic-btn-sm" title="Voice Input" style="position: absolute; bottom: 8px; right: 8px;">🎤 Speak</button>
+                        </div>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">🚀 Submit Review & Support Pre-Registration</button>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="submit_review_btn">🚀 Submit Review & Support Pre-Registration</button>
                 </form>
             </div>
             
             <!-- Reviews List Container -->
             <div class="card feedback-list-card">
-                <h3 style="font-family: 'Outfit'; color: var(--text-primary); margin-bottom: 15px;">💬 What Beta Testers Say</h3>
+                <h3 style="font-family: 'Outfit'; color: var(--text-primary); margin-bottom: 15px;" data-i18n="tester_reviews_title">💬 What Beta Testers Say</h3>
                 <div class="feedback-feed" id="feedback-feed">
                     <!-- Reviews load dynamically -->
-                    <div style="text-align: center; color: var(--text-muted); padding: 20px 0;">Loading reviews...</div>
+                    <div style="text-align: center; color: var(--text-muted); padding: 20px 0;" data-i18n="reviews_loading">Loading reviews...</div>
                 </div>
             </div>
         </div>

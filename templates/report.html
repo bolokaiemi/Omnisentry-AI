@@ -82,13 +82,13 @@ Omminsentiry AI Security Report - {{ report.domain }}
 {% block content %}
 <div class="header-actions print-hide">
     <div>
-        <h2>📊 Comprehensive Security Audit</h2>
-        <p class="subtitle">Detailed indicators and verified threat data</p>
+        <h2 data-i18n="report_audit_title">📊 Comprehensive Security Audit</h2>
+        <p class="subtitle" data-i18n="report_audit_sub">Detailed indicators and verified threat data</p>
     </div>
     <div style="display: flex; gap: 10px;">
-        <button onclick="window.print()" class="btn btn-secondary">🖨️ Print / Save PDF</button>
-        <button onclick="downloadJson()" class="btn btn-success">📥 Export JSON</button>
-        <a href="/" class="btn btn-primary" style="background:#2563eb; box-shadow:none;">🔄 New Scan</a>
+        <button onclick="window.print()" class="btn btn-secondary" data-i18n="btn_print_pdf">🖨️ Print / Save PDF</button>
+        <button onclick="downloadJson()" class="btn btn-success" data-i18n="btn_export_json">📥 Export JSON</button>
+        <a href="/" class="btn btn-primary" style="background:#2563eb; box-shadow:none;" data-i18n="btn_new_scan">🔄 New Scan</a>
     </div>
 </div>
 
@@ -142,23 +142,23 @@ Omminsentiry AI Security Report - {{ report.domain }}
                 </div>
             </div>
             
-            <h3 style="margin: 25px 0 15px 0; color: #3b82f6; font-family: 'Outfit';">Security Signals Breakdown</h3>
+            <h3 style="margin: 25px 0 15px 0; color: #3b82f6; font-family: 'Outfit';" data-i18n="signals_breakdown_title">Security Signals Breakdown</h3>
             
             <div class="grid-cols" style="margin-bottom: 0;">
                 <div>
-                    <h4 style="margin-bottom: 10px; color: var(--text-secondary);">WHOIS & Registration</h4>
-                    <div class="data-row"><strong>Registered:</strong> <span>{% if report.registered %}✅ Yes{% else %}❌ No{% endif %}</span></div>
-                    <div class="data-row"><strong>Domain Age:</strong> <span>{{ report.age_days }} days</span></div>
-                    <div class="data-row"><strong>Registrar:</strong> <span>{{ report.registrar or 'Unknown' }}</span></div>
-                    <div class="data-row"><strong>Created On:</strong> <span>{{ report.creation_date or 'Unknown' }}</span></div>
+                    <h4 style="margin-bottom: 10px; color: var(--text-secondary);" data-i18n="whois_registration_title">WHOIS & Registration</h4>
+                    <div class="data-row"><strong data-i18n="reg_status_lbl">Registered:</strong> <span>{% if report.registered %}✅ Yes{% else %}❌ No{% endif %}</span></div>
+                    <div class="data-row"><strong data-i18n="age_lbl">Domain Age:</strong> <span>{{ report.age_days }} days</span></div>
+                    <div class="data-row"><strong data-i18n="registrar_lbl">Registrar:</strong> <span>{{ report.registrar or 'Unknown' }}</span></div>
+                    <div class="data-row"><strong data-i18n="created_lbl">Created On:</strong> <span>{{ report.creation_date or 'Unknown' }}</span></div>
                     <div class="data-row"><strong>Expires On:</strong> <span>{{ report.expiration_date or 'Unknown' }}</span></div>
                     <div class="data-row"><strong>Last Updated:</strong> <span>{{ report.updated_date or 'Unknown' }}</span></div>
                 </div>
                 <div>
-                    <h4 style="margin-bottom: 10px; color: var(--text-secondary);">SSL & Connections</h4>
+                    <h4 style="margin-bottom: 10px; color: var(--text-secondary);" data-i18n="ssl_connections_title">SSL & Connections</h4>
                     <div class="data-row"><strong>HTTPS / SSL:</strong> <span>{% if report.ssl %}✅ Active{% else %}❌ Missing{% endif %}</span></div>
-                    <div class="data-row"><strong>IP Address:</strong> <span>{{ report.ip_address or 'Unknown' }}</span></div>
-                    <div class="data-row"><strong>ISP:</strong> <span>{{ report.isp or 'Unknown' }}</span></div>
+                    <div class="data-row"><strong data-i18n="ip_lbl">IP Address:</strong> <span>{{ report.ip_address or 'Unknown' }}</span></div>
+                    <div class="data-row"><strong data-i18n="isp_lbl">ISP:</strong> <span>{{ report.isp or 'Unknown' }}</span></div>
                     <div class="data-row"><strong>ASN:</strong> <span>{{ report.asn or 'Unknown' }}</span></div>
                     <div class="data-row"><strong>Registrar Status:</strong> <span style="font-size:0.85rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ report.status or 'Unknown' }}</span></div>
                 </div>
@@ -166,7 +166,7 @@ Omminsentiry AI Security Report - {{ report.domain }}
             
             {% if report.name_servers %}
             <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border-color);">
-                <h4 style="margin-bottom: 8px; color: var(--text-secondary);">Name Servers</h4>
+                <h4 style="margin-bottom: 8px; color: var(--text-secondary);" data-i18n="name_servers_title">Name Servers</h4>
                 <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                     {% for ns in report.name_servers %}
                         <span style="background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; border: 1px solid var(--border-color);">{{ ns }}</span>
@@ -177,7 +177,7 @@ Omminsentiry AI Security Report - {{ report.domain }}
         </div>
         
         <div class="card">
-            <h3 style="margin-bottom: 15px; color: #3b82f6; font-family: 'Outfit';">Security Risk Factors</h3>
+            <h3 style="margin-bottom: 15px; color: #3b82f6; font-family: 'Outfit';" data-i18n="risk_factors_title">Security Risk Factors</h3>
             <div class="factors-list">
                 {% if report.risk_factors %}
                     {% for factor in report.risk_factors %}
@@ -197,7 +197,7 @@ Omminsentiry AI Security Report - {{ report.domain }}
     <!-- Sidebar Details Column -->
     <div>
         <div class="card">
-            <h3 style="margin-bottom: 15px; color: #3b82f6; font-family: 'Outfit';">Server Geolocation</h3>
+            <h3 style="margin-bottom: 15px; color: #3b82f6; font-family: 'Outfit';" data-i18n="server_geo_title">Server Geolocation</h3>
             <div class="data-row"><strong>Country:</strong> <span>{{ report.country }}</span></div>
             <div class="data-row"><strong>City:</strong> <span>{{ report.city }}</span></div>
             <div class="data-row"><strong>Latitude:</strong> <span>{{ report.latitude or 'N/A' }}</span></div>
@@ -213,7 +213,7 @@ Omminsentiry AI Security Report - {{ report.domain }}
         </div>
         
         <div class="card">
-            <h3 style="margin-bottom: 10px; color: #3b82f6; font-family: 'Outfit';">🤖 AI Assessment Verdict</h3>
+            <h3 style="margin-bottom: 10px; color: #3b82f6; font-family: 'Outfit';" data-i18n="ai_assessment_title">🤖 AI Assessment Verdict</h3>
             {% if report.ai_prediction == 1 %}
                 <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 12px; padding: 20px; text-align: center;">
                     <div style="font-size: 2.5rem; margin-bottom: 10px;">🟢</div>
@@ -238,7 +238,7 @@ Omminsentiry AI Security Report - {{ report.domain }}
         </div>
         
         <div class="card" style="font-size: 0.85rem; color: var(--text-muted);">
-            <h4 style="margin-bottom: 6px; color: var(--text-secondary);">Disclaimer</h4>
+            <h4 style="margin-bottom: 6px; color: var(--text-secondary);" data-i18n="disclaimer_title">Disclaimer</h4>
             This audit report is generated algorithmically by checking open domain registries, certificate authorities, and IP location databases. Results are informational and do not represent absolute guarantees of website legitimacy.
         </div>
     </div>
