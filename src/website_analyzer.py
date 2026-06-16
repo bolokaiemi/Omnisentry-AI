@@ -1,4 +1,4 @@
-# Copyright (c) 2026, Ebi Emmerich-Adehor. All rights reserved.
+# Copyright (c) 2026, Ebi Emmrich-Adehor. All rights reserved.
 
 from src.domain_checker import check_domain
 from src.ssl_checker import check_ssl

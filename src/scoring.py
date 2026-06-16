@@ -1,4 +1,4 @@
-# Copyright (c) 2026, Ebi Emmerich-Adehor. All rights reserved.
+# Copyright (c) 2026, Ebi Emmrich-Adehor. All rights reserved.
 
 def calculate_score(age_days_or_info, ssl_status=None, reputation=None):
     score = 100

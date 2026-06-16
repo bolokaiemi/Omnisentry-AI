@@ -1,4 +1,4 @@
-# Copyright (c) 2026, Ebi Emmerich-Adehor. All rights reserved.
+# Copyright (c) 2026, Ebi Emmrich-Adehor. All rights reserved.
 
 import os
 import pickle
