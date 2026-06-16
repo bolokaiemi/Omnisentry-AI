@@ -46,10 +46,8 @@
                 <a href="/dashboard" class="nav-link" data-i18n="nav_dashboard">📊 Dashboard</a>
                 <a href="/omnipop" class="nav-link" data-i18n="nav_omnipop">🍿 OmniPop</a>
                 <a href="/map" class="nav-link" data-i18n="nav_map">🗺️ Threat Map</a>
-                <a href="/services" class="nav-link" data-i18n="nav_services">🛠️ Services</a>
-                <a href="/about" class="nav-link" data-i18n="nav_about">ℹ️ About</a>
-                <a href="/contact" class="nav-link" data-i18n="nav_contact">📞 Contact</a>
                 <a href="/#beta-hub" class="nav-link beta-highlight" data-i18n="nav_beta_hub">🎯 Beta Hub</a>
+                <a href="/admin/login" class="nav-link" id="nav-admin-auth" data-i18n="nav_admin_login">🔑 Admin Login</a>
                 
                 <!-- Language Switcher -->
                 <div class="lang-selector-container">
@@ -73,11 +71,48 @@
             {% endblock %}
         </main>
 
-        <footer>
-            <hr>
-            <p><strong data-i18n="footer_platform">Omminsentiry AI Security Platform</strong> &bull; Version 2.0.0 &bull; &copy; 2026</p>
-            <p style="color: var(--text-muted); font-size: 0.8rem;" data-i18n="footer_sub">SSL Analysis &bull; WHOIS Audit &bull; Typosquatting Scanning &bull; Geolocation Geochecks</p>
+        <footer class="main-footer">
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin-bottom: 30px;">
+            <div class="footer-grid">
+                <div class="footer-col branding-col">
+                    <h4 class="footer-heading" data-i18n="footer_platform">Omminsentiry AI Security Platform</h4>
+                    <p class="footer-desc" data-i18n="footer_sub">SSL Analysis • WHOIS Audit • Typosquatting Scanning • Geolocation Geochecks</p>
+                </div>
+                <div class="footer-col links-col">
+                    <h4 class="footer-heading" data-i18n="footer_links_title">Quick Links</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="/about" data-i18n="nav_about">ℹ️ About</a></li>
+                        <li><a href="/services" data-i18n="nav_services">🛠️ Services</a></li>
+                        <li><a href="/contact" data-i18n="nav_contact">📞 Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col system-col">
+                    <h4 class="footer-heading" data-i18n="footer_system_title">System Info</h4>
+                    <p class="system-text">Version 2.0.0 &bull; &copy; 2026</p>
+                    <p class="system-text" data-i18n="footer_all_rights">All rights reserved.</p>
+                </div>
+            </div>
         </footer>
+
+        <script>
+            (function() {
+                const isUnlocked = sessionStorage.getItem("admin_unlocked") === "true" || localStorage.getItem("admin_unlocked") === "true";
+                document.addEventListener("DOMContentLoaded", () => {
+                    const adminAuthBtn = document.getElementById("nav-admin-auth");
+                    if (adminAuthBtn && isUnlocked) {
+                        adminAuthBtn.setAttribute("data-i18n", "nav_admin_logout");
+                        adminAuthBtn.textContent = "🚪 Admin Logout";
+                        adminAuthBtn.href = "#";
+                        adminAuthBtn.addEventListener("click", (e) => {
+                            e.preventDefault();
+                            sessionStorage.removeItem("admin_unlocked");
+                            localStorage.removeItem("admin_unlocked");
+                            window.location.href = "/";
+                        });
+                    }
+                });
+            })();
+        </script>
     </div>
 
     <!-- Roving AI Mascot Scripts -->

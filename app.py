@@ -394,6 +394,17 @@ async def dashboard(request: Request):
     )
 
 
+@app.get("/admin/login")
+async def admin_login_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="admin_login.html",
+        context={
+            "request": request
+        }
+    )
+
+
 @app.get("/about")
 async def about_page(request: Request):
     return templates.TemplateResponse(

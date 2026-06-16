@@ -99,4 +99,10 @@ def test_services_page():
     assert response.status_code == 200
 
 
+def test_admin_login_page():
+    response = client.get("/admin/login")
+    assert response.status_code == 200
+
+
+
 
