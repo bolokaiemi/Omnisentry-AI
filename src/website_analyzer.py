@@ -7,13 +7,14 @@ from src.location_checker import get_location
 from src.scoring import calculate_score
 
 import pickle
+import os
 
 # ==========================================
 # LOAD MODEL
 # ==========================================
 
 try:
-    with open("models/trust_model.pkl", "rb") as f:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models", "trust_model.pkl"), "rb") as f:
         model = pickle.load(f)
 except Exception:
     model = None

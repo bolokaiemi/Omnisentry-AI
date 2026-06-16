@@ -41,7 +41,7 @@ from src.reputation_cache import (
 from backend.api_routes import router as backend_router
 import pickle
 
-with open("models/trust_model.pkl", "rb") as f:
+with open(os.path.join(BASE_DIR, "models", "trust_model.pkl"), "rb") as f:
     trust_model = pickle.load(f)
 
 with open("models/omnipop_model.pkl", "rb") as f:
