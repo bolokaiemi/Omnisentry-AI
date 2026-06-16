@@ -41,14 +41,18 @@ from src.reputation_cache import (
 from backend.api_routes import router as backend_router
 import pickle
 
-with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "trust_model.pkl"), "rb") as f:
-    trust_model = pickle.load(f)
+# Load ML models with safe error handling
+def _load_model(path):
+    try:
+        with open(path, "rb") as f:
+            return pickle.load(f)
+    except Exception as e:
+        print(f"[WARN] Failed to load model {os.path.basename(path)}: {e}")
+        return None
 
-with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "omnipop_model.pkl"), "rb") as f:
-    omnipop_model = pickle.load(f)
-
-with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "phishing_model.pkl"), "rb") as f:
-    phishing_model = pickle.load(f)
+trust_model = _load_model(os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "trust_model.pkl"))
+omnipop_model = _load_model(os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "omnipop_model.pkl"))
+phishing_model = _load_model(os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "phishing_model.pkl"))
 # ==========================================
 # LOAD ENV
 # ==========================================
@@ -97,6 +101,13 @@ app = FastAPI(
 )
 
 app.include_router(backend_router)
+
+from fastapi.responses import JSONResponse
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    print(f"[ERROR] Unhandled exception: {exc}")
+    return JSONResponse(status_code=500, content={"detail": str(exc)})
 
 # ==========================================
 # CORS
@@ -443,9 +454,9 @@ async def services_page(request: Request):
 
 @app.get("/ai/trust/{domain}")
 async def ai_trust(domain: str):
-
     report = analyze_website(domain)
-
+    if trust_model is None:
+        return {"success": False, "error": "Trust model not loaded"}
     prediction = trust_model.predict([
         [
             int(report["registered"]),
@@ -455,16 +466,12 @@ async def ai_trust(domain: str):
             report["trust_score"]
         ]
     ])
-
     return {
-
         "success": True,
-
         "domain": domain,
-
-        "trust_score":
-            report["trust_score"],
-
+        "trust_score": report["trust_score"],
+        "prediction": int(prediction[0])
+    }
         "prediction":
             int(prediction[0])
     }
