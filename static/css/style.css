@@ -819,28 +819,30 @@ hr {
 
 /* Feedback List cards */
 .feedback-feed {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
     max-height: 380px;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
     padding-right: 6px;
 }
 
 .feedback-card {
-    background: rgba(255, 255, 255, 0.01);
+    background: rgba(255, 255, 255, 0.02);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    transition: background 0.2s ease;
+    min-height: 150px;
+    transition: background 0.2s ease, transform 0.15s ease;
 }
 
 .feedback-card:hover {
-    background: rgba(255, 255, 255, 0.03);
-    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 .feedback-header {
