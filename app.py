@@ -450,13 +450,14 @@ async def services_page(request: Request):
 
 
 
-#Trust Prediction Route
-
+# Trust Prediction Route
 @app.get("/ai/trust/{domain}")
 async def ai_trust(domain: str):
     report = analyze_website(domain)
+
     if trust_model is None:
         return {"success": False, "error": "Trust model not loaded"}
+
     prediction = trust_model.predict([
         [
             int(report["registered"]),
@@ -466,13 +467,13 @@ async def ai_trust(domain: str):
             report["trust_score"]
         ]
     ])
+
     return {
         "success": True,
         "domain": domain,
         "trust_score": report["trust_score"],
         "prediction": int(prediction[0])
     }
-
 #Phishing Detection
 @app.get("/ai/phishing")
 async def phishing_test():
