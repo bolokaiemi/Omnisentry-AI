@@ -610,7 +610,21 @@ hr {
 }
 
 /* Responsive adjustments for small screens */
-@media (max-width: 480px) {
+
+    .beta-grid,
+    .beta-column,
+    .feedback-list-card,
+    .share-grid {
+        margin-left: 0;
+        width: 100%;
+    }
+    .card {
+        margin-left: 0;
+    }
+}
+    .beta-grid {
+        grid-template-columns: 1fr;
+    }
     .container {
         padding: 20px 10px;
     }

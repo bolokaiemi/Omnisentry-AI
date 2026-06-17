@@ -1,9 +1,46 @@
 import sqlite3
 import json
+import os
 from datetime import datetime
 
+# Database file paths
 FEEDBACK_DB = "database/feedback.db"
 REPORTS_DB = "database/reports.db"
+
+# Ensure the database directory exists
+os.makedirs(os.path.dirname(FEEDBACK_DB), exist_ok=True)
+
+# Initialize databases with required tables if they don't exist
+def _initialize_db():
+    # Feedback table
+    with sqlite3.connect(FEEDBACK_DB) as conn:
+        conn.execute("""
+        CREATE TABLE IF NOT EXISTS feedback (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
+            comment TEXT NOT NULL,
+            timestamp TEXT NOT NULL
+        );
+        """)
+        conn.commit()
+    # Reports table (basic schema used elsewhere)
+    with sqlite3.connect(REPORTS_DB) as conn:
+        conn.execute("""
+        CREATE TABLE IF NOT EXISTS reports (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            device_id TEXT NOT NULL,
+            domain TEXT NOT NULL,
+            risk_score INTEGER NOT NULL,
+            status TEXT NOT NULL,
+            threats TEXT,
+            timestamp TEXT
+        );
+        """)
+        conn.commit()
+
+_initialize_db()
+
 
 def add_feedback(name: str, rating: int, comment: str):
     conn = sqlite3.connect(FEEDBACK_DB)
