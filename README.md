@@ -1,8 +1,8 @@
-# 🛡️ Omminsentiry AI Trust Verification
+# 🛡️ Omnisentry AI Trust Verification
 
 ## 📌 Overview
 
-Omminsentiry AI is an AI-powered website trust verification system designed to help users stay safe online.
+Omnisentry AI is an AI-powered website trust verification system designed to help users stay safe online.
 
 It works as an intelligent security layer that analyzes websites in real time and provides trust insights before users interact with them.
 
