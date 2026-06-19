@@ -79,13 +79,13 @@ from src.website_analyzer import (
 async def lifespan(app: FastAPI):
 
     print("=" * 50)
-    print("Omminsentiry AI Started")
+    print("Omnisentry AI Started")
     print("=" * 50)
 
     yield
 
     print("=" * 50)
-    print("Omminsentiry AI Stopped")
+    print("Omnisentry AI Stopped")
     print("=" * 50)
 
 
@@ -94,7 +94,7 @@ async def lifespan(app: FastAPI):
 # ==========================================
 
 app = FastAPI(
-    title="Omminsentiry AI",
+    title="Omnisentry AI",
     description="AI Website Trust Verification",
     version="0.1.0",
     lifespan=lifespan
@@ -185,7 +185,7 @@ async def health():
             "online",
 
         "service":
-            "Omminsentiry AI",
+            "OmnisentryAI",
 
         "timestamp":
             datetime.utcnow().isoformat()
@@ -198,7 +198,7 @@ async def health():
 @app.get("/info")
 async def info():
     return {
-        "name": "Omminsentiry AI",
+        "name": "Omnisentry AI",
         "description": "AI Website Trust Verification System",
         "version": "0.1.0"
     }

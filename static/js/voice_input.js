@@ -1,5 +1,5 @@
 // ==========================================
-// OMMINSENTIRY AI
+// OMNINSENTRY AI
 // SPEECH RECOGNITION (VOICE INPUT) SYSTEM
 // ==========================================
 
@@ -15,7 +15,7 @@ class VoiceInputSystem {
         // Check browser support
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) {
-            console.warn("Omminsentiry AI Voice Input: Web Speech API is not supported in this browser.");
+            console.warn("Omnisentry AI Voice Input: Web Speech API is not supported in this browser.");
             // Gracefully hide mic buttons
             document.querySelectorAll(".mic-btn, .mic-btn-sm").forEach(btn => {
                 btn.style.display = "none";

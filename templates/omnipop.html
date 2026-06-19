@@ -402,7 +402,7 @@ async function downloadReportJson(domain) {
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `Omminsentiry_AI_Report_${domain}.json`;
+            a.download = Omnisentry_AI_Report_${domain}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

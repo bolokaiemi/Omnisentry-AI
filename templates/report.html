@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Omminsentiry AI Security Report - {{ report.domain }}
+Omnisentry AI Security Report - {{ report.domain }}
 {% endblock %}
 
 {% block head %}
@@ -254,7 +254,7 @@ Omminsentiry AI Security Report - {{ report.domain }}
         const scoreVal = "{{ report.trust_score }}";
         const riskLevel = "{{ report.risk_level }}";
         
-        let customText = `Website Security Report for ${domainStr} on Omminsentiry AI:\n`;
+        let customText = `Website Security Report for ${domainStr} on Omnisentry AI:\n`;
         if (riskLevel === 'SAFE') {
             customText += `🟢 SAFE (Score: ${scoreVal}/100). Verified secure certificate and registrations.`;
         } else {
@@ -299,7 +299,7 @@ Omminsentiry AI Security Report - {{ report.domain }}
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "Omminsentiry_Report_{{ report.domain }}.json";
+        a.download = "Omnisentry_Report_{{ report.domain }}.json";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

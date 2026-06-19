@@ -1,5 +1,5 @@
 // ==========================================
-// OMMINSENTIRY AI
+// OMNISENTRY AI
 // MAIN APPLICATION
 // ==========================================
 
@@ -158,8 +158,8 @@ async function checkWebsite() {
                 <div class="share-result-deck" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border-color); display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                     <span style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;" data-i18n="share_result_lbl">Share Result:</span>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <a href="https://api.whatsapp.com/send?text=${encodeURIComponent('Website Security Audit for ' + report.domain + ' on Omminsentiry AI:\n' + (report.risk_level === 'SAFE' ? '🟢 SAFE' : '⚠️ WARNING: ' + report.risk_level) + ' (Score: ' + report.trust_score + '/100).\nDetails: ' + window.location.origin + '/report/view/' + report.domain)}" class="share-btn-sm whatsapp" style="text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" target="_blank">💬 WhatsApp</a>
-                        <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent('Website Security Audit for ' + report.domain + ' on Omminsentiry AI:\n' + (report.risk_level === 'SAFE' ? '🟢 SAFE' : '⚠️ WARNING: ' + report.risk_level) + ' (Score: ' + report.trust_score + '/100).\nDetails: ' + window.location.origin + '/report/view/' + report.domain)}" class="share-btn-sm twitter" style="text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" target="_blank">🐦 X (Twitter)</a>
+                        <a href="https://api.whatsapp.com/send?text=${encodeURIComponent('Website Security Audit for ' + report.domain + ' on Omnisentry AI:\n' + (report.risk_level === 'SAFE' ? '🟢 SAFE' : '⚠️ WARNING: ' + report.risk_level) + ' (Score: ' + report.trust_score + '/100).\nDetails: ' + window.location.origin + '/report/view/' + report.domain)}" class="share-btn-sm whatsapp" style="text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" target="_blank">💬 WhatsApp</a>
+                        <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent('Website Security Audit for ' + report.domain + ' on Omnisentry AI:\n' + (report.risk_level === 'SAFE' ? '🟢 SAFE' : '⚠️ WARNING: ' + report.risk_level) + ' (Score: ' + report.trust_score + '/100).\nDetails: ' + window.location.origin + '/report/view/' + report.domain)}" class="share-btn-sm twitter" style="text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" target="_blank">🐦 X (Twitter)</a>
                         <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/report/view/' + report.domain)}" class="share-btn-sm facebook" style="text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" target="_blank">📘 Facebook</a>
                         <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.origin + '/report/view/' + report.domain)}" class="share-btn-sm linkedin" style="text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" target="_blank">💼 LinkedIn</a>
                     </div>
@@ -172,7 +172,7 @@ async function checkWebsite() {
 
         // Push desktop notification if permitted
         if ("Notification" in window && Notification.permission === "granted") {
-            const notifTitle = window.omniI18n ? window.omniI18n.translate('footer_platform', 'Omminsentiry AI Scan Complete') : 'Omminsentiry AI Scan Complete';
+            const notifTitle = window.omniI18n ? window.omniI18n.translate('footer_platform', 'Omnisentry AI Scan Complete') : 'Omnisentry AI Scan Complete';
             new Notification(notifTitle, {
                 body: `${report.domain} is classified as ${report.risk_level} (Score: ${report.trust_score}/100)`
             });
@@ -200,7 +200,7 @@ async function downloadReportJson(domain) {
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `Omminsentiry_AI_Report_${domain}.json`;
+            a.download = `Omnisentry_AI_Report_${domain}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

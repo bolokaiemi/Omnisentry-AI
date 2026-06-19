@@ -105,6 +105,51 @@ header h1 {
     position: relative;
 }
 
+/* Input wrapper for voice button */
+.search-box .input-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex: 1;
+    gap: 8px;
+}
+
+.search-box .input-wrapper input {
+    flex: 1;
+    padding-right: 3rem; /* space for mic button */
+}
+
+.search-box .input-wrapper {
+    position: relative;
+}
+
+.search-box .input-wrapper .voice-container {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.search-box .input-wrapper .voice-container .mic-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    box-shadow: none;
+    position: static;
+    right: auto;
+    top: auto;
+    transform: none;
+}
+
+
+
+
 .search-box input {
     flex: 1;
     background: rgba(15, 23, 42, 0.8);
@@ -966,11 +1011,27 @@ hr {
     transition: all 0.2s ease;
 }
 
-.mic-btn-sm:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--text-primary);
-    border-color: rgba(255, 255, 255, 0.12);
+.verify-btn {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    color: white;
+    font-weight: 600;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
 }
+
+.verify-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.5);
+    filter: brightness(1.1);
+}
+
+
 
 .mic-btn.listening,
 .mic-btn-sm.listening {

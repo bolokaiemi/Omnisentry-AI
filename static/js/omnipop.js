@@ -62,7 +62,7 @@ const OmniPop = {
         const pageContent = bodyText.substring(0, 3000); // Limit size for payload
 
         try {
-            // Post content to Omminsentiry AI threat detection endpoint
+            // Post content to Omnisentry AI threat detection endpoint
             const response = await fetch("/omnipop/threat-detect", {
                 method: "POST",
                 headers: {

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Omminsentiry AI - Security Check & Trust Verification
+Omnisentry AI - Security Check & Trust Verification
 {% endblock %}
 
 {% block content %}
@@ -11,18 +11,24 @@ Omminsentiry AI - Security Check & Trust Verification
     </p>
 
     <div class="search-box">
-        <input
-            type="text"
-            id="domain"
-            placeholder="Enter a website domain (e.g. paypal.com, google.com)"
-            data-i18n-placeholder="search_placeholder"
-            autocomplete="off"
-            autofocus
-        >
-        <button type="button" id="voice-search-btn" class="mic-btn" title="Voice Search">🎤</button>
-        <button onclick="checkWebsite()" data-i18n="verify_btn">
-            Verify Website
-        </button>
+        <div class="input-wrapper">
+            <input
+                type="text"
+                id="domain"
+                placeholder="Enter a website domain (e.g. paypal.com, google.com)"
+                data-i18n-placeholder="search_placeholder"
+                autocomplete="off"
+                autofocus>
+            <div class="voice-container">
+                <button type="button" id="voice-search-btn" class="mic-btn" title="Voice Search">🎤</button>
+            </div>
+        </div>
+        <div class="verify-container">
+            <button type="button"
+                onclick="checkWebsite()"
+                data-i18n="verify_btn"
+                class="verify-btn">Verify Website</button>
+        </div>
     </div>
 </section>
 
@@ -138,9 +144,9 @@ Omminsentiry AI - Security Check & Trust Verification
 
 <section class="about-section" style="margin-top: 50px;">
     <div class="card" style="background: rgba(15,23,42,0.4); border-color: rgba(255,255,255,0.05);">
-        <h2 style="font-family: 'Outfit'; margin-bottom: 12px;" data-i18n="about_title">About Omminsentiry AI Security Audit</h2>
+        <h2 style="font-family: 'Outfit'; margin-bottom: 12px;" data-i18n="about_title">About Omnisentry AI Security Audit</h2>
         <p style="color: var(--text-secondary); margin-bottom: 15px;" data-i18n="about_desc_1">
-            The Omminsentiry AI platform delivers real-time cybersecurity risk intelligence by analyzing multiple public and technical data points of any web host. By parsing domain registration metrics, SSL trust chains, geo-routing metadata, and pattern matching threat models, we flag suspicious domains before they can steal credentials or execute malicious software.
+            The Omnisentry AI platform delivers real-time cybersecurity risk intelligence by analyzing multiple public and technical data points of any web host. By parsing domain registration metrics, SSL trust chains, geo-routing metadata, and pattern matching threat models, we flag suspicious domains before they can steal credentials or execute malicious software.
         </p>
         <p style="color: var(--text-muted); font-size: 0.9rem;" data-i18n="about_desc_2">
             * This tool is designed to support security teams and users in verifying domain hygiene. Geolocation data is resolved via standard public routing records.
@@ -162,7 +168,7 @@ Omminsentiry AI - Security Check & Trust Verification
                     📈 5,000 Tester Milestone
                 </h3>
                 <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px;" data-i18n="milestone_desc">
-                    Help us validate Omminsentiry AI! Once we reach 5,000 active beta testers sharing positive reviews, we will officially register the platform and roll out production threat defenses.
+                    Help us validate Omnisentry AI! Once we reach 5,000 active beta testers sharing positive reviews, we will officially register the platform and roll out production threat defenses.
                 </p>
                 
                 <div class="progress-info">
@@ -216,7 +222,7 @@ Omminsentiry AI - Security Check & Trust Verification
                 
                 <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 8px;">
                     <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 5px; font-weight: 700;" data-i18n="video_share_title">🎥 Sharing on YouTube, TikTok & Instagram?</span>
-                    <span style="font-size: 0.75rem; color: var(--text-secondary);" data-i18n="video_share_desc">Include: <strong style="color:var(--accent);">#OmminsentiryAI</strong> and the beta link in your video descriptions or bio links!</span>
+                    <span style="font-size: 0.75rem; color: var(--text-secondary);" data-i18n="video_share_desc">Include: <strong style="color:var(--accent);">#OmnisentryAI</strong> and the beta link in your video descriptions or bio links!</span>
                 </div>
             </div>
         </div>
@@ -247,7 +253,7 @@ Omminsentiry AI - Security Check & Trust Verification
                     <div style="margin-bottom: 18px;">
                         <label for="review-comment" style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px;" data-i18n="review_comment_lbl">Your Comment / Review</label>
                         <div class="comment-input-container" style="position: relative;">
-                            <textarea id="review-comment" required placeholder="Let us know how Omminsentiry AI performed, bugs found, or feedback..." data-i18n-placeholder="review_comment_placeholder" rows="3" style="width: 100%; padding: 10px 14px; padding-bottom: 38px; background: rgba(8,13,26,0.6); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-family: inherit; resize: none;"></textarea>
+                            <textarea id="review-comment" required placeholder="Let us know how Omnisentry AI performed, bugs found, or feedback..." data-i18n-placeholder="review_comment_placeholder" rows="3" style="width: 100%; padding: 10px 14px; padding-bottom: 38px; background: rgba(8,13,26,0.6); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-family: inherit; resize: none;"></textarea>
                             <button type="button" id="voice-comment-btn" class="mic-btn-sm" title="Voice Input" style="position: absolute; bottom: 8px; right: 8px;">🎤 Speak</button>
                         </div>
                     </div>
@@ -297,7 +303,7 @@ Omminsentiry AI - Security Check & Trust Verification
         const currentUrl = window.location.origin;
         document.getElementById("invite-link-val").value = currentUrl;
         
-        const shareText = encodeURIComponent("Verify your security! Check out Omminsentiry AI - an amazing AI-powered website trust verification and threat auditing platform. Join their beta to help reach 5,000 testers: ");
+        const shareText = encodeURIComponent("Verify your security! Check out Omnisentry AI - an amazing AI-powered website trust verification and threat auditing platform. Join their beta to help reach 5,000 testers: ");
         const urlEncoded = encodeURIComponent(currentUrl);
         
         document.getElementById("share-whatsapp").href = `https://api.whatsapp.com/send?text=${shareText}${urlEncoded}`;

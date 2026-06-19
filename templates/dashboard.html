@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-OmniPop Dashboard | Omminsentiry AI
+OmniPop Dashboard | Omnisentry AI
 {% endblock %}
 
 {% block head %}
@@ -723,7 +723,7 @@ OmniPop Dashboard | Omminsentiry AI
                     <!-- Alert Notification banner overlay inside screen -->
                     <div class="phone-alert-banner" id="phone-alert">
                         <div class="phone-alert-title" id="phone-alert-title">
-                            ⚠️ OMMINSENTIRY WARNING
+                            ⚠️ OMNINSENTRY WARNING
                         </div>
                         <div class="phone-alert-desc" id="phone-alert-desc">
                             Critical threat detected on this page!
@@ -966,7 +966,7 @@ async function syncMockSettings() {
         const data = await response.json();
         if (data.status === "success") {
             msgDiv.style.color = "var(--color-safe)";
-            msgDiv.innerText = "✅ Device settings synchronized with Omminsentiry.";
+            msgDiv.innerText = "✅ Device settings synchronized with Omnisentry.";
             // Reload active devices card to show new settings tags
             await loadTelemetryData();
         } else {

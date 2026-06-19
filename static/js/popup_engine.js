@@ -1,5 +1,5 @@
 // ==========================================
-// OMMINSENTIRY AI
+// OMMNISENTRY AI
 // OMNIPOP POPUP ENGINE (ROVING AI MASCOT)
 // ==========================================
 

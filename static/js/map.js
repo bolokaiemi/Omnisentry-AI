@@ -2,7 +2,7 @@
 // MAP MODULE
 // ==========================================
 
-let omminsentiryMap = null;
+let omnisentryMap = null;
 
 function initializeMap() {
 
@@ -16,7 +16,7 @@ function initializeMap() {
         return;
     }
 
-    omminsentiryMap = L.map(
+   omnisentryMap = L.map(
         "map"
     ).setView(
         [0, 0],
@@ -29,7 +29,7 @@ function initializeMap() {
             maxZoom: 19
         }
     ).addTo(
-        omminsentiryMap
+        omnisentryMap
     );
 }
 
@@ -39,12 +39,12 @@ function updateMap(
     label
 ) {
 
-    if (!omminsentiryMap) {
+    if (! omnisentryMap) {
 
         return;
     }
 
-    omminsentiryMap.setView(
+     omnisentryMap.setView(
         [
             latitude,
             longitude
@@ -59,7 +59,7 @@ function updateMap(
         ]
     )
         .addTo(
-            omminsentiryMap
+            omnisentryMap
         )
         .bindPopup(
             label

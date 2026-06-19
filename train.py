@@ -1,4 +1,4 @@
-# Copyright (c) 2026, Ebi Emmrich-Adehor. All rights reserved.
+# Copyright (c) 2026, Ebi Emmerich-Adehor. All rights reserved.
 
 import os
 import pickle
@@ -13,7 +13,7 @@ from sklearn.metrics import accuracy_score
 # ==========================================
 
 print("=" * 50)
-print("Starting Omminsentiry AI Training")
+print("Starting Omnisentry AI Training")
 print("=" * 50)
 
 # ==========================================
