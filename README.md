@@ -178,7 +178,7 @@ A background threat intelligence system that continuously queries trusted securi
 * Fraudulent websites
 * Newly discovered threats
 
-The collected intelligence is fed back into the Omminsentiry AI trust verification engine to improve future security assessments and risk detection.
+The collected intelligence is fed back into the Omnisentry AI trust verification engine to improve future security assessments and risk detection.
 
 ---
 
