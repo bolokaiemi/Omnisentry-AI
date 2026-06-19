@@ -207,7 +207,7 @@ The collected intelligence is fed back into the Omminsentiry AI trust verificati
 
 ## ⚠️ Disclaimer
 
-Omminsentiry AI provides security assessments and risk estimations based on available information and analysis techniques.
+Omnisentry AI provides security assessments and risk estimations based on available information and analysis techniques.
 
 The platform does not guarantee that a website is completely safe or completely malicious.
 
