@@ -64,7 +64,7 @@ The system functions like a browser-based security assistant, inspecting domains
 
 ## 🛠️ Done So Far (Mobile Connected Security Ecosystem Integration)
 
-We have successfully migrated Omminsentiry AI from a website-only service into a full mobile-connected security ecosystem (App Store app + OmniRover + Backend). The following items are completed:
+We have successfully migrated Omnisentry AI from a website-only service into a full mobile-connected security ecosystem (App Store app + OmniRover + Backend). The following items are completed:
 
 1. **Ecosystem Cleanup**: Merged and consolidated the malformed ` omnirover` folder into the clean python package directory `omnirover/`, resolving Python package import issues.
 2. **Upgraded Relational Database Setup**: Expanded the schemas in `database/init_db.py` to support mobile device registration, platform tracking, live status, configurations (Parental Control, Payment Guard toggles), threat logging, and incident alerts linked directly to specific devices.
