@@ -8,7 +8,7 @@ from src.website_analyzer import analyze_website
 
 def run_tests():
     print("=" * 60)
-    print("OMMINSENTIRY AI SECURITY VERIFICATION TESTS")
+    print("OMNISENTRY AI SECURITY VERIFICATION TESTS")
     print("=" * 60)
 
     # Test cases:
