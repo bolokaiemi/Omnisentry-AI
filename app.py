@@ -8,6 +8,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
+app = FastAPI()
+
+templates = Jinja2Templates(directory="templates")
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 
@@ -777,6 +784,26 @@ async def cache_status():
 async def cache_clear():
 
     return clear_cache()
+
+
+
+from fastapi import Request
+
+@app.get("/impressum")
+def impressum(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="impressum.html",
+    )
+
+
+@app.get("/datenschutz")
+def datenschutz(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="datenschutz.html",
+    )
+
 # ==========================================
 # RUN
 # ==========================================

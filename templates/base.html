@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', path='css/omnipop.css') }}">
     <link rel="icon" type="image/png" href="{{ url_for('static', path='image/logo.png') }}">
-    
+    <link rel="stylesheet" href="{{ url_for('static', path='impressdaten.css') }}">
     <!-- Localization System -->
     <script src="/static/js/i18n.js"></script>
     {% block head %}
@@ -103,9 +103,15 @@
                     <h4 class="footer-box-title" data-i18n="footer_system_title">System Info</h4>
                     <p class="footer-box-text">Version 2.0.0 &bull; &copy; 2026</p>
                     <p class="footer-box-text" data-i18n="footer_all_rights">All rights reserved.</p>
+                     <div><a href="{{ url_for('impressum') }}" style="text-decoration: none;">Impressum</a></div>  <div><a href="{{ url_for('datenschutz') }}" style="text-decoration: none;">Datenschutz</a></div>
                 </div>
+
             </div>
+
         </div>
+
+    {% block impressum_content %}{% endblock %}
+{% block datenschutz_content %}{% endblock %}
 
         <!-- Copyright Footer -->
         <footer style="text-align: center; padding: 20px 0; font-size: 0.85rem; color: var(--text-muted);">
