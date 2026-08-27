@@ -231,3 +231,13 @@ window.onload = () => {
         });
     }
 };
+
+document.getElementById('register-link').addEventListener('click', function(event) {
+    event.preventDefault();
+    var registerForm = document.getElementById('register-form');
+    if (registerForm.style.display === 'none') {
+        registerForm.style.display = 'block';
+    } else {
+        registerForm.style.display = 'none';
+    }
+});

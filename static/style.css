@@ -3,6 +3,12 @@
    MAIN WEBSITE STYLES
    Namespaced to avoid conflicts
    ===================================================== */
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
 :root {
 
@@ -511,4 +517,83 @@
         font-size:
             32px;
     }
+}
+
+/* ---------------------------------------------------
+   AUTH CONTAINER & FORM STYLES
+   --------------------------------------------------- */
+.auth-container {
+    max-width: 420px;
+
+    margin: auto;
+    padding: 30px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px);
+    border-radius: var(--os-radius);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.auth-container h2 {
+    color: var(--os-primary);
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.8rem;
+}
+
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-container label {
+    font-weight: 500;
+    color: var(--os-dark);
+}
+
+.auth-container input {
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.auth-container input:focus {
+    outline: none;
+    border-color: var(--os-primary);
+}
+
+.auth-container button {
+    padding: 12px 20px;
+    background: var(--os-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.auth-container button:hover {
+    opacity: 0.9;
+}
+
+.auth-container p {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.auth-container a {
+    color: var(--os-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-container a:hover {
+    text-decoration: underline;
 }

@@ -1,18 +1,17 @@
 import sys
 import os
+
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse, RedirectResponse
+from starlette.middleware.sessions import SessionMiddleware
 
-app = FastAPI()
 
-templates = Jinja2Templates(directory="templates")
-
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 from contextlib import asynccontextmanager
@@ -77,6 +76,14 @@ OPENAI_API_KEY = os.getenv(
 from src.website_analyzer import (
     analyze_website
 )
+app = FastAPI()
+
+app.mount(
+    "/static",
+    StaticFiles(directory="static"),
+    name="static"
+)
+
 
 # ==========================================
 # LIFESPAN
@@ -802,6 +809,208 @@ def datenschutz(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="datenschutz.html",
+    )
+
+
+
+from starlette.middleware.sessions import SessionMiddleware
+from werkzeug.security import generate_password_hash, check_password_hash
+
+
+# ============================================================
+# FASTAPI APPLICATION (Removed duplicate)
+# ============================================================
+# Using the initial FastAPI instance defined earlier (lines 111-115).
+
+
+# ============================================================
+# SESSION CONFIGURATION
+# ============================================================
+
+app.add_middleware(
+    SessionMiddleware,
+    secret_key="your_secret_key_here"
+)
+
+
+# ============================================================
+# JINJA2 TEMPLATES
+# ============================================================
+
+# Duplicate Jinja2Templates configuration removed – using the earlier definition (lines 153-155).
+
+
+# ============================================================
+# MOCK DATABASE
+# ============================================================
+
+users = {}
+
+
+# ============================================================
+# REGISTER - GET
+# ============================================================
+
+@app.get(
+    "/register",
+    response_class=HTMLResponse
+)
+async def register_page(request: Request):
+
+    return templates.TemplateResponse(
+        "registration.html",
+        {
+            "request": request
+        }
+    )
+
+
+# ============================================================
+# REGISTER - POST
+# ============================================================
+
+@app.post("/register")
+async def register(
+    request: Request,
+    username: str = Form(...),
+    password: str = Form(...)
+):
+
+    # Check whether username already exists
+    if username in users:
+
+        return templates.TemplateResponse(
+            "registration.html",
+            {
+                "request": request,
+                "error": "Username already exists."
+            },
+            status_code=400
+        )
+
+    # Hash password
+    hashed_password = generate_password_hash(
+        password,
+        method="pbkdf2:sha256"
+    )
+
+    # Store user
+    users[username] = hashed_password
+
+    # Redirect to login
+    return RedirectResponse(
+        url="/login",
+        status_code=303
+    )
+
+
+# ============================================================
+# LOGIN - GET
+# ============================================================
+# ============================================================
+# LOGIN - GET
+# ============================================================
+
+@app.get("/login", response_class=HTMLResponse)
+async def login_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="login.html",
+        context={"request": request, "show_register": request.query_params.get('show') == 'register'}
+    )
+
+# ============================================================
+# LOGIN - POST
+# ============================================================
+
+@app.post("/login")
+async def login(
+    request: Request,
+    username: str = Form(...),
+    password: str = Form(...)
+):
+
+    # Find user
+    user_password = users.get(username)
+
+    # Validate credentials
+    if not user_password or not check_password_hash(
+        user_password,
+        password
+    ):
+
+        return templates.TemplateResponse(
+        "login.html",
+        {"request": request},
+        status_code=200,
+    )
+
+    # Store username in session
+    request.session["username"] = username
+
+    # Redirect to dashboard
+    return RedirectResponse(
+        url="/dashboard",
+        status_code=303
+    )
+
+
+# ============================================================
+# DASHBOARD
+# ============================================================
+
+@app.get(
+    "/dashboard",
+    response_class=HTMLResponse
+)
+async def dashboard(request: Request):
+
+    username = request.session.get("username")
+
+    # User is not authenticated
+    if not username:
+
+        return RedirectResponse(
+            url="/login",
+            status_code=303
+        )
+
+    return templates.TemplateResponse(
+        "dashboard.html",
+        {
+            "request": request,
+            "username": username
+        }
+    )
+
+
+# ============================================================
+# LOGOUT
+# ============================================================
+
+@app.get("/logout")
+async def logout(request: Request):
+
+    # Remove username from session
+    request.session.pop("username", None)
+
+    # Redirect to login
+    return RedirectResponse(
+        url="/login",
+        status_code=303
+    )
+
+
+# ============================================================
+# HOME
+# ============================================================
+
+@app.get("/")
+async def home():
+
+    return RedirectResponse(
+        url="/login",
+        status_code=303
     )
 
 # ==========================================

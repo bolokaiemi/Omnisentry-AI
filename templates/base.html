@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='image/favicon.ico') }}">
     <!-- Main Style Sheet -->
     <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', path='css/omnipop.css') }}">
@@ -47,8 +47,14 @@
                 <a href="/omnipop" class="nav-link" data-i18n="nav_omnipop">🍿 OmniPop</a>
                 <a href="/map" class="nav-link" data-i18n="nav_map">🗺️ Threat Map</a>
                 <a href="/#beta-hub" class="nav-link beta-highlight" data-i18n="nav_beta_hub">🎯 Beta Hub</a>
-                <a href="/admin/login" class="nav-link" id="nav-admin-auth" data-i18n="nav_admin_login">🔑 Admin Login</a>
-                
+                <!--<a href="/admin/login" class="nav-link" id="nav-admin-auth" data-i18n="nav_admin_login">🔑 Admin Login</a>-->
+
+                {% if request.session.get('username') %}
+    <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+{% else %}
+    <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+{% endif %}
+
                 <!-- Language Switcher -->
                 <div class="lang-selector-container">
                     🌐
@@ -112,6 +118,8 @@
 
     {% block impressum_content %}{% endblock %}
 {% block datenschutz_content %}{% endblock %}
+    {% block login_content %}{% endblock %}
+    {% block registration_content %}{% endblock %}
 
         <!-- Copyright Footer -->
         <footer style="text-align: center; padding: 20px 0; font-size: 0.85rem; color: var(--text-muted);">
