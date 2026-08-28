@@ -10,3 +10,4 @@ scikit-learn
 gunicorn
 itsdangerous
 werkzeug
+python-multipart
