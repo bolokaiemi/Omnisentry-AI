@@ -135,6 +135,20 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+# Authentication middleware: redirect unauthenticated users to login page
+@app.middleware("http")
+async def auth_middleware(request: Request, call_next):
+    # Paths that are publicly accessible
+    public_paths = {"/login", "/login_page", "/admin/login", "/about", "/contact", "/services", "/impressum", "/datenschutz", "/static", "/health", "/info"}
+    # Allow static files, API routes, and omnipop endpoints
+    if request.url.path.startswith("/static") or request.url.path.startswith("/api") or request.url.path.startswith("/omnipop"):
+        return await call_next(request)
+    if request.url.path not in public_paths and not request.session.get("username"):
+        # Redirect to login page
+        return RedirectResponse(url="/login_page")
+    response = await call_next(request)
+    return response
+
 # ==========================================
 # STATIC & TEMPLATES
 # ==========================================
@@ -158,6 +172,8 @@ templates = Jinja2Templates(
 # ==========================================
 
 @app.get("/")
+async def home(request: Request):
+    return RedirectResponse(url="/login_page")
 async def home(
     request: Request
     ):
@@ -918,6 +934,10 @@ async def login_page(request: Request):
         name="login.html",
         context={"request": request, "show_register": request.query_params.get('show') == 'register'}
     )
+
+@app.get("/login_page", response_class=HTMLResponse)
+async def login_page_alias(request: Request):
+    return await login_page(request)
 
 # ============================================================
 # LOGIN - POST
