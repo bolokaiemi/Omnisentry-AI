@@ -145,7 +145,7 @@ async def auth_middleware(request: Request, call_next):
         return await call_next(request)
     if request.url.path not in public_paths and not request.session.get("username"):
         # Redirect to login page
-        return RedirectResponse(url="/login_page")
+        return RedirectResponse(url="/login")
     response = await call_next(request)
     return response
 
@@ -886,21 +886,17 @@ async def register_page(request: Request):
 # ============================================================
 
 @app.post("/register")
-async def register(
-    request: Request,
-    username: str = Form(...),
-    password: str = Form(...)
-):
+async def register(request: Request):
+    # Parse form data manually to avoid FastAPI Form validation issues
+    form = await request.form()
+    username = str(form.get('username'))
+    password = str(form.get('password'))
 
     # Check whether username already exists
     if username in users:
-
         return templates.TemplateResponse(
             "registration.html",
-            {
-                "request": request,
-                "error": "Username already exists."
-            },
+            {"request": request, "error": "Username already exists."},
             status_code=400
         )
 
@@ -910,14 +906,11 @@ async def register(
         method="pbkdf2:sha256"
     )
 
-    # Store user
+    # Store user (ensure username is hashable string)
     users[username] = hashed_password
 
-    # Redirect to login
-    return RedirectResponse(
-        url="/login",
-        status_code=303
-    )
+    # Redirect to login page
+    return RedirectResponse(url="/login", status_code=303)
 
 
 # ============================================================
@@ -944,35 +937,29 @@ async def login_page_alias(request: Request):
 # ============================================================
 
 @app.post("/login")
-async def login(
-    request: Request,
-    username: str = Form(...),
-    password: str = Form(...)
-):
+async def login(request: Request):
+    # Parse form data manually to avoid FastAPI Form validation issues
+    form = await request.form()
+    username = str(form.get('username'))
+    password = str(form.get('password'))
 
     # Find user
     user_password = users.get(username)
 
     # Validate credentials
-    if not user_password or not check_password_hash(
-        user_password,
-        password
-    ):
-
+    if not user_password or not check_password_hash(user_password, password):
         return templates.TemplateResponse(
-        "login.html",
-        {"request": request},
-        status_code=200,
-    )
+            request=request,
+            name="login.html",
+            context={"request": request, "error": "Invalid credentials"},
+            status_code=200,
+        )
 
     # Store username in session
     request.session["username"] = username
 
     # Redirect to dashboard
-    return RedirectResponse(
-        url="/dashboard",
-        status_code=303
-    )
+    return RedirectResponse(url="/dashboard", status_code=303)
 
 
 # ============================================================
