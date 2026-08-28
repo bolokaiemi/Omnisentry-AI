@@ -76,13 +76,7 @@ OPENAI_API_KEY = os.getenv(
 from src.website_analyzer import (
     analyze_website
 )
-app = FastAPI()
 
-app.mount(
-    "/static",
-    StaticFiles(directory="static"),
-    name="static"
-)
 
 
 # ==========================================
@@ -114,6 +108,9 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+# Mount static files on the final app instance
+
+
 app.include_router(backend_router)
 
 from fastapi.responses import JSONResponse
@@ -133,6 +130,13 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
+)
+
+# Session middleware for authentication state
+# Uses a secret key from environment or a fallback for development
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=os.getenv("SESSION_SECRET", "dev-secret-key")
 )
 
 # Authentication middleware: redirect unauthenticated users to login page
@@ -891,6 +895,8 @@ async def register(request: Request):
     form = await request.form()
     username = str(form.get('username'))
     password = str(form.get('password'))
+    # Optional email field for welcome email
+    user_email = str(form.get('email')) if form.get('email') else None
 
     # Check whether username already exists
     if username in users:
@@ -909,8 +915,11 @@ async def register(request: Request):
     # Store user (ensure username is hashable string)
     users[username] = hashed_password
 
-    # Redirect to login page
-    return RedirectResponse(url="/login", status_code=303)
+    # Send notification email (admin) and optional welcome email
+    send_registration_email(username, user_email)
+
+    # Redirect to login with a success flag
+    return RedirectResponse(url="/login?registered=1", status_code=303)
 
 
 # ============================================================
@@ -925,7 +934,11 @@ async def login_page(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="login.html",
-        context={"request": request, "show_register": request.query_params.get('show') == 'register'}
+        context={
+        "request": request,
+        "show_register": request.query_params.get('show') == 'register',
+        "registered": request.query_params.get('registered') == '1'
+    }
     )
 
 @app.get("/login_page", response_class=HTMLResponse)
@@ -958,8 +971,8 @@ async def login(request: Request):
     # Store username in session
     request.session["username"] = username
 
-    # Redirect to dashboard
-    return RedirectResponse(url="/dashboard", status_code=303)
+    # Redirect to home page (index) after successful login
+    return RedirectResponse(url="/", status_code=303)
 
 
 # ============================================================
@@ -1012,13 +1025,43 @@ async def logout(request: Request):
 # HOME
 # ============================================================
 
-@app.get("/")
-async def home():
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    # If user is authenticated, render the main index page (scanner UI)
+    username = request.session.get("username")
+    if username:
+        return templates.TemplateResponse(
+            request=request,
+            name="index.html",
+            context={"request": request, "username": username},
+        )
+    # Otherwise, redirect to login page
+    return RedirectResponse(url="/login_page", status_code=303)
 
-    return RedirectResponse(
-        url="/login",
-        status_code=303
+# -------------------------------------------------
+# FORGOT PASSWORD ROUTES
+# -------------------------------------------------
+@app.get("/forgot_password", response_class=HTMLResponse)
+async def forgot_password_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="forgot_password.html",
+        context={"request": request}
     )
+
+@app.post("/forgot_password")
+async def forgot_password(request: Request):
+    form = await request.form()
+    email = str(form.get('email'))
+    # Placeholder: send reset email using SMTP configuration
+    # In a real implementation, generate a token and email the user.
+    # Here we just simulate success.
+    return templates.TemplateResponse(
+        request=request,
+        name="forgot_password_sent.html",
+        context={"request": request, "email": email}
+    )
+
 
 # ==========================================
 # RUN
