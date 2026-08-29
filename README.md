@@ -238,6 +238,7 @@ Users should always exercise caution when:
 * Downloading files
 * Installing software
 * Making online payments
+* The tool is provided "as is" without any warranties or guarantees.
 
 Final security decisions remain the responsibility of the user.
 
