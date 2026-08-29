@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<<<<<<< HEAD
 <div class="page-container" style="max-width: 480px; margin: 40px auto;">
     <div class="card glass-login-card" style="padding: 30px; background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
         {% if request.session.get('username') %}
@@ -56,5 +57,42 @@
             {% endif %}
         {% endif %}
     </div>
+=======
+<div class="auth-page-container">
+    {% if request.session.get('username') %}
+        <h2>Account Status</h2>
+        <p>You are currently logged in.</p>
+        <form action="{{ url_for('logout') }}" method="POST">
+            <button type="submit">Logout</button>
+        </form>
+    {% else %}
+    {% if show_register %}
+        <h2>Registration Page</h2>
+        <form action="{{ url_for('register') }}" method="POST">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="{{ url_for('login_page') }}">Login</a></p>
+    {% else %}
+        <h2>Login Page</h2>
+        <form action="{{ url_for('login') }}" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <a href="{{ url_for('forgot_password_page') }}" class="forgot-link" style="font-size:0.9rem; margin-left:5px;">Forgot password?</a>
+<button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="{{ url_for('login_page') }}?show=register">Register</a></p>
+    {% endif %}
+{% endif %}
+>>>>>>> 3f6b21a57f6716205f40ea7a0f9a748cc66070f8
 </div>
 {% endblock %}
