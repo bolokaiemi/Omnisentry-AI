@@ -201,7 +201,27 @@ The collected intelligence is fed back into the Omnisentry AI trust verification
 
 * HTML5
 * CSS3
-* JavaScript
+* JavaScript## 📧 Email Configuration (Optional)
+
+The application can send confirmation emails using **fastapi-mail**. The library is optional – the app will run without it.
+
+- To enable email functionality, install the dependency:
+
+```bash
+pip install fastapi-mail
+```
+
+- Provide the required environment variables (or edit the defaults in `app.py`):
+
+```
+MAIL_USERNAME=your_smtp_user
+MAIL_PASSWORD=your_smtp_password
+MAIL_FROM=your_from_address
+MAIL_SERVER=smtp.example.com
+MAIL_PORT=587
+```
+
+If the package is not installed, the email‑sending code is silently skipped.
 
 ---
 

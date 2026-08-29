@@ -11,11 +11,165 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, RedirectResponse
 from starlette.middleware.sessions import SessionMiddleware
 
+try:
+    from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+except ImportError:  # pragma: no cover
+    FastMail = None
+    MessageSchema = None
+    ConnectionConfig = None
+from pydantic import EmailStr
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+
+
+# ============================================================
+# FASTAPI-MAIL CONFIGURATION
+# ============================================================
+
+if ConnectionConfig and FastMail:
+    mail_config = ConnectionConfig(
+        MAIL_USERNAME=os.getenv("MAIL_USERNAME", "test_user@example.com"),
+        MAIL_PASSWORD=os.getenv("MAIL_PASSWORD", "testpassword"),
+        MAIL_FROM=os.getenv("MAIL_FROM", "test_user@example.com"),
+        MAIL_PORT=int(os.getenv("MAIL_PORT", 587)),
+        MAIL_SERVER=os.getenv("MAIL_SERVER", "smtp.example.com"),
+        MAIL_STARTTLS=True,
+        MAIL_SSL_TLS=False,
+        USE_CREDENTIALS=True,
+        VALIDATE_CERTS=True,
+    )
+else:
+    mail_config = None
+
+
+# ============================================================
+# CONFIRMATION EMAIL
+# ============================================================
+
+async def send_confirmation_email(
+    email: EmailStr,
+    username: str,
+    confirmation_token: str
+):
+    confirmation_link = (
+        f"http://localhost:8000/confirm-email/"
+        f"{confirmation_token}"
+    )
+
+    html_content = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Confirm Your Email</title>
+    </head>
+
+    <body style="
+        margin: 0;
+        padding: 0;
+        background-color: #f4f7fb;
+        font-family: Arial, sans-serif;
+    ">
+
+        <div style="
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        ">
+
+            <h1 style="
+                color: #2563eb;
+                text-align: center;
+            ">
+                Welcome!
+            </h1>
+
+            <h2>
+                Hello {username},
+            </h2>
+
+            <p style="
+                font-size: 16px;
+                line-height: 1.6;
+                color: #444;
+            ">
+                Thank you for registering with our platform.
+                Please confirm your email address to activate
+                your account.
+            </p>
+
+            <div style="text-align: center; margin: 30px 0;">
+
+                <a href="{confirmation_link}"
+                   style="
+                       display: inline-block;
+                       padding: 14px 28px;
+                       background-color: #2563eb;
+                       color: #ffffff;
+                       text-decoration: none;
+                       border-radius: 8px;
+                       font-weight: bold;
+                   ">
+                    Confirm My Email
+                </a>
+
+            </div>
+
+            <p style="
+                font-size: 14px;
+                color: #777;
+                line-height: 1.5;
+            ">
+                If you did not create an account, you can safely
+                ignore this email.
+            </p>
+
+            <hr style="
+                border: 0;
+                border-top: 1px solid #eeeeee;
+                margin: 30px 0;
+            ">
+
+            <p style="
+                text-align: center;
+                font-size: 12px;
+                color: #999;
+            ">
+                © 2026 Your Platform. All rights reserved.
+            </p>
+
+        </div>
+
+    </body>
+    </html>
+    """
+
+    message = MessageSchema(
+        subject="Confirm Your Email Address",
+        recipients=[email],
+        body=html_content,
+        subtype="html",
+    )
+
+    if mail_config and FastMail:
+        fast_mail = FastMail(mail_config)
+        await fast_mail.send_message(message)
+
+
+
+
+
+
 
 
 
 from contextlib import asynccontextmanager
-from dotenv import load_dotenv
 
 from datetime import datetime
 import os
@@ -63,8 +217,6 @@ phishing_model = _load_model(os.path.join(os.path.dirname(os.path.abspath(__file
 # LOAD ENV
 # ==========================================
 
-load_dotenv()
-
 OPENAI_API_KEY = os.getenv(
     "OPENAI_API_KEY"
 )
@@ -76,13 +228,8 @@ OPENAI_API_KEY = os.getenv(
 from src.website_analyzer import (
     analyze_website
 )
-app = FastAPI()
+# Removed duplicate FastAPI app initialization and static mount; using the later defined app with lifespan and proper middleware.
 
-app.mount(
-    "/static",
-    StaticFiles(directory="static"),
-    name="static"
-)
 
 
 # ==========================================
@@ -107,6 +254,7 @@ async def lifespan(app: FastAPI):
 # APP
 # ==========================================
 
+# Removed earlier FastAPI initialization (duplicate app instance).
 app = FastAPI(
     title="Omnisentry AI",
     description="AI Website Trust Verification",
@@ -114,7 +262,37 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+
+# ==============================
+# SESSION MIDDLEWARE
+# ==============================
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=os.getenv("SECRET_KEY", "change-this-secret-key")
+)
 app.include_router(backend_router)
+
+
+# ==============================
+# AUTH DEPENDENCY
+# ==============================
+from fastapi import Depends, HTTPException
+from fastapi.responses import RedirectResponse
+
+def require_auth(request: Request):
+    """
+    Protect a route with the current login session.
+
+    FastAPI dependencies cannot stop route execution merely by returning
+    a RedirectResponse, so raise an HTTP 303 with a Location header.
+    """
+    if not request.session.get("username"):
+        raise HTTPException(
+            status_code=303,
+            headers={"Location": "/login"}
+        )
+    return True
+
 
 from fastapi.responses import JSONResponse
 
@@ -175,6 +353,7 @@ async def home(
 
 @app.get("/map")
 async def map_page(
+
     request: Request
 ):
 
@@ -407,7 +586,7 @@ async def omnipop_page(request: Request):
             "request": request
         }
     )
-@app.get("/dashboard")
+@app.get("/dashboard", dependencies=[Depends(require_auth)])
 async def dashboard(request: Request):
 
     return templates.TemplateResponse(
@@ -813,24 +992,18 @@ def datenschutz(request: Request):
 
 
 
-from starlette.middleware.sessions import SessionMiddleware
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
 # ============================================================
 # FASTAPI APPLICATION (Removed duplicate)
 # ============================================================
-# Using the initial FastAPI instance defined earlier (lines 111-115).
+# Using the single FastAPI instance defined above.
 
 
 # ============================================================
-# SESSION CONFIGURATION
-# ============================================================
 
-app.add_middleware(
-    SessionMiddleware,
-    secret_key="your_secret_key_here"
-)
 
 
 # ============================================================
@@ -842,9 +1015,19 @@ app.add_middleware(
 
 # ============================================================
 # MOCK DATABASE
+users = {}  # in-memory user store
 # ============================================================
 
-users = {}
+import uuid
+reset_tokens = {}  # in-memory token store
+
+
+
+
+
+from fastapi import FastAPI, Request
+from starlette.middleware.sessions import SessionMiddleware
+
 
 
 # ============================================================
@@ -863,6 +1046,8 @@ async def register_page(request: Request):
             "request": request
         }
     )
+
+
 
 
 # ============================================================
@@ -912,11 +1097,12 @@ async def register(
 # ============================================================
 
 @app.get("/login", response_class=HTMLResponse)
+
 async def login_page(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="login.html",
-        context={"request": request, "show_register": request.query_params.get('show') == 'register'}
+        context={"show_register": request.query_params.get('show') == 'register'}
     )
 
 # ============================================================
@@ -927,7 +1113,7 @@ async def login_page(request: Request):
 async def login(
     request: Request,
     username: str = Form(...),
-    password: str = Form(...)
+    password: str = Form(...),
 ):
 
     # Find user
@@ -938,21 +1124,101 @@ async def login(
         user_password,
         password
     ):
-
         return templates.TemplateResponse(
-        "login.html",
-        {"request": request},
-        status_code=200,
-    )
+            "login.html",
+            {"request": request},
+            status_code=200,
+        )
 
     # Store username in session
     request.session["username"] = username
 
     # Redirect to dashboard
-    return RedirectResponse(
-        url="/dashboard",
-        status_code=303
+    return RedirectResponse(url="/dashboard", status_code=303)
+
+# ============================================================
+# FORGOT PASSWORD - GET
+# ============================================================
+
+@app.get("/forgot_password", response_class=HTMLResponse)
+async def forgot_password_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="forgot_password.html",
+        context={"request": request}
     )
+
+# ============================================================
+# FORGOT PASSWORD - POST
+# ============================================================
+
+import uuid
+from datetime import datetime, timedelta
+
+@app.post("/forgot_password")
+async def forgot_password(request: Request, username: str = Form(...)):
+    if username not in users:
+        # For security, do not reveal existence
+        return templates.TemplateResponse(
+            "forgot_password.html",
+            {"request": request, "error": "If the username exists, a reset link has been sent."},
+            status_code=200,
+        )
+    token = str(uuid.uuid4())
+    reset_tokens[token] = {"username": username, "expires": datetime.utcnow() + timedelta(hours=1)}
+    reset_link = f"{request.url_for('reset_password_page', token=token)}"
+    # In real app, send email. Here, render link page.
+    return templates.TemplateResponse(
+        request=request,
+        name="reset_password_sent.html",
+        context={"request": request, "reset_link": reset_link}
+    )
+
+# ============================================================
+# RESET PASSWORD - GET
+# ============================================================
+
+@app.get("/reset_password/{token}", response_class=HTMLResponse, name="reset_password_page")
+async def reset_password_page(request: Request, token: str):
+    token_data = reset_tokens.get(token)
+    if not token_data or token_data["expires"] < datetime.utcnow():
+        return templates.TemplateResponse(
+            "reset_password.html",
+            {"request": request, "error": "Invalid or expired token."},
+            status_code=400,
+        )
+    return templates.TemplateResponse(
+        request=request,
+        name="reset_password.html",
+        context={"request": request, "token": token}
+    )
+
+# ============================================================
+# RESET PASSWORD - POST
+# ============================================================
+
+@app.post("/reset_password/{token}")
+async def reset_password(request: Request, token: str, password: str = Form(...), confirm: str = Form(...)):
+    token_data = reset_tokens.get(token)
+    if not token_data or token_data["expires"] < datetime.utcnow():
+        return templates.TemplateResponse(
+            "reset_password.html",
+            {"request": request, "error": "Invalid or expired token."},
+            status_code=400,
+        )
+    if password != confirm:
+        return templates.TemplateResponse(
+            "reset_password.html",
+            {"request": request, "token": token, "error": "Passwords do not match."},
+            status_code=200,
+        )
+    # Update user's password
+    username = token_data["username"]
+    users[username] = generate_password_hash(password, method="pbkdf2:sha256")
+    # Remove token
+    del reset_tokens[token]
+    # Redirect to login
+    return RedirectResponse(url="/login", status_code=303)
 
 
 # ============================================================
@@ -961,19 +1227,12 @@ async def login(
 
 @app.get(
     "/dashboard",
-    response_class=HTMLResponse
+    response_class=HTMLResponse,
+    dependencies=[Depends(require_auth)]
 )
 async def dashboard(request: Request):
 
     username = request.session.get("username")
-
-    # User is not authenticated
-    if not username:
-
-        return RedirectResponse(
-            url="/login",
-            status_code=303
-        )
 
     return templates.TemplateResponse(
         "dashboard.html",
@@ -991,8 +1250,8 @@ async def dashboard(request: Request):
 @app.get("/logout")
 async def logout(request: Request):
 
-    # Remove username from session
-    request.session.pop("username", None)
+    # Clear the authenticated session
+    request.session.clear()
 
     # Redirect to login
     return RedirectResponse(
@@ -1027,4 +1286,6 @@ if __name__ == "__main__":
         port=8000,
         reload=True
     )
+
+
 
