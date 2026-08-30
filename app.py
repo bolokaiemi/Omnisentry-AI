@@ -338,7 +338,7 @@ templates = Jinja2Templates(
 # HOME
 # ==========================================
 
-@app.get("/")
+@app.get("/", dependencies=[Depends(require_auth)])
 async def home(
     request: Request
     ):
@@ -354,7 +354,7 @@ async def home(
 # MAP PAGE
 # ==========================================
 
-@app.get("/map")
+@app.get("/map", dependencies=[Depends(require_auth)])
 async def map_page(
 
     request: Request
@@ -372,7 +372,7 @@ async def map_page(
 # HEALTH
 # ==========================================
 
-@app.get("/health")
+@app.get("/health", dependencies=[Depends(require_auth)])
 async def health():
 
     return {
@@ -391,7 +391,7 @@ async def health():
 # INFO
 # ==========================================
 
-@app.get("/info")
+@app.get("/info", dependencies=[Depends(require_auth)])
 async def info():
     return {
         "name": "Omnisentry AI",
@@ -403,7 +403,7 @@ async def info():
 # CHECK DOMAIN
 # ==========================================
 
-@app.get("/check/{domain}")
+@app.get("/check/{domain}", dependencies=[Depends(require_auth)])
 async def check_domain(
     domain: str
 ):
@@ -441,7 +441,7 @@ async def check_domain(
 # SCORE ONLY
 # ==========================================
 
-@app.get("/score/{domain}")
+@app.get("/score/{domain}", dependencies=[Depends(require_auth)])
 async def score(
     domain: str
 ):
@@ -482,7 +482,7 @@ async def score(
 # FULL REPORT (JSON)
 # ==========================================
 
-@app.get("/report/{domain}")
+@app.get("/report/{domain}", dependencies=[Depends(require_auth)])
 async def report(
     domain: str
 ):
@@ -518,7 +518,7 @@ async def report(
 # VIEW HTML REPORT
 # ==========================================
 
-@app.get("/report/view/{domain}")
+@app.get("/report/view/{domain}", dependencies=[Depends(require_auth)])
 async def view_report(
     request: Request,
     domain: str
@@ -557,7 +557,7 @@ async def view_report(
 
 from src.data_collected import collect_data
 
-@app.get("/data/{domain}")
+@app.get("/data/{domain}", dependencies=[Depends(require_auth)])
 async def data_route(
         domain: str
     ):
@@ -579,7 +579,7 @@ async def data_route(
             "success": False,
             "error": str(e)
         }
-@app.get("/omnipop")
+@app.get("/omnipop", dependencies=[Depends(require_auth)])
 async def omnipop_page(request: Request):
 
     return templates.TemplateResponse(
@@ -612,7 +612,7 @@ async def admin_login_page(request: Request):
     )
 
 
-@app.get("/about")
+@app.get("/about", dependencies=[Depends(require_auth)])
 async def about_page(request: Request):
     return templates.TemplateResponse(
         request=request,
@@ -623,7 +623,7 @@ async def about_page(request: Request):
     )
 
 
-@app.get("/contact")
+@app.get("/contact", dependencies=[Depends(require_auth)])
 async def contact_page(request: Request):
     return templates.TemplateResponse(
         request=request,
@@ -634,7 +634,7 @@ async def contact_page(request: Request):
     )
 
 
-@app.get("/services")
+@app.get("/services", dependencies=[Depends(require_auth)])
 async def services_page(request: Request):
     return templates.TemplateResponse(
         request=request,
@@ -647,7 +647,7 @@ async def services_page(request: Request):
 
 
 # Trust Prediction Route
-@app.get("/ai/trust/{domain}")
+@app.get("/ai/trust/{domain}", dependencies=[Depends(require_auth)])
 async def ai_trust(domain: str):
     report = analyze_website(domain)
 
@@ -671,7 +671,7 @@ async def ai_trust(domain: str):
         "prediction": int(prediction[0])
     }
 #Phishing Detection
-@app.get("/ai/phishing")
+@app.get("/ai/phishing", dependencies=[Depends(require_auth)])
 async def phishing_test():
 
     prediction = phishing_model.predict([
@@ -750,7 +750,7 @@ async def payment(payload: dict):
             )
     }
 
-@app.get("/omnipop/popup/{risk_score}")
+@app.get("/omnipop/popup/{risk_score}", dependencies=[Depends(require_auth)])
 async def popup(risk_score: int):
 
     return generate_popup(
@@ -778,7 +778,7 @@ async def report(payload: dict):
     )
 
 
-@app.get("/omnipop/training-data")
+@app.get("/omnipop/training-data", dependencies=[Depends(require_auth)])
 async def training_data_route():
 
     df = build_training_data()
