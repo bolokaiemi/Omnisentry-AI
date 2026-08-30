@@ -298,6 +298,9 @@ from fastapi.responses import JSONResponse
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
+    # Hide unhashable dict errors from client
+    if isinstance(exc, TypeError) and "unhashable type" in str(exc):
+        return JSONResponse(status_code=400, content={"detail": "Invalid request payload"})
     print(f"[ERROR] Unhandled exception: {exc}")
     return JSONResponse(status_code=500, content={"detail": str(exc)})
 

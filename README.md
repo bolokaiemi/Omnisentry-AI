@@ -201,7 +201,7 @@ The collected intelligence is fed back into the Omnisentry AI trust verification
 
 * HTML5
 * CSS3
-* JavaScript## 📧 Email Configuration (Optional)
+* JavaScript
 
 The application can send confirmation emails using **fastapi-mail**. The library is optional – the app will run without it.
 
