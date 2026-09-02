@@ -1296,6 +1296,18 @@ async def logout(request: Request):
     )
 
 
+@app.get("/password-reset-sent", response_class=HTMLResponse)
+async def password_reset_sent(request: Request, reset_link: str):
+    return templates.TemplateResponse(
+        "password_reset_sent.html",
+        {
+            "request": request,
+            "reset_link": reset_link,
+        },
+    )
+
+
+
 # ============================================================
 # HOME
 # ============================================================
