@@ -1128,8 +1128,9 @@ async def login(
         password
     ):
         return templates.TemplateResponse(
-            "login.html",
-            {"request": request},
+            request=request,
+            name="login.html",
+            context={"request": request},
             status_code=200,
         )
 
@@ -1158,24 +1159,56 @@ async def forgot_password_page(request: Request):
 import uuid
 from datetime import datetime, timedelta
 
+
 @app.post("/forgot_password")
-async def forgot_password(request: Request, username: str = Form(...)):
+async def forgot_password(
+    request: Request,
+    username: str = Form(...)
+):
+    print(username)
+
+    # Check whether the username exists
     if username not in users:
-        # For security, do not reveal existence
+        # For security, do not reveal whether the username exists.
         return templates.TemplateResponse(
-            "forgot_password.html",
-            {"request": request, "error": "If the username exists, a reset link has been sent."},
+            request=request,
+            name="forgot_password.html",
+            context={
+                "request": request,
+                "error": "If the username exists, a reset link has been sent."
+            },
             status_code=200,
         )
+
+    # Generate a secure reset token
     token = str(uuid.uuid4())
-    reset_tokens[token] = {"username": username, "expires": datetime.utcnow() + timedelta(hours=1)}
-    reset_link = f"{request.url_for('reset_password_page', token=token)}"
-    # In real app, send email. Here, render link page.
+
+    # Store the token with the username and expiration time
+    reset_tokens[token] = {
+        "username": username,
+        "expires": datetime.utcnow() + timedelta(hours=1)
+    }
+
+    # Create the password-reset link
+    reset_link = str(
+        request.url_for(
+            "reset_password_page",
+            token=token
+        )
+    )
+
+    # In a production application, send this link by email.
+    # For now, display the generated link on a confirmation page.
     return templates.TemplateResponse(
         request=request,
         name="reset_password_sent.html",
-        context={"request": request, "reset_link": reset_link}
+        context={
+            "request": request,
+            "reset_link": reset_link
+        }
     )
+
+
 
 # ============================================================
 # RESET PASSWORD - GET
