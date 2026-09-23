@@ -1,5 +1,8 @@
 import sys
+
 import os
+
+
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
@@ -7,12 +10,16 @@ from fastapi import FastAPI, Request, Form
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
+from datetime import datetime, timezone, timedelta
+import random
+import secrets
+from werkzeug.security import generate_password_hash, check_password_hash
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, RedirectResponse
 from starlette.middleware.sessions import SessionMiddleware
 
 try:
-    from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+    from fastapi_mail import FastMail, MessageSchema, MessageType, ConnectionConfig
 except ImportError:  # pragma: no cover
     FastMail = None
     MessageSchema = None
@@ -31,18 +38,20 @@ load_dotenv()
 
 if ConnectionConfig and FastMail:
     mail_config = ConnectionConfig(
-        MAIL_USERNAME=os.getenv("MAIL_USERNAME", "test_user@example.com"),
-        MAIL_PASSWORD=os.getenv("MAIL_PASSWORD", "testpassword"),
-        MAIL_FROM=os.getenv("MAIL_FROM", "test_user@example.com"),
-        MAIL_PORT=int(os.getenv("MAIL_PORT", 587)),
-        MAIL_SERVER=os.getenv("MAIL_SERVER", "smtp.example.com"),
+        MAIL_USERNAME=os.getenv("MAIL_USERNAME"),
+        MAIL_PASSWORD=os.getenv("MAIL_PASSWORD"),
+        MAIL_FROM=os.getenv("MAIL_FROM"),
+        MAIL_PORT=int(os.getenv("MAIL_PORT", "587")),
+        MAIL_SERVER=os.getenv("MAIL_SERVER", "smtp.gmail.com"),
         MAIL_STARTTLS=True,
         MAIL_SSL_TLS=False,
         USE_CREDENTIALS=True,
         VALIDATE_CERTS=True,
     )
+    fastmail = FastMail(mail_config)
 else:
     mail_config = None
+
 
 
 # ============================================================
@@ -161,18 +170,17 @@ async def send_confirmation_email(
         fast_mail = FastMail(mail_config)
         await fast_mail.send_message(message)
 
-
-
-
-
-
-
-
-
 from contextlib import asynccontextmanager
 
-from datetime import datetime
+
+
+
 import os
+import uuid
+
+from datetime import datetime, timedelta
+from fastapi import Form, Request
+from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
 
 from src.omnipop.phishing_detector import detect_phishing
 from src.omnipop.threat_detector import detect_threat
@@ -601,14 +609,19 @@ async def dashboard(request: Request):
     )
 
 
+@app.get("/admin")
+async def admin_root(request: Request):
+    return RedirectResponse(url="/admin/login", status_code=303)
+
 @app.get("/admin/login")
 async def admin_login_page(request: Request):
+    # If admin already authenticated, send to dashboard
+    if request.session.get("admin"):
+        return RedirectResponse(url="/dashboard", status_code=303)
     return templates.TemplateResponse(
         request=request,
         name="admin_login.html",
-        context={
-            "request": request
-        }
+        context={"request": request},
     )
 
 
@@ -1037,22 +1050,80 @@ from starlette.middleware.sessions import SessionMiddleware
 # REGISTER - GET
 # ============================================================
 
-@app.get(
-    "/register",
-    response_class=HTMLResponse
-)
+# ============================================================
+# OTP STORAGE
+# ============================================================
+
+import random
+from datetime import datetime, timedelta
+
+# Temporary in-memory OTP storage
+# Later this can be moved to your database.
+registration_otps = {}
+
+
+# ============================================================
+# REGISTER - GET
+# ============================================================
+
+@app.get("/register")
 async def register_page(request: Request):
 
     return templates.TemplateResponse(
-        "registration.html",
-        {
+        request=request,
+        name="registration.html",
+        context={
             "request": request
         }
     )
 
+# ============================================================
+# SEND OTP - POST
+# ============================================================
 
-
-
+@app.post("/register/send-otp")
+async def send_otp(request: Request, email: str = Form(...)):
+    email = email.strip().lower()
+    # Generate a 6-digit OTP
+    otp = f"{random.randint(0, 999999):06d}"
+    expires = datetime.now(timezone.utc) + timedelta(minutes=5)
+    # Store OTP with expiration
+    registration_otps[email] = {"otp": otp, "expires": expires}
+    # Send OTP via email if mail is configured
+    if fastmail:
+        try:
+            message = MessageSchema(
+                subject="Your verification code",
+                recipients=[email],
+                body=f"Your OTP code is {otp}. It expires in 5 minutes.",
+                subtype=MessageType.plain,
+            )
+            await fastmail.send_message(message)
+        except Exception as e:
+            # Log the error and continue; display OTP for debugging
+            print(f"Email send failed: {e}")
+            return templates.TemplateResponse(
+                request=request,
+                name="registration.html",
+                context={
+                    "request": request,
+                    "email": email,
+                    "error": "Failed to send OTP email. Use the code displayed here.",
+                    "success": f"Your OTP is {otp}. (Email delivery failed)"
+                },
+                status_code=200
+            )
+    # Return success response
+    return templates.TemplateResponse(
+        request=request,
+        name="registration.html",
+        context={
+            "request": request,
+            "email": email,
+            "success": f"Verification code sent to {email}."
+        },
+        status_code=200
+    )
 # ============================================================
 # REGISTER - POST
 # ============================================================
@@ -1060,41 +1131,242 @@ async def register_page(request: Request):
 @app.post("/register")
 async def register(
     request: Request,
-    username: str = Form(...),
-    password: str = Form(...)
+    email: str = Form(...),
+    password: str = Form(...),
+    confirm_password: str = Form(None),
+    otp: str = Form(None)
 ):
 
-    # Check whether username already exists
-    if username in users:
+    email = email.strip().lower()
+    otp = (otp or "").strip()
+
+    # ------------------------------------------
+    # Validate email
+    # ------------------------------------------
+
+    if not email:
 
         return templates.TemplateResponse(
-            "registration.html",
-            {
+            request=request,
+            name="registration.html",
+            context={
                 "request": request,
-                "error": "Username already exists."
+                "error": "Email address is required."
             },
             status_code=400
         )
 
+    # ------------------------------------------
+    # Validate password length
+    # ------------------------------------------
+
+    if len(password) < 8:
+
+        return templates.TemplateResponse(
+            request=request,
+            name="registration.html",
+            context={
+                "request": request,
+                "email": email,
+                "error": (
+                    "Password must contain at least "
+                    "8 characters."
+                )
+            },
+            status_code=400
+        )
+
+    # ------------------------------------------
+    # Confirm passwords
+    # ------------------------------------------
+
+    if not confirm_password:
+            return templates.TemplateResponse(
+                request=request,
+                name="registration.html",
+                context={
+                    "request": request,
+                    "email": email,
+                    "error": "Confirm password is required."
+                },
+                status_code=400
+            )
+
+    if password != confirm_password:
+            return templates.TemplateResponse(
+                request=request,
+                name="registration.html",
+                context={
+                    "request": request,
+                    "email": email,
+                    "error": "Passwords do not match."
+                },
+                status_code=400
+            )
+
+    # ------------------------------------------
+    # Validate OTP format
+    # ------------------------------------------
+
+    if not otp.isdigit() or len(otp) != 6:
+
+        return templates.TemplateResponse(
+            request=request,
+            name="registration.html",
+            context={
+                "request": request,
+                "email": email,
+                "error": (
+                    "Please enter a valid "
+                    "6-digit verification code."
+                )
+            },
+            status_code=400
+        )
+
+    # ------------------------------------------
+    # Get stored OTP
+    # ------------------------------------------
+
+    otp_data = registration_otps.get(email)
+
+    if not otp_data:
+
+        return templates.TemplateResponse(
+            request=request,
+            name="registration.html",
+            context={
+                "request": request,
+                "email": email,
+                "error": (
+                    "No verification code was found. "
+                    "Please request a new OTP."
+                )
+            },
+            status_code=400
+        )
+
+    # ------------------------------------------
+    # Check OTP expiration
+    # ------------------------------------------
+
+    now = datetime.now(timezone.utc)
+
+    if now > otp_data["expires"]:
+
+        registration_otps.pop(
+            email,
+            None
+        )
+
+        return templates.TemplateResponse(
+            request=request,
+            name="registration.html",
+            context={
+                "request": request,
+                "email": email,
+                "error": (
+                    "Your verification code has "
+                    "expired. Please request a new one."
+                )
+            },
+            status_code=400
+        )
+
+    # ------------------------------------------
+    # Check OTP
+    # ------------------------------------------
+
+    if not secrets.compare_digest(
+        otp,
+        otp_data["otp"]
+    ):
+
+        return templates.TemplateResponse(
+            request=request,
+            name="registration.html",
+            context={
+                "request": request,
+                "email": email,
+                "error": (
+                    "The verification code "
+                    "is incorrect."
+                )
+            },
+            status_code=400
+        )
+
+    # ------------------------------------------
+    # Check duplicate account
+    # ------------------------------------------
+
+    for user_data in users.values():
+
+        if not isinstance(user_data, dict):
+            continue
+
+        existing_email = user_data.get(
+            "email",
+            ""
+        ).strip().lower()
+
+        if existing_email == email:
+
+            return templates.TemplateResponse(
+                request=request,
+                name="registration.html",
+                context={
+                    "request": request,
+                    "email": email,
+                    "error": (
+                        "An account with this email "
+                        "already exists."
+                    )
+                },
+                status_code=400
+            )
+
+    # ------------------------------------------
     # Hash password
+    # ------------------------------------------
+
     hashed_password = generate_password_hash(
         password,
         method="pbkdf2:sha256"
     )
 
-    # Store user
-    users[username] = hashed_password
+    # ------------------------------------------
+    # Create Viewer account
+    # ------------------------------------------
 
+    users[email] = {
+        "email": email,
+        "password": hashed_password,
+        "role": "viewer",
+        "email_verified": True,
+        "created_at": (
+            datetime.now(timezone.utc).isoformat()
+        )
+    }
+
+    # ------------------------------------------
+    # Delete OTP after successful use
+    # ------------------------------------------
+
+    registration_otps.pop(
+        email,
+        None
+    )
+
+    # ------------------------------------------
     # Redirect to login
+    # ------------------------------------------
+
     return RedirectResponse(
         url="/login",
         status_code=303
     )
 
-
-# ============================================================
-# LOGIN - GET
-# ============================================================
 # ============================================================
 # LOGIN - GET
 # ============================================================
@@ -1115,14 +1387,17 @@ async def login_page(request: Request):
 @app.post("/login")
 async def login(
     request: Request,
-    username: str = Form(...),
+    email: str = Form(...),
     password: str = Form(...),
 ):
 
-    # Find user
-    user_password = users.get(username)
+    # Find user by email
+    user_data = users.get(email)
+    if user_data:
+        user_password = user_data.get("password")
+    else:
+        user_password = None
 
-    # Validate credentials
     if not user_password or not check_password_hash(
         user_password,
         password
@@ -1135,7 +1410,7 @@ async def login(
         )
 
     # Store username in session
-    request.session["username"] = username
+    request.session["username"] = email
 
     # Redirect to dashboard
     return RedirectResponse(url="/dashboard", status_code=303)
@@ -1156,40 +1431,60 @@ async def forgot_password_page(request: Request):
 # FORGOT PASSWORD - POST
 # ============================================================
 
-import uuid
-from datetime import datetime, timedelta
 
+
+
+# ============================================================
+# FORGOT PASSWORD - POST
+# ============================================================
 
 @app.post("/forgot_password")
 async def forgot_password(
     request: Request,
     username: str = Form(...)
 ):
-    print(username)
+    # Get user data
+    user_data = users.get(username)
 
-    # Check whether the username exists
-    if username not in users:
-        # For security, do not reveal whether the username exists.
+    # Do not reveal whether the account exists
+    if not user_data:
         return templates.TemplateResponse(
             request=request,
             name="forgot_password.html",
             context={
                 "request": request,
-                "error": "If the username exists, a reset link has been sent."
+                "message": (
+                    "If the username exists, "
+                    "a reset link has been sent."
+                )
             },
             status_code=200,
         )
 
-    # Generate a secure reset token
+    # Get registered email address
+    user_email = user_data.get("email")
+
+    if not user_email:
+        return templates.TemplateResponse(
+            request=request,
+            name="forgot_password.html",
+            context={
+                "request": request,
+                "error": "No email address is associated with this account."
+            },
+            status_code=400,
+        )
+
+    # Generate secure reset token
     token = str(uuid.uuid4())
 
-    # Store the token with the username and expiration time
+    # Store token with expiration time
     reset_tokens[token] = {
         "username": username,
         "expires": datetime.utcnow() + timedelta(hours=1)
     }
 
-    # Create the password-reset link
+    # Generate password reset URL
     reset_link = str(
         request.url_for(
             "reset_password_page",
@@ -1197,17 +1492,78 @@ async def forgot_password(
         )
     )
 
-    # In a production application, send this link by email.
-    # For now, display the generated link on a confirmation page.
+    # Email body
+    email_body = f"""
+    <h2>Omminsentiry AI Password Reset</h2>
+
+    <p>Hello {username},</p>
+
+    <p>
+        We received a request to reset the password
+        for your Omminsentiry AI account.
+    </p>
+
+    <p>
+        Click the link below to create a new password:
+    </p>
+
+    <p>
+        <a href="{reset_link}">
+            Reset Password
+        </a>
+    </p>
+
+    <p>
+        This password-reset link expires in 1 hour.
+    </p>
+
+    <p>
+        If you did not request a password reset,
+        you can ignore this email.
+    </p>
+
+    <p>
+        Omminsentiry AI Security Team
+    </p>
+    """
+
+    # Create email
+    message = MessageSchema(
+        subject="Reset Your Omminsentiry AI Password",
+        recipients=[user_email],
+        body=email_body,
+        subtype=MessageType.html,
+    )
+
+    # Send email
+    try:
+        await fastmail.send_message(message)
+
+    except Exception as e:
+        print(f"Password reset email error: {e}")
+
+        return templates.TemplateResponse(
+            request=request,
+            name="forgot_password.html",
+            context={
+                "request": request,
+                "error": "Unable to send the reset email. Please try again."
+            },
+            status_code=500,
+        )
+
+    # Confirmation page
     return templates.TemplateResponse(
         request=request,
         name="reset_password_sent.html",
         context={
             "request": request,
-            "reset_link": reset_link
+            "message": (
+                "If the username exists, "
+                "a password reset link has been sent."
+            )
         }
     )
-
 
 
 # ============================================================
@@ -1255,7 +1611,6 @@ async def reset_password(request: Request, token: str, password: str = Form(...)
     del reset_tokens[token]
     # Redirect to login
     return RedirectResponse(url="/login", status_code=303)
-
 
 # ============================================================
 # DASHBOARD

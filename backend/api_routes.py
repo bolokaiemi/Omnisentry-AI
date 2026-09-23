@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException, BackgroundTasks
+from fastapi import APIRouter, HTTPException, BackgroundTasks, Request, Depends
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 import json
 
@@ -164,12 +165,12 @@ class AdminVerifyPayload(BaseModel):
     password: str
 
 @router.post("/admin/verify")
-async def api_verify_admin(payload: AdminVerifyPayload):
+async def api_verify_admin(request: Request, payload: AdminVerifyPayload):
     import os
     correct_password = os.getenv("ADMIN_PASSWORD", "admin123")
     if payload.password == correct_password:
-        return {"status": "success", "message": "Admin verified successfully."}
+        # Set admin session flags and treat as logged-in user
+        request.session["username"] = "admin"
+        request.session["admin"] = True
+        return RedirectResponse(url="/dashboard", status_code=303)
     raise HTTPException(status_code=401, detail="Incorrect admin password.")
-
-
-

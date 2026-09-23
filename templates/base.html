@@ -47,7 +47,7 @@
                 <a href="/omnipop" class="nav-link" data-i18n="nav_omnipop">🍿 OmniPop</a>
                 <a href="/map" class="nav-link" data-i18n="nav_map">🗺️ Threat Map</a>
                 <a href="/#beta-hub" class="nav-link beta-highlight" data-i18n="nav_beta_hub">🎯 Beta Hub</a>
-                <!--<a href="/admin/login" class="nav-link" id="nav-admin-auth" data-i18n="nav_admin_login">🔑 Admin Login</a>-->
+                <a href="/admin/login" class="nav-link" id="nav-admin-auth" data-i18n="nav_admin_login">🔑 Admin Login</a>
 
                 {% if request.session.get('username') %}
     <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
